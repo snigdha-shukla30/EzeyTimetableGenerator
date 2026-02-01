@@ -26,6 +26,7 @@ function MultiSelect({
   onRemove,
   displayKey = "name",
   secondaryKey = null,
+  additionalKeys = [],
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,7 +65,10 @@ function MultiSelect({
     const matchesSearch =
       option[displayKey]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (secondaryKey &&
-        option[secondaryKey]?.toLowerCase().includes(searchTerm.toLowerCase()));
+        option[secondaryKey]?.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      additionalKeys.some(key =>
+        option[key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      );
     return isNotSelected && matchesSearch;
   });
 
@@ -202,6 +206,20 @@ function MultiSelect({
                       }}
                     >
                       {option[secondaryKey]}
+                    </div>
+                  )}
+                  {additionalKeys.length > 0 && (
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#666",
+                        marginTop: "2px",
+                      }}
+                    >
+                      {additionalKeys
+                        .filter(key => option[key])
+                        .map(key => option[key])
+                        .join(" • ")}
                     </div>
                   )}
                 </div>
@@ -387,8 +405,8 @@ export default function ManualEntryBatch() {
       return;
     }
 
-    if (form.subjects.length === 0 || form.faculties.length === 0) {
-      setError("Please select at least one subject and one faculty");
+    if (form.subjects.length === 0) {
+      setError("Please select at least one subject");
       return;
     }
 
@@ -398,12 +416,6 @@ export default function ManualEntryBatch() {
 
       const code = `${form.department}_${Number(form.semester)}_${form.name}_2025`;
 
-      const subjectsPayload = form.subjects.map((subject, index) => ({
-        subject: subject._id,
-        faculty: form.faculties[index % form.faculties.length]._id,
-        isElective: subject.isElective || false,
-      }));
-
       const payload = {
         name: form.name,
         course: form.course,
@@ -411,7 +423,7 @@ export default function ManualEntryBatch() {
         semester: Number(form.semester),
         department: form.department,
         strength: Number(form.strength),
-        subjects: subjectsPayload,
+        subjects: form.subjects.map(subject => subject._id),
       };
 
       let res;
@@ -437,14 +449,14 @@ export default function ManualEntryBatch() {
 
     const subjectsFromBatch = Array.isArray(subjects)
       ? subjects
-          .map((s) => (typeof s.subject === "object" ? s.subject : s))
-          .filter(Boolean)
+        .map((s) => (typeof s.subject === "object" ? s.subject : s))
+        .filter(Boolean)
       : [];
 
     const facultiesFromBatch = Array.isArray(subjects)
       ? subjects
-          .map((s) => (typeof s.faculty === "object" ? s.faculty : s))
-          .filter(Boolean)
+        .map((s) => (typeof s.faculty === "object" ? s.faculty : s))
+        .filter(Boolean)
       : [];
 
     setForm({
@@ -482,32 +494,32 @@ export default function ManualEntryBatch() {
   // };
 
   const handleDeleteBatch = async (id) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this batch?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#DC3545",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    setLoading(true);
-    setError("");
-    const res = await deleteBatch(id);
-    if (res?.success) await loadBatches();
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      text: err.message || "Failed to delete batch",
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this batch?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DC3545",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
-  } finally {
-    setLoading(false);
-  }
-};
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+      setError("");
+      const res = await deleteBatch(id);
+      if (res?.success) await loadBatches();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: err.message || "Failed to delete batch",
+        confirmButtonColor: "#4BACCE",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const resetForm = () => {
@@ -586,7 +598,7 @@ export default function ManualEntryBatch() {
                 </h2>
               </div>
 
-             
+
             </div>
 
             <div
@@ -677,21 +689,11 @@ export default function ManualEntryBatch() {
                   onRemove={removeSubject}
                   displayKey="name"
                   secondaryKey="code"
+                  additionalKeys={["department", "semester", "section", "type", "course"]}
                 />
               </div>
 
-              <div className="lg:col-span-3">
-                <MultiSelect
-                  label="Assigned faculty"
-                  placeholder="Select faculty"
-                  options={facultiesList}
-                  selectedItems={form.faculties}
-                  onToggle={toggleFaculty}
-                  onRemove={removeFaculty}
-                  displayKey="name"
-                  secondaryKey="email"
-                />
-              </div>
+
 
               {/* <div className="lg:col-span-3 flex relative items-end justify-start lg:justify-end">
                 <button
@@ -784,12 +786,12 @@ export default function ManualEntryBatch() {
                   maxHeight: "500px",
                 }}
               >
-                <div style={{ minWidth: "1200px" }}>
+                <div style={{ minWidth: "1000px" }}>
                   <div
                     style={{
                       display: "grid",
                       gridTemplateColumns:
-                        "1fr 1fr 1fr 1fr 1fr 1.2fr 1.2fr 100px",
+                        "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
                       background: "#F8F9FA",
                       borderBottom: "2px solid #4BACCE",
                       fontFamily: "'Mulish', sans-serif",
@@ -809,7 +811,6 @@ export default function ManualEntryBatch() {
                     <div style={{ padding: "14px 16px" }}>
                       Assigned Subjects
                     </div>
-                    <div style={{ padding: "14px 16px" }}>Assigned Faculty</div>
                     <div style={{ padding: "14px 16px", textAlign: "center" }}>
                       Actions
                     </div>
@@ -826,7 +827,7 @@ export default function ManualEntryBatch() {
                           style={{
                             display: "grid",
                             gridTemplateColumns:
-                              "1fr 1fr 1fr 1fr 1fr 1.2fr 1.2fr 100px",
+                              "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
                             borderBottom:
                               index < batches.length - 1
                                 ? "1px solid #E8E8E8"
@@ -865,31 +866,6 @@ export default function ManualEntryBatch() {
                                   openListPopup(
                                     "Assigned Subjects",
                                     subjects.map((p) => p.subject),
-                                  )
-                                }
-                                style={{
-                                  color: "#4BACCE",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  fontSize: "13px",
-                                  fontFamily: "'Mulish', sans-serif",
-                                  textDecoration: "underline",
-                                }}
-                              >
-                                See List ({subjects.length})
-                              </button>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {subjects.length > 0 ? (
-                              <button
-                                onClick={() =>
-                                  openListPopup(
-                                    "Assigned Faculty",
-                                    subjects.map((p) => p.faculty),
                                   )
                                 }
                                 style={{

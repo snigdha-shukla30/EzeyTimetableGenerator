@@ -1,10 +1,11 @@
 
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   getBatches,
   getTimetablePreviewAPI,
   getTimetableVisualHTML,
+  generateTimetable,
 } from "../../api/api";
 import { Button } from "../../Components/ui/Button";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ import Swal from "sweetalert2";
 
 export default function GenerateTT() {
   const [activeTab, setActiveTab] = useState("generate");
+  const dropdownRef = useRef(null);
 
   // ✅ dropdown input text
   const [searchText, setSearchText] = useState("");
@@ -60,38 +62,51 @@ export default function GenerateTT() {
     };
 
     fetchBatches();
+
+    // ✅ Click outside handler to close dropdown
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleGenerate = async () => {
-  if (!selectedBatchId) {
-  Swal.fire({
-    icon: "warning",
-    text: "Please select batch from dropdown",
-    confirmButtonColor: "#4BACCE",
-  });
-  return;
-}
+    if (!selectedBatchId) {
+      Swal.fire({
+        icon: "warning",
+        text: "Please select batch from dropdown",
+        confirmButtonColor: "#4BACCE",
+      });
+      return;
+    }
 
+    try {
+      setLoading(true);
 
-  try {
-    setLoading(true);
+      // Call the generate timetable API
+      await generateTimetable(selectedBatchId);
 
-    const url = `http://localhost:5000/timetable/visual/${selectedBatchId}`;
+      Swal.fire({
+        icon: "success",
+        text: "Timetable generated successfully!",
+        confirmButtonColor: "#4BACCE",
+      });
 
-    // ✅ new tab/window open
-    window.open(url, "_blank", "noopener,noreferrer");
-  } catch (err) {
-  console.error(err);
-  Swal.fire({
-    icon: "error",
-    text: err.message || "Failed to open timetable",
-    confirmButtonColor: "#4BACCE",
-  });
-}
- finally {
-    setLoading(false);
-  }
-};
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        text: err.message || "Failed to generate timetable",
+        confirmButtonColor: "#4BACCE",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   // =====================================================
@@ -117,14 +132,15 @@ export default function GenerateTT() {
   // =====================================================
   // ✅ helper for display label
   // =====================================================
- 
+
 
   const formatBatchLabel = (b) => {
-  const degree = b?.degree || "-";
-  const batchCode = b?.batchCode || "-";
-  const semester = b?.semester ?? "-";
-  return `${degree} - ${batchCode} (Semester ${semester})`;
-};
+    const course = b?.course || b?.degree || "-";
+    const department = b?.department || "-";
+    const section = b?.name || b?.section || "-";
+    const semester = b?.semester ?? "-";
+    return `${course} - ${department} - ${section} (Semester ${semester})`;
+  };
 
 
   return (
@@ -192,7 +208,7 @@ export default function GenerateTT() {
           {/* Search + Generate */}
           <div className="mb-6 flex items-end gap-10">
             {/* Search */}
-            <div className="flex-1 max-w-[900px]">
+            <div className="flex-1 max-w-[900px]" ref={dropdownRef}>
               {/* <label className="block text-xs font-medium text-[#374151] mb-2">
                 Search Batch
               </label> */}
@@ -225,11 +241,18 @@ export default function GenerateTT() {
                     setSelectedBatchId("");
                   }}
                   onFocus={() => setShowDropdown(true)}
-                  onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
                   placeholder="Search batch (course / code / semester)"
-                  className="w-full bg-transparent pl-7 pr-3 text-sm text-[#374151]
+                  className="w-full bg-transparent pl-7 pr-28 text-sm text-[#374151]
                   placeholder:text-[#265768] focus:outline-none"
                 />
+
+                {/* Add Batch Button */}
+                <button
+                  onClick={() => navigate("/manual/batches")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[13px] font-medium text-[#4BACCE] hover:text-[#265768] transition-colors"
+                >
+                  + Add batch
+                </button>
 
                 {/* Dropdown */}
                 {showDropdown && (
@@ -390,9 +413,10 @@ export default function GenerateTT() {
                         <div
                           className="flex-1 text-[13px] text-[#4BACCE]/60 cursor-pointer hover:underline text-center"
                           title="Preview Timetable"
-                          onClick={() =>
-                            navigate(`/timetable/preview/${batch?._id}`)
-                          }
+                          onClick={() => {
+                            const url = `http://localhost:5000/timetable/visual/${batch?._id}`;
+                            window.open(url, "_blank", "noopener,noreferrer");
+                          }}
                         >
                           📅
                         </div>

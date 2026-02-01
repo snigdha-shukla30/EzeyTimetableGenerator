@@ -1,4 +1,4 @@
- import axios from "axios";
+import axios from "axios";
 
 const BASE_URL = "http://localhost:5000";
 // import { tokenManager } from "../tokenManager/tokenmanager";
@@ -18,20 +18,20 @@ export const loginAPI = async (email, password) => {
     credentials: "include",
     body: JSON.stringify({ email, password }),
   });
-  
+
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
     throw new Error(errorData.message || `Login failed: ${res.status}`);
   }
-  
+
   const data = await res.json();
-  
+
   localStorage.setItem('isAuthenticated', 'true');
-  
+
   if (data.user) {
     localStorage.setItem('user', JSON.stringify(data.user));
   }
-  
+
   return data;
 };
 
@@ -80,7 +80,7 @@ export const dashboardSummaryAPI = async () => {
     handleUnauthorized(res);
     const errorData = await res.json().catch(() => ({}));
     throw new Error(errorData.message || `API Error: ${res.status}`);
-  
+
   }
 
   return res.json();
