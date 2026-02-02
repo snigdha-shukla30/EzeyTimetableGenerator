@@ -34,6 +34,8 @@ export default function ManualEntrySubject() {
     semester: "",
     hrsWeek: "",
     type: "",
+    course: "",
+    isElective: false,
   });
 
   const inputStyle = {
@@ -51,63 +53,55 @@ export default function ManualEntrySubject() {
 
   const triggerFile = () => fileInputRef.current?.click();
 
-  // const handleFileChange = (e) => {
-  //   const f = e.target.files && e.target.files[0];
-  //   if (!f) return;
-  // };
-
   const handleFileChange = async (e) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  const validTypes = [
-    "text/csv",
-    "application/vnd.ms-excel",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  ];
+    const validTypes = [
+      "text/csv",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ];
 
-  if (
-    !validTypes.includes(file.type) &&
-    !file.name.match(/\.(csv|xlsx|xls)$/i)
-  ) {
-    // alert("Please upload a valid CSV or XLSX file");
-    Swal.fire({
-  icon: "warning",
-  text: "Please upload a valid CSV or XLSX file",
-  confirmButtonColor: "#4BACCE",
-});
+    if (
+      !validTypes.includes(file.type) &&
+      !file.name.match(/\.(csv|xlsx|xls)$/i)
+    ) {
+      Swal.fire({
+        icon: "warning",
+        text: "Please upload a valid CSV or XLSX file",
+        confirmButtonColor: "#4BACCE",
+      });
 
-    e.target.value = "";
-    return;
-  }
-
-  try {
-    setLoading(true);
-    setError("");
-
-    const response = await bulkUploadSubjects(file);
-
-    if (response?.success || Array.isArray(response)) {
-      await fetchSubjects();
+      e.target.value = "";
+      return;
     }
-  } catch (err) {
-    // alert("Failed to upload file: " + (err.message || "Unknown error"));
-    Swal.fire({
-  icon: "error",
-  text: "Failed to upload file: " + (err.message || "Unknown error"),
-  confirmButtonColor: "#4BACCE",
-});
 
-  } finally {
-    setLoading(false);
-    e.target.value = "";
-  }
-};
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await bulkUploadSubjects(file);
+
+      if (response?.success || Array.isArray(response)) {
+        await fetchSubjects();
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: "Failed to upload file: " + (err.message || "Unknown error"),
+        confirmButtonColor: "#4BACCE",
+      });
+    } finally {
+      setLoading(false);
+      e.target.value = "";
+    }
+  };
 
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const fetchSubjects = async () => {
@@ -126,6 +120,8 @@ export default function ManualEntrySubject() {
         section: s.section || "--",
         type: s.type,
         hrsWeek: s.hoursPerWeek,
+        course: s.course || "",
+        isElective: s.isElective || false,
       }));
 
       setSubjects(mapped);
@@ -159,9 +155,11 @@ export default function ManualEntrySubject() {
         name: form.name,
         code: form.code,
         department: form.department,
+        course: form.course,
         section: form.section,
-        semester: form.semester,
+        semester: Number(form.semester),
         type: form.type,
+        isElective: form.isElective,
         hoursPerWeek: Number(form.hrsWeek || 0),
       };
 
@@ -179,6 +177,8 @@ export default function ManualEntrySubject() {
           semester: "",
           hrsWeek: "",
           type: "",
+          course: "",
+          isElective: false,
         });
         setEditingId(null);
       } else {
@@ -201,6 +201,8 @@ export default function ManualEntrySubject() {
       semester: item.semester === "--" ? "" : item.semester || "",
       hrsWeek: item.hrsWeek?.toString?.() || "",
       type: item.type || "",
+      course: item.course || "",
+      isElective: item.isElective || false,
     });
     setError("");
   };
@@ -215,56 +217,41 @@ export default function ManualEntrySubject() {
       semester: "",
       hrsWeek: "",
       type: "",
+      course: "",
+      isElective: false,
     });
     setError("");
   };
 
-  // const handleDeleteSubject = async (id) => {
-  //   if (!window.confirm("Are you sure you want to delete this subject?")) return;
-
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-
-  //     const response = await deleteSubjectAPI(id);
-
-  //     if (response.success) await fetchSubjects();
-  //   } catch (err) {
-  //     alert("Failed to delete subject: " + err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleDeleteSubject = async (id) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this subject?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#F04438",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    setLoading(true);
-    setError("");
-
-    const response = await deleteSubjectAPI(id);
-
-    if (response.success || response?.status) await fetchSubjects();
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      text: "Failed to delete subject: " + err.message,
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this subject?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04438",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
-  } finally {
-    setLoading(false);
-  }
-};
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await deleteSubjectAPI(id);
+
+      if (response.success || response?.status) await fetchSubjects();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: "Failed to delete subject: " + err.message,
+        confirmButtonColor: "#4BACCE",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
@@ -291,9 +278,7 @@ export default function ManualEntrySubject() {
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
                 aria-label="Close"
               >
-                {/* <X size={28} color="#265768" strokeWidth={3} /> */}
                 <BackButton />
-
               </button>
             </div>
 
@@ -310,31 +295,6 @@ export default function ManualEntrySubject() {
                   Quick add subject
                 </h2>
               </div>
-
-              {/* <div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".csv,.xlsx,.xls"
-                  onChange={handleFileChange}
-                  hidden
-                />
-                <button
-                  onClick={triggerFile}
-                  style={{
-                    minWidth: 160,
-                    height: 34,
-                    background: "linear-gradient(0deg, #265768 0%, #4BACCE 100%)",
-                    borderRadius: 6,
-                    color: "white",
-                    fontSize: 12,
-                    fontFamily: "'Mulish', sans-serif",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  Upload File ( CSV / XLSX )
-                </button>
-              </div> */}
             </div>
 
             <div
@@ -368,62 +328,23 @@ export default function ManualEntrySubject() {
 
                 <div className="col-span-3">
                   <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
+                    Course
+                  </div>
+                  <input name="course" value={form.course} onChange={handleChange} placeholder="e.g. BTECH" style={inputStyle} className="custom-input" />
+                </div>
+
+                <div className="col-span-3">
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
                     Section
                   </div>
-
-                  <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-around", gap: "5px" }}>
-                    <input name="section" value={form.section} onChange={handleChange} placeholder="e.g. A" style={inputStyle} className="custom-input" />
-
-                    <button
-                      onClick={saveSubject}
-                      disabled={loading}
-                      className="after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100"
-                      style={{
-                        fontSize: "12px",
-                        color: "rgb(77, 172, 206)",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        position: "relative",
-                        top: "50px",
-                        whiteSpace: "nowrap",
-                        opacity: loading ? 0.6 : 1,
-                      
-                      }}
-                    >
-                      {editingId ? (loading ? "Updating..." : "+ Update subject") : loading ? "Adding..." : "+ Add subject"}
-                    </button>
-                  </div>
-
-                  {editingId && (
-                    <button
-                      onClick={cancelEdit}
-                      style={{
-                        fontSize: "12px",
-                        color: "#F04438",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        marginTop: "8px",
-                      }}
-                    >
-                      Cancel Edit
-                    </button>
-                  )}
+                  <input name="section" value={form.section} onChange={handleChange} placeholder="e.g. A" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
                   <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
                     Semester
                   </div>
-                  <input name="semester" value={form.semester} onChange={handleChange} placeholder="e.g. I" style={inputStyle} className="custom-input" />
+                  <input name="semester" value={form.semester} onChange={handleChange} placeholder="e.g. 4" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
@@ -442,6 +363,67 @@ export default function ManualEntrySubject() {
                     <option value="theory">Theory</option>
                     <option value="lab">Practical / Lab</option>
                   </select>
+                </div>
+
+                <div className="col-span-3">
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
+                    Is Elective?
+                  </div>
+                  <select
+                    name="isElective"
+                    value={form.isElective ? "true" : "false"}
+                    onChange={(e) => handleChange({ target: { name: "isElective", value: e.target.value === "true", type: "select" } })}
+                    style={inputStyle}
+                    className="custom-input"
+                  >
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+
+                <div className="col-span-3 flex items-end">
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+                    <button
+                      onClick={saveSubject}
+                      disabled={loading}
+                      className="after:content-['']
+              after:absolute after:left-0 after:-bottom-[2px]
+              after:h-[1px] after:w-full after:bg-[#4A9FB5]
+              after:scale-x-0 after:origin-left
+              after:transition-transform after:duration-300
+              hover:after:scale-x-100"
+                      style={{
+                        fontSize: "12px",
+                        color: "rgb(77, 172, 206)",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                        fontFamily: "'Mulish', sans-serif",
+                        position: "relative",
+                        whiteSpace: "nowrap",
+                        opacity: loading ? 0.6 : 1,
+                        textAlign: "left",
+                      }}
+                    >
+                      {editingId ? (loading ? "Updating..." : "+ Update subject") : loading ? "Adding..." : "+ Add subject"}
+                    </button>
+                    {editingId && (
+                      <button
+                        onClick={cancelEdit}
+                        style={{
+                          fontSize: "12px",
+                          color: "#F04438",
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                          fontFamily: "'Mulish', sans-serif",
+                          textAlign: "left",
+                        }}
+                      >
+                        Cancel Edit
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -523,10 +505,6 @@ export default function ManualEntrySubject() {
                       ))}
                     </div>
                   </div>
-
-
-
-
                 </div>
               </div>
             )}
@@ -536,15 +514,3 @@ export default function ManualEntrySubject() {
     </div >
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

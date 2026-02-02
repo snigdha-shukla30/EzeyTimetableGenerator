@@ -19,10 +19,10 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-  const storedUser = localStorage.getItem("user");
-  if (storedUser) {
-    setUser(JSON.parse(storedUser));
-  }
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
