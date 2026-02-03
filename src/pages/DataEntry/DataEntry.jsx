@@ -113,7 +113,7 @@ const DataEntry = () => {
 
       {/* Main content */}
       <div className="flex-1 flex pt-2 overflow-y-auto">
-        <div className="w-full max-w-[1170px] space-y-2">
+        <div className="w-full space-y-2">
           {/* Header */}
           <div className="w-full bg-white border border-[#BFBFBF] rounded-[10px] px-6 py-3 shadow-[0_4px_14px_rgba(148,163,184,0.18)] flex items-center gap-6">
             <Header />
@@ -121,6 +121,7 @@ const DataEntry = () => {
 
           {/* Card */}
           <CardContainer className="min-h-[calc(100vh-150px)] flex flex-col">
+          {/* <CardContainer className="min-h-[calc(100vh-150px)] xl:min-h-[calc(100vh-80px)] flex flex-col"> */}
             {/* Title */}
             <section className="mb-4 flex items-start justify-between gap-8">
               <div className="ml-4">
@@ -135,7 +136,7 @@ const DataEntry = () => {
 
             {/* Tabs + Search + Add */}
             <div className="w-full flex justify-center">
-              <div className="w-full max-w-[1068px]">
+              <div className="w-full">
                 {/* Tabs */}
                 {/* Tabs */}
 <div className="flex items-center gap-10 mb-5 border-b-[2px] border-[#D1D5DB] relative">
@@ -161,8 +162,8 @@ const DataEntry = () => {
 
 
                 {/* Search + Add */}
-                <div className="flex items-center justify-between gap-4 mb-6">
-                  <div className="flex-1 max-w-[400px]">
+                <div className="flex items-center justify-between gap-8 mb-6">
+                  <div className="flex-1">
                     <div className="relative bg-[#F7FAFD] border border-[#BFBFBF] rounded-[16px] px-4 py-2.5">
                       <Search
                         size={16}

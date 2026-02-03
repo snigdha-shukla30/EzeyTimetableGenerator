@@ -98,7 +98,7 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
   return (
     <div
       className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm"
-      style={{ maxWidth: "1068px", minHeight: "293px" }}
+      style={{ maxWidth: "100%", minHeight: "293px" }}
     >
       <div className="px-8 pt-4">
         <table className="w-full table-fixed">

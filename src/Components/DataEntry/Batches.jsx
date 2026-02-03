@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getBatches, updateBatch, deleteBatch } from "../../api/api";
@@ -132,11 +131,12 @@ export default function Batches({ searchQuery, refreshTrigger }) {
   return (
     <div
       className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm"
-      style={{ maxWidth: "1068px", minHeight: "293px" }}
+      // style={{ maxWidth: "1068px", minHeight: "293px" }}
+      style={{ maxWidth: "100%", minHeight: "100%" }}
     >
       {/* HEADER (ClassroomData style -> table-fixed + colgroup) */}
       <div className="px-8 pt-4">
-        <table className="w-full table-fixed">
+        <table className="w-full">
           <colgroup>
             <col style={{ width: "16%" }} />
             <col style={{ width: "12%" }} />
@@ -168,8 +168,9 @@ export default function Batches({ searchQuery, refreshTrigger }) {
 
       {/* BODY */}
       <div
-        className="overflow-y-auto custom-scroll px-8 pr-5 mr-1.5"
-        style={{ maxHeight: "calc(293px - 76px)" }}
+        className="overflow-y-auto custom-scroll px-8 pr-5 mr-1.5 batches-body"
+        //  style={{ maxHeight: "calc(293px - 76px)" }}
+        // style={{ maxHeight: "100%" }}
       >
         {/* Empty */}
         {filtered.length === 0 ? (
@@ -404,6 +405,25 @@ export default function Batches({ searchQuery, refreshTrigger }) {
 
       {/* Scrollbar Styling (exact ClassroomData) */}
       <style>{`
+
+        .batches-body {
+  max-height: calc(293px - 76px); /* laptop SAME */
+}
+
+/* XL screens */
+@media (min-width: 1280px) {
+  .batches-body {
+    max-height: calc(420px - 76px);
+  }
+}
+
+/* 2XL big monitors */
+@media (min-width: 1536px) {
+  .batches-body {
+    max-height: calc(520px - 76px);
+  }
+}
+
         .custom-scroll::-webkit-scrollbar {
           width: 9.78px;
         }
@@ -413,6 +433,10 @@ export default function Batches({ searchQuery, refreshTrigger }) {
           border-radius: 44.02px;
           border: 1.22px solid #E5E5E5;
         }
+
+        ::-webkit-scrollbar {
+  display: none;
+}
 
         .custom-scroll::-webkit-scrollbar-thumb {
           background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);

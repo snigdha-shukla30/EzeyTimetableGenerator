@@ -148,7 +148,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
     return (
       <div
         className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm flex items-center justify-center"
-        style={{ maxWidth: "1068px", height: "293px" }}
+        style={{ maxWidth: "100%", height: "293px" }}
       >
         <p className="text-[#6C7A90]">Loading faculties...</p>
       </div>
@@ -158,7 +158,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
   return (
     <div
       className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm"
-      style={{ maxWidth: "1068px", minHeight: "293px" }}
+      style={{ maxWidth: "100%", minHeight: "293px" }}
     >
       {/* HEADER (ClassroomData style -> table-fixed + colgroup) */}
       <div className="px-8 pt-4">
