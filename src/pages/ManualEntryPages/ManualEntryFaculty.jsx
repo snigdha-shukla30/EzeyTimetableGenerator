@@ -11,6 +11,7 @@ import {
 } from "../../api/api";
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
+import DataEntryTable from "../../Components/ui/manualEntryTable";
 
 
 // Component for Upload Button (UNCHANGED)
@@ -32,141 +33,99 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
   );
 };
 
-// ✅ FacultyData Component (table/list height SMALL)
-const FacultyData = ({
+
+  const FacultyData = ({
   searchQuery = "",
   facultyList = [],
   onEdit,
   onDelete,
 }) => {
   const query = searchQuery.toLowerCase();
+
   const filtered = facultyList.filter((f) =>
     `${f.name} ${f.email}`.toLowerCase().includes(query)
   );
 
   return (
     <div className="mt-6 pb-4">
-      <div
-        className="bg-white w-full relative"
-        style={{
-          width: "100%",
-          height: "calc(100vh - 420px)", // ✅ SMALLER table box height
-          borderRadius: "12.23px",
-          border: "1.83px solid #DFDFDF",
-          overflow: "hidden",
-        }}
+      <DataEntryTable
+        height="calc(100vh - 380px)"
+        minWidth="100%"
+        columns={[
+          { key: "name", label: "Faculty Name" },
+          { key: "email", label: "Email" },
+          { key: "maxLoad", label: "Max load/day" },
+          { key: "leaves", label: "Leaves/month" },
+          { key: "subjects", label: "Assigned Subjects" },
+        ]}
       >
-        {/* Header row */}
-        <div className="px-8 pt-4 pb-2 bg-white mr-3">
-          <div
-            className="flex items-center text-[14px] font-medium"
-            style={{
-              color: "#265768",
-              fontFamily: "'Mulish', sans-serif",
-            }}
-          >
-            <div className="flex-[1.7] text-center">Faculty Name</div>
-            <div className="flex-[1.7] text-center">Email</div>
-            <div className="flex-[0.8] text-center">Max load/day</div>
-            <div className="flex-[0.8] text-center">Leaves/month</div>
-            <div className="flex-[1] text-center">Assigned Subjects</div>
-            <div className="w-20 text-center">Actions</div>
-          </div>
+        {filtered.length === 0 ? (
+          <tr>
+            <td colSpan={6} className="py-10 text-center text-gray-400">
+              No faculties found
+            </td>
+          </tr>
+        ) : (
+          filtered.map((f, idx) => (
+            <tr
+              key={f._id || idx}
+              className={`text-sm border-b border-[#D9D9D9] hover:bg-gray-50 transition ${
+                idx === filtered.length - 1 ? "border-b-0" : ""
+              }`}
+            >
+              {/* Faculty Name */}
+              <td className="py-4 text-center text-[#265768] font-medium">
+                {f.name}
+              </td>
 
-          <div
-            className="mt-3 h-[3px] rounded"
-            style={{
-              background: "#0b84d6",
-              boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
-            }}
-          />
-        </div>
+              {/* Email */}
+              <td className="py-4 text-center text-[#265768]">
+                {f.email}
+              </td>
 
-        {/* Body rows */}
-        <div
-          className="overflow-y-auto custom-scroll mr-3"
-          style={{
-            maxHeight: "calc(100vh - 500px)", // ✅ SMALLER scroll area
-          }}
-        >
-          <div className="px-8">
-            {filtered.length === 0 ? (
-              <div className="flex items-center justify-center h-[200px] text-gray-400">
-                No faculties found
-              </div>
-            ) : (
-              filtered.map((f, idx) => (
-                <div
-                  key={f._id || idx}
-                  className="flex items-center py-3.5 hover:bg-gray-50 transition"
-                  style={{ borderBottom: "3px solid #D9D9D9" }}
-                >
-                  <div className="flex-[1.7] text-[13px] font-medium text-[#265768] text-center">
-                    {f.name}
-                  </div>
+              {/* Max Load */}
+              <td className="py-4 text-center text-[#265768]">
+                {f.maxLoad} Hrs
+              </td>
 
-                  <div className="flex-[1.7] text-[13px] text-[#265768] text-center">
-                    {f.email}
-                  </div>
+              {/* Leaves */}
+              <td className="py-4 text-center text-[#265768]">
+                {f.leavesPerMonth}
+              </td>
 
-                  <div className="flex-[0.8] text-[13px] text-[#265768] text-center">
-                    {f.maxLoad} Hrs
-                  </div>
+              {/* Subjects */}
+              <td className="py-4 text-center">
+                <button className="text-[13px] font-medium text-[#1A8FE3] hover:underline">
+                  See List ({f.subjects?.length || 0})
+                </button>
+              </td>
 
-                  <div className="flex-[0.8] text-[13px] text-[#265768] text-center">
-                    {f.leavesPerMonth}
-                  </div>
+              {/* Actions */}
+              <td className="py-4">
+                <div className="flex justify-center gap-3">
+                  <button
+                    onClick={() => onEdit(f)}
+                    className="text-[#C0C6D0] hover:text-[#1A8FE3]"
+                  >
+                    <Edit2 size={15} />
+                  </button>
 
-                  <div className="flex-[1] text-center">
-                    <button className="text-[13px] font-medium text-[#1A8FE3] hover:underline">
-                      See List ({f.subjects?.length || 0})
-                    </button>
-                  </div>
-
-                  <div className="w-20 flex items-center justify-center gap-3">
-                    <button
-                      onClick={() => onEdit(f)}
-                      className="text-[#C0C6D0] hover:text-[#1A8FE3] transition"
-                    >
-                      <Edit2 size={15} />
-                    </button>
-                    <button
-                      onClick={() => onDelete(f._id)}
-                      className="text-[#C0C6D0] hover:text-[#F04438] transition"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => onDelete(f._id)}
+                    className="text-[#C0C6D0] hover:text-[#F04438]"
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* ✅ Scrollbar styling */}
-        <style>{`
-          .custom-scroll::-webkit-scrollbar {
-            width: 8.78px;
-          }
-          .custom-scroll::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 44.02px;
-            border: 1.22px solid #E5E5E5;
-          }
-          .custom-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);
-            border-radius: 4.89px;
-            width: 13.23px;
-            min-height: 70px;
-          }
-          .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%);
-          }
-        `}</style>
-      </div>
+              </td>
+            </tr>
+          ))
+        )}
+      </DataEntryTable>
     </div>
   );
 };
+
 
 // Main ManualEntryFaculty Component
 export const ManualEntryFaculty = () => {
@@ -329,26 +288,6 @@ export const ManualEntryFaculty = () => {
     setAssignedSubjects(faculty.subjects?.join(", ") || "");
     setEditingId(faculty._id);
   };
-
-  // const handleDelete = async (facultyId) => {
-  //   if (!window.confirm("Are you sure you want to delete this faculty?")) return;
-
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-  //     const response = await deleteFaculty(facultyId);
-  //     if (response.success) {
-  //       await loadFaculties();
-  //       // alert("Faculty deleted successfully!");
-  //     }
-  //   } catch (err) {
-  //     const msg = err.message || "Unknown error occurred";
-  //     setError(msg);
-  //     alert("Failed to delete faculty: " + msg);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleDelete = async (facultyId) => {
   const result = await Swal.fire({
@@ -740,28 +679,7 @@ export const ManualEntryFaculty = () => {
 
 export default ManualEntryFaculty;
 
-<style>{`
 
-  .custom-input {
-  width: 274.5px;
-  height: 40px;
-  border-radius: 15px;
-  border: 1.5px solid #DFDFDF;
-  font-size: 14px;
-  font-family: 'Mulish', sans-serif;
-  color: #000000;
-  background: #FFFFFF;
-  padding: 0 12px;
-  box-sizing: border-box;
-  outline: none;
-  transition: 0.2s ease;
-}
-
-.custom-input:focus {
-  border: 1.5px solid #0b84d6;     /* focus border */
-  box-shadow: 0 0 0 3px rgba(11,132,214,0.2);  /* glow */
-}
- `}</style>
 
 
 

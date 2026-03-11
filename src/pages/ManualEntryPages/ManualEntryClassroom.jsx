@@ -12,6 +12,7 @@ import {
 } from "../../api/api";
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
+import DataEntryTable from "../../Components/ui/manualEntryTable";
 
 
 
@@ -35,6 +36,183 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
 };
 
 // ClassroomData Component (✅ Edit/Delete mapping fixed)
+// const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
+//   const [editingId, setEditingId] = useState(null);
+//   const [editForm, setEditForm] = useState({ name: "", type: "", capacity: "" });
+
+//   const filtered = classrooms.filter((c) =>
+//     c.name.toLowerCase().includes(searchQuery.toLowerCase())
+//   );
+
+//   const handleEditClick = (room) => {
+//     setEditingId(room._id);
+//     setEditForm({
+//       name: room.name,
+//       type: room.type,
+//       capacity: room.capacity,
+//     });
+//   };
+
+//   const handleSaveEdit = async (id) => {
+//     try {
+//       await onEdit(id, editForm); // ✅ correct mapping
+//       setEditingId(null);
+//     } catch (error) {
+//       alert("Failed to update classroom: " + error.message);
+//     }
+//   };
+
+//   const handleCancelEdit = () => {
+//     setEditingId(null);
+//     setEditForm({ name: "", type: "", capacity: "" });
+//   };
+
+//   return (
+//     <div className="mt-6 pb-6">
+//       <div
+//         className="bg-white w-full relative"
+//         style={{
+//           width: "100%",
+//           height: "410px",
+//           borderRadius: "12.23px",
+//           border: "1.83px solid #DFDFDF",
+//           overflow: "hidden",
+//         }}
+//       >
+//         {/* Header row */}
+//         <div className="px-8 pt-4 pb-2 bg-white mr-3">
+//           <div
+//             className="flex items-center text-[14px] font-medium"
+//             style={{
+//               color: "#265768",
+//               fontFamily: "'Mulish', sans-serif",
+//             }}
+//           >
+//             <div className="flex-[1.5] text-center">Classroom number</div>
+//             <div className="flex-[1.5] text-center">Classroom type</div>
+//             <div className="flex-1 text-center">Capacity</div>
+//             <div className="w-20 text-center">Actions</div>
+//           </div>
+
+//           <div
+//             className="mt-3 h-[3px] rounded"
+//             style={{
+//               background: "#0b84d6",
+//               boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
+//             }}
+//           />
+//         </div>
+
+//         {/* Body rows */}
+//         <div
+//           className="overflow-y-auto custom-scroll mr-3"
+//           style={{ maxHeight: "400px" }}
+//         >
+//           <div className="px-8">
+//             {filtered.map((room, idx) => (
+//               <div
+//                 key={room._id || idx}
+//                 className={`flex items-center py-3.5 hover:bg-gray-50 transition ${idx === filtered.length - 1 ? "border-b-0" : ""
+//                   }`}
+//                 style={{ borderBottom: "3px solid #D9D9D9" }}
+//               >
+//                 {editingId === room._id ? (
+//                   <>
+//                     <div className="flex-[1.5]">
+//                       <input
+//                         type="text"
+//                         value={editForm.name}
+//                         onChange={(e) =>
+//                           setEditForm({ ...editForm, name: e.target.value })
+//                         }
+//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#4C5968]"
+//                       />
+//                     </div>
+
+//                     <div className="flex-[1.5] px-2">
+//                       <select
+//                         value={editForm.type}
+//                         onChange={(e) =>
+//                           setEditForm({ ...editForm, type: e.target.value })
+//                         }
+//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#8C96A3]"
+//                       >
+//                         <option value="lecture">Lecture Hall</option>
+//                         <option value="lab">Computer Lab</option>
+//                         <option value="seminar">Seminar Room</option>
+//                       </select>
+//                     </div>
+
+//                     <div className="flex-1 px-2">
+//                       <input
+//                         type="number"
+//                         value={editForm.capacity}
+//                         onChange={(e) =>
+//                           setEditForm({ ...editForm, capacity: e.target.value })
+//                         }
+//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-center text-[#4C5968]"
+//                       />
+//                     </div>
+
+//                     <div className="w-20 flex items-center justify-center gap-3">
+//                       <button
+//                         onClick={() => handleSaveEdit(room._id)}
+//                         className="text-[#10B981] hover:text-[#059669]"
+//                       >
+//                         <Check size={15} />
+//                       </button>
+
+//                       <button
+//                         onClick={handleCancelEdit}
+//                         className="text-[#EF4444] hover:text-[#DC2626]"
+//                       >
+//                         <X size={15} />
+//                       </button>
+//                     </div>
+//                   </>
+//                 ) : (
+//                   <>
+//                     <div className="flex-[1.5] text-[13px] text-[#265768] text-center">
+//                       {room.name}
+//                     </div>
+
+//                     <div className="flex-[1.5] text-center text-[13px] text-[#265768] capitalize">
+//                       {room.type}
+//                     </div>
+
+//                     <div className="flex-1 text-center text-[13px] text-[#265768]">
+//                       {room.capacity}
+//                     </div>
+
+//                     <div className="w-20 flex items-center justify-center gap-3">
+//                       <button
+//                         onClick={() => handleEditClick(room)}
+//                         className="text-[#C0C6D0] hover:text-[#1A8FE3] transition"
+//                       >
+//                         <Edit2 size={15} />
+//                       </button>
+
+//                       {/* ✅ Delete mapping fixed */}
+//                       <button
+//                         onClick={() => onDelete(room._id)}
+//                         className="text-[#C0C6D0] hover:text-[#F04438] transition"
+//                       >
+//                         <Trash2 size={15} />
+//                       </button>
+//                     </div>
+//                   </>
+//                 )}
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+
+//       </div>
+//     </div>
+//   );
+// };
+
 const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ name: "", type: "", capacity: "" });
@@ -53,164 +231,114 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
   };
 
   const handleSaveEdit = async (id) => {
-    try {
-      await onEdit(id, editForm); // ✅ correct mapping
-      setEditingId(null);
-    } catch (error) {
-      alert("Failed to update classroom: " + error.message);
-    }
+    await onEdit(id, editForm);
+    setEditingId(null);
   };
 
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditForm({ name: "", type: "", capacity: "" });
-  };
+  const handleCancelEdit = () => setEditingId(null);
 
   return (
-    <div className="mt-6 pb-6">
-      <div
-        className="bg-white w-full relative"
-        style={{
-          width: "100%",
-          height: "410px",
-          borderRadius: "12.23px",
-          border: "1.83px solid #DFDFDF",
-          overflow: "hidden",
-        }}
+    <div className="mt-6">
+      <DataEntryTable
+         height="calc(100vh - 330px)"
+
+        columns={[
+          { key: "name", label: "Classroom number" },
+          { key: "type", label: "Classroom type" },
+          { key: "capacity", label: "Capacity" },
+        ]}
       >
-        {/* Header row */}
-        <div className="px-8 pt-4 pb-2 bg-white mr-3">
-          <div
-            className="flex items-center text-[14px] font-medium"
+        {filtered.map((room, idx) => (
+          <tr
+            key={room._id || idx}
             style={{
-              color: "#265768",
-              fontFamily: "'Mulish', sans-serif",
+              borderBottom:
+                idx === filtered.length - 1 ? "none" : "1px solid #D9D9D9",
             }}
           >
-            <div className="flex-[1.5] text-center">Classroom number</div>
-            <div className="flex-[1.5] text-center">Classroom type</div>
-            <div className="flex-1 text-center">Capacity</div>
-            <div className="w-20 text-center">Actions</div>
-          </div>
+            {/* NAME */}
+            <td align="center" className="text-[13px] text-[#265768] py-3">
+              {editingId === room._id ? (
+                <input
+                  value={editForm.name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, name: e.target.value })
+                  }
+                  className="px-2 py-1 border border-[#1DA5FF] rounded text-center"
+                />
+              ) : (
+                room.name
+              )}
+            </td>
 
-          <div
-            className="mt-3 h-[3px] rounded"
-            style={{
-              background: "#0b84d6",
-              boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
-            }}
-          />
-        </div>
+            {/* TYPE */}
+            <td align="center" className="text-[13px] text-[#265768]">
+              {editingId === room._id ? (
+                <select
+                  value={editForm.type}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, type: e.target.value })
+                  }
+                  className="px-2 py-1 border border-[#1DA5FF] rounded"
+                >
+                  <option value="lecture">Lecture Hall</option>
+                  <option value="lab">Computer Lab</option>
+                  <option value="seminar">Seminar Room</option>
+                </select>
+              ) : (
+                room.type
+              )}
+            </td>
 
-        {/* Body rows */}
-        <div
-          className="overflow-y-auto custom-scroll mr-3"
-          style={{ maxHeight: "400px" }}
-        >
-          <div className="px-8">
-            {filtered.map((room, idx) => (
-              <div
-                key={room._id || idx}
-                className={`flex items-center py-3.5 hover:bg-gray-50 transition ${idx === filtered.length - 1 ? "border-b-0" : ""
-                  }`}
-                style={{ borderBottom: "3px solid #D9D9D9" }}
-              >
-                {editingId === room._id ? (
-                  <>
-                    <div className="flex-[1.5]">
-                      <input
-                        type="text"
-                        value={editForm.name}
-                        onChange={(e) =>
-                          setEditForm({ ...editForm, name: e.target.value })
-                        }
-                        className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#4C5968]"
-                      />
-                    </div>
+            {/* CAPACITY */}
+            <td align="center" className="text-[13px] text-[#265768]">
+              {editingId === room._id ? (
+                <input
+                  type="number"
+                  value={editForm.capacity}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, capacity: e.target.value })
+                  }
+                  className="px-2 py-1 border border-[#1DA5FF] rounded text-center w-[80px]"
+                />
+              ) : (
+                room.capacity
+              )}
+            </td>
 
-                    <div className="flex-[1.5] px-2">
-                      <select
-                        value={editForm.type}
-                        onChange={(e) =>
-                          setEditForm({ ...editForm, type: e.target.value })
-                        }
-                        className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#8C96A3]"
-                      >
-                        <option value="lecture">Lecture Hall</option>
-                        <option value="lab">Computer Lab</option>
-                        <option value="seminar">Seminar Room</option>
-                      </select>
-                    </div>
+            {/* ACTIONS */}
+            <td align="center">
+              {editingId === room._id ? (
+                <div className="flex justify-center gap-3">
+                  <button onClick={() => handleSaveEdit(room._id)}>
+                    <Check size={15} color="#10B981" />
+                  </button>
 
-                    <div className="flex-1 px-2">
-                      <input
-                        type="number"
-                        value={editForm.capacity}
-                        onChange={(e) =>
-                          setEditForm({ ...editForm, capacity: e.target.value })
-                        }
-                        className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-center text-[#4C5968]"
-                      />
-                    </div>
+                  <button onClick={handleCancelEdit}>
+                    <X size={15} color="#EF4444" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-center gap-3">
+                  <button onClick={() => handleEditClick(room)} className="text-[#C0C6D0] hover:text-[#1A8FE3]">
+                    <Edit2 size={15} />
+                  </button>
 
-                    <div className="w-20 flex items-center justify-center gap-3">
-                      <button
-                        onClick={() => handleSaveEdit(room._id)}
-                        className="text-[#10B981] hover:text-[#059669]"
-                      >
-                        <Check size={15} />
-                      </button>
-
-                      <button
-                        onClick={handleCancelEdit}
-                        className="text-[#EF4444] hover:text-[#DC2626]"
-                      >
-                        <X size={15} />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex-[1.5] text-[13px] text-[#265768] text-center">
-                      {room.name}
-                    </div>
-
-                    <div className="flex-[1.5] text-center text-[13px] text-[#265768] capitalize">
-                      {room.type}
-                    </div>
-
-                    <div className="flex-1 text-center text-[13px] text-[#265768]">
-                      {room.capacity}
-                    </div>
-
-                    <div className="w-20 flex items-center justify-center gap-3">
-                      <button
-                        onClick={() => handleEditClick(room)}
-                        className="text-[#C0C6D0] hover:text-[#1A8FE3] transition"
-                      >
-                        <Edit2 size={15} />
-                      </button>
-
-                      {/* ✅ Delete mapping fixed */}
-                      <button
-                        onClick={() => onDelete(room._id)}
-                        className="text-[#C0C6D0] hover:text-[#F04438] transition"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-      </div>
+                  <button onClick={() => onDelete(room._id)}  className="text-[#C0C6D0] hover:text-[#F04438]"> 
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              )}
+            </td>
+          </tr>
+        ))}
+      </DataEntryTable>
     </div>
   );
 };
+
+
+
 
 // Main ManualEntryClassroom Component
 export const ManualEntryClassroom = () => {
@@ -285,27 +413,6 @@ export const ManualEntryClassroom = () => {
       setLoading(false);
     }
   };
-
-  // const handleDeleteClassroom = async (id) => {
-  //   if (!window.confirm("Are you sure you want to delete this classroom?")) {
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     const response = await deleteClassroom(id);
-
-  //     if (response.success) {
-  //       await fetchClassrooms();
-
-  //     }
-  //   } catch (err) {
-  //     alert("Failed to delete classroom: " + err.message);
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleDeleteClassroom = async (id) => {
   const result = await Swal.fire({

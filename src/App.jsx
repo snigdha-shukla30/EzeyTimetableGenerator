@@ -4,7 +4,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
+import '@mantine/core/styles.css';
+import { MantineProvider } from '@mantine/core';
 import Splash from "./pages/Splash/splash";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ImportSummary from "./pages/ImportSummary/ImportSummary";
@@ -29,6 +30,7 @@ import ManualEntryBatch from "./pages/ManualEntryPages/ManaualEntryBatch";
 
 function App() {
   return (
+    <MantineProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -40,7 +42,6 @@ function App() {
         <Route path="/splash" element={<Splash />} />
         <Route path="/dashboard" element={< Dashboard />} />
         <Route path="/import" element={< ImportSummary />} />
-        {/* <Route path="/dashboard" element={< Dashboard />} />  */}
         <Route path="/dataentry" element={< DataEntry />} />
         <Route path="/manual/classroom" element={< ManualEntryClassroom />} />
         <Route path="/manual/faculty" element={< ManualEntryFaculty />} />
@@ -122,6 +123,7 @@ function App() {
         /> */}
       </Routes>
     </Router>
+    </MantineProvider>
   );
 }
 

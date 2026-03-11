@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { Edit2, Trash2, X } from "lucide-react";
 import nodata from "../../assets/images/nodataa.png";
@@ -12,6 +13,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
+import DataEntryTable from "../../Components/ui/manualEntryTable";
+
 
 
 // ============================================
@@ -777,157 +780,227 @@ export default function ManualEntryBatch() {
                 </div>
               </div>
             ) : (
-              <div
-                style={{
-                  border: "1.5px solid #DFDFDF",
-                  borderRadius: "12px",
-                  overflow: "auto",
-                  background: "white",
-                  maxHeight: "500px",
-                }}
-              >
-                <div style={{ minWidth: "1000px" }}>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
-                      background: "#F8F9FA",
-                      borderBottom: "2px solid #4BACCE",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "13px",
-                      fontWeight: "700",
-                      color: "#265768",
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div style={{ padding: "14px 16px" }}>Degree / Course</div>
-                    <div style={{ padding: "14px 16px" }}>Department</div>
-                    <div style={{ padding: "14px 16px" }}>Capacity</div>
-                    <div style={{ padding: "14px 16px" }}>Semester</div>
-                    <div style={{ padding: "14px 16px" }}>Section</div>
-                    <div style={{ padding: "14px 16px" }}>
-                      Assigned Subjects
-                    </div>
-                    <div style={{ padding: "14px 16px", textAlign: "center" }}>
-                      Actions
-                    </div>
-                  </div>
+              <DataEntryTable height="calc(100vh - 460px)"
+  columns={[
+    { key: "course", label: "Degree / Course" },
+    { key: "department", label: "Department" },
+    { key: "capacity", label: "Capacity" },
+    { key: "semester", label: "Semester" },
+    { key: "section", label: "Section" },
+    { key: "subjects", label: "Assigned Subjects" },
+  ]}
+>
+  {batches.map((batch, index) => {
+    const subjects = batch.raw?.subjects || batch.subjects || [];
 
-                  <div>
-                    {batches.map((batch, index) => {
-                      const subjects =
-                        batch.raw?.subjects || batch.subjects || [];
+    return (
+      <tr key={batch._id || index}>
+        <td align="center">
+          {batch.course || batch.degree || "-"}
+        </td>
 
-                      return (
-                        <div
-                          key={batch._id || `batch-${index}`}
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns:
-                              "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
-                            borderBottom:
-                              index < batches.length - 1
-                                ? "1px solid #E8E8E8"
-                                : "none",
-                            fontFamily: "'Mulish', sans-serif",
-                            fontSize: "13px",
-                            color: "#333",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.course || batch.degree || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.department || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.capacity ||
-                              batch.strength ||
-                              batch.raw?.strength ||
-                              "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.semester || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.section ||
-                              batch.name ||
-                              batch.raw?.name ||
-                              "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {subjects.length > 0 ? (
-                              <button
-                                onClick={() =>
-                                  openListPopup(
-                                    "Assigned Subjects",
-                                    subjects.map((p) => p.subject),
-                                  )
-                                }
-                                style={{
-                                  color: "#4BACCE",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  fontSize: "13px",
-                                  fontFamily: "'Mulish', sans-serif",
-                                  textDecoration: "underline",
-                                }}
-                              >
-                                See List ({subjects.length})
-                              </button>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                          <div
-                            style={{
-                              padding: "14px 16px",
-                              display: "flex",
-                              justifyContent: "center",
-                              gap: "12px",
-                            }}
-                          >
-                            <button
-                              onClick={() => handleEdit(batch)}
-                              disabled={loading}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                padding: "4px",
-                              }}
-                              title="Edit"
-                            >
-                              <Edit2 size={16} color="#4BACCE" />
-                            </button>
+        <td align="center">
+          {batch.department || "-"}
+        </td>
 
-                            <button
-                              onClick={() => handleDeleteBatch(batch._id)}
-                              disabled={loading}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                padding: "4px",
-                              }}
-                              title="Delete"
-                            >
-                              <Trash2 size={16} color="#DC3545" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
+        <td align="center">
+          {batch.capacity || batch.strength || batch.raw?.strength || "-"}
+        </td>
+
+        <td align="center">
+          {batch.semester || "-"}
+        </td>
+
+        <td align="center">
+          {batch.section || batch.name || batch.raw?.name || "-"}
+        </td>
+
+        <td align="center">
+          {subjects.length > 0 ? (
+            <button
+              onClick={() =>
+                openListPopup(
+                  "Assigned Subjects",
+                  subjects.map((p) => p.subject),
+                )
+              }
+              className="text-[#4BACCE] underline text-[13px]"
+            >
+              See List ({subjects.length})
+            </button>
+          ) : (
+            "-"
+          )}
+        </td>
+
+        <td>
+          <div className="flex justify-center gap-3">
+            <button onClick={() => handleEdit(batch)}>
+              <Edit2 size={16} color="#4BACCE" />
+            </button>
+
+            <button onClick={() => handleDeleteBatch(batch._id)}>
+              <Trash2 size={16} color="#DC3545" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+</DataEntryTable>
+
+              // <div
+              //   style={{
+              //     border: "1.5px solid #DFDFDF",
+              //     borderRadius: "12px",
+              //     overflow: "auto",
+              //     background: "white",
+              //     maxHeight: "500px",
+              //   }}
+              // >
+              //   <div style={{ minWidth: "1000px" }}>
+              //     <div
+              //       style={{
+              //         display: "grid",
+              //         gridTemplateColumns:
+              //           "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
+              //         background: "#F8F9FA",
+              //         borderBottom: "2px solid #4BACCE",
+              //         fontFamily: "'Mulish', sans-serif",
+              //         fontSize: "13px",
+              //         fontWeight: "700",
+              //         color: "#265768",
+              //         position: "sticky",
+              //         top: 0,
+              //         zIndex: 10,
+              //       }}
+              //     >
+              //       <div style={{ padding: "14px 16px" }}>Degree / Course</div>
+              //       <div style={{ padding: "14px 16px" }}>Department</div>
+              //       <div style={{ padding: "14px 16px" }}>Capacity</div>
+              //       <div style={{ padding: "14px 16px" }}>Semester</div>
+              //       <div style={{ padding: "14px 16px" }}>Section</div>
+              //       <div style={{ padding: "14px 16px" }}>
+              //         Assigned Subjects
+              //       </div>
+              //       <div style={{ padding: "14px 16px", textAlign: "center" }}>
+              //         Actions
+              //       </div>
+              //     </div>
+
+              //     <div>
+              //       {batches.map((batch, index) => {
+              //         const subjects =
+              //           batch.raw?.subjects || batch.subjects || [];
+
+              //         return (
+              //           <div
+              //             key={batch._id || `batch-${index}`}
+              //             style={{
+              //               display: "grid",
+              //               gridTemplateColumns:
+              //                 "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
+              //               borderBottom:
+              //                 index < batches.length - 1
+              //                   ? "1px solid #E8E8E8"
+              //                   : "none",
+              //               fontFamily: "'Mulish', sans-serif",
+              //               fontSize: "13px",
+              //               color: "#333",
+              //               alignItems: "center",
+              //             }}
+              //           >
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {batch.course || batch.degree || "-"}
+              //             </div>
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {batch.department || "-"}
+              //             </div>
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {batch.capacity ||
+              //                 batch.strength ||
+              //                 batch.raw?.strength ||
+              //                 "-"}
+              //             </div>
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {batch.semester || "-"}
+              //             </div>
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {batch.section ||
+              //                 batch.name ||
+              //                 batch.raw?.name ||
+              //                 "-"}
+              //             </div>
+              //             <div style={{ padding: "14px 16px" }}>
+              //               {subjects.length > 0 ? (
+              //                 <button
+              //                   onClick={() =>
+              //                     openListPopup(
+              //                       "Assigned Subjects",
+              //                       subjects.map((p) => p.subject),
+              //                     )
+              //                   }
+              //                   style={{
+              //                     color: "#4BACCE",
+              //                     background: "none",
+              //                     border: "none",
+              //                     cursor: "pointer",
+              //                     fontSize: "13px",
+              //                     fontFamily: "'Mulish', sans-serif",
+              //                     textDecoration: "underline",
+              //                   }}
+              //                 >
+              //                   See List ({subjects.length})
+              //                 </button>
+              //               ) : (
+              //                 "-"
+              //               )}
+              //             </div>
+              //             <div
+              //               style={{
+              //                 padding: "14px 16px",
+              //                 display: "flex",
+              //                 justifyContent: "center",
+              //                 gap: "12px",
+              //               }}
+              //             >
+              //               <button
+              //                 onClick={() => handleEdit(batch)}
+              //                 disabled={loading}
+              //                 style={{
+              //                   background: "none",
+              //                   border: "none",
+              //                   cursor: "pointer",
+              //                   padding: "4px",
+              //                 }}
+              //                 title="Edit"
+              //               >
+              //                 <Edit2 size={16} color="#4BACCE" />
+              //               </button>
+
+              //               <button
+              //                 onClick={() => handleDeleteBatch(batch._id)}
+              //                 disabled={loading}
+              //                 style={{
+              //                   background: "none",
+              //                   border: "none",
+              //                   cursor: "pointer",
+              //                   padding: "4px",
+              //                 }}
+              //                 title="Delete"
+              //               >
+              //                 <Trash2 size={16} color="#DC3545" />
+              //               </button>
+              //             </div>
+              //           </div>
+              //         );
+              //       })}
+              //     </div>
+              //   </div>
+              // </div>
             )}
           </div>
+          
 
           {showPopup && (
             <div
@@ -982,47 +1055,6 @@ export default function ManualEntryBatch() {
             </div>
           )}
 
-          <style>{`
-            .custom-input:focus {
-              border: 1.5px solid #0b84d6 !important;
-              box-shadow: 0 0 0 3px rgba(11, 132, 214, 0.2);
-              outline: none;
-            }
-
-            input::placeholder,
-            select::placeholder {
-              color: #999999;
-              opacity: 1;
-            }
-
-            select option {
-              padding: 8px;
-            }
-
-            /* Custom Scrollbar for Table */
-            div[style*="overflow: auto"]::-webkit-scrollbar {
-              width: 8px;
-              height: 8px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-track {
-              background: #f1f1f1;
-              border-radius: 4px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-thumb {
-              background: #4BACCE;
-              border-radius: 4px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-thumb:hover {
-              background: #265768;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-corner {
-              background: #f1f1f1;
-            }
-          `}</style>
         </div>
       </div>
     </div>

@@ -1,6 +1,58 @@
-/* ============================================
+/* /* ============================================
    CUSTOM SCROLLBAR STYLES FOR EZEY PROJECT
    ============================================ */
+
+   /* ============================================
+   CUSTOM BLUE SCROLLBAR (GLOBAL)
+   ============================================ */
+
+.custom-scroll {
+  overflow-y: auto !important;
+  padding-right: 8px;
+  box-sizing: content-box;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 9px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 44px;
+  border: 1.22px solid #E5E5E5;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);
+  border-radius: 5px;
+  min-height: 70px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%);
+}
+
+/* 
+   .custom-scroll::-webkit-scrollbar {
+          width: 9.78px;
+        
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+          background: transparent;
+          border-radius: 44.02px;
+          border: 1.22px solid #E5E5E5;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);
+          border-radius: 4.89px;
+          width: 12.23px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%);
+        }
 
    .custom-input {
   width: 274.5px;
@@ -41,17 +93,17 @@
           }
 
 /* Hide default scrollbar */
-.no-scrollbar::-webkit-scrollbar {
+/* .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+} */
 
 /* Custom Scrollbar Track - Right Side Positioning */
-.scroll-track-layout {
+/* .scroll-track-layout {
   position: absolute;
   right: 8px;
   top: 60px;
@@ -61,10 +113,10 @@
   background: rgba(217, 217, 217, 0.3);
   border-radius: 10px;
   pointer-events: none;
-}
+} */
 
 /* Custom Scrollbar Thumb - Draggable */
-.scroll-thumb-layout {
+/* .scroll-thumb-layout {
   position: absolute;
   width: 8px;
   height: 36.6854px;
@@ -73,19 +125,19 @@
   cursor: grab;
   pointer-events: auto;
   transition: background 0.2s ease;
-}
+} */
 
-.scroll-thumb-layout:active {
+/* .scroll-thumb-layout:active {
   cursor: grabbing;
   background: linear-gradient(180deg, #3a95b8 0%, #1e4a5a 100%);
 }
 
 .scroll-thumb-layout:hover {
   background: linear-gradient(180deg, #5abfdf 0%, #2d6878 100%);
-}
+} */
 
 /* Placeholder text color correction for inputs */
-input::placeholder {
+/* input::placeholder {
   color: #9CA3AF !important;
   opacity: 1;
 }
@@ -103,32 +155,32 @@ input::-moz-placeholder {
 input:-ms-input-placeholder {
   color: #9CA3AF !important;
   opacity: 1;
-}
+} */
 
 /* Input field focus state - Enhanced border */
-input:focus {
+/* input:focus {
   outline: none;
   border-color: #4BACCE;
   box-shadow: 0 0 0 3px rgba(75, 172, 206, 0.1);
-}
+} */
 
 /* Custom select dropdown styling */
-select {
+/* select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23265768' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 36px;
-}
+} */
 
 /* Table hover effects */
-.table-row-hover:hover {
+/* .table-row-hover:hover {
   background-color: #F9FAFB;
   transition: background-color 0.15s ease;
-}
+} */
 
 /* Button hover transitions */
-.btn-gradient-hover {
+/* .btn-gradient-hover {
   transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
@@ -139,10 +191,10 @@ select {
 
 .btn-gradient-hover:active {
   transform: translateY(0);
-}
+} */
 
 /* Modal/Alert backdrop */
-.modal-backdrop {
+/* .modal-backdrop {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
@@ -158,10 +210,10 @@ select {
   to {
     opacity: 1;
   }
-}
+} */
 
 /* Modal container */
-.modal-container {
+/* .modal-container {
   position: fixed;
   inset: 0;
   display: flex;
@@ -189,15 +241,15 @@ select {
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */
 
 /* Tab active indicator animation */
-.tab-indicator {
+/* .tab-indicator {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+} */
 
 /* Vertical scrollbar for Dashboard Faculty list */
-.faculty-scrollbar {
+/* .faculty-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #4BACCE #E5E7EB;
 }
@@ -218,26 +270,26 @@ select {
 
 .faculty-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #5abfdf 0%, #2d6878 100%);
-}
+} */
 
 /* Smooth transitions for all interactive elements */
-* {
+/* * {
   transition-property: color, background-color, border-color, box-shadow;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
-}
+} */
 
-button, a, input, select, textarea {
+/* button, a, input, select, textarea {
   transition: all 0.2s ease;
-}
+} */
 
 /* Focus visible for accessibility */
-*:focus-visible {
+/* *:focus-visible {
   outline: 2px solid #4BACCE;
   outline-offset: 2px;
-}
+} */
 
 /* Remove outline for mouse users */
-*:focus:not(:focus-visible) {
+/* *:focus:not(:focus-visible) {
   outline: none;
-}
+} */ 
