@@ -15,7 +15,7 @@ const BalancedTimeTable = () => {
   return (
     <div className="w-full h-full">
       <iframe
-        src={`http://localhost:5000/timetable/visual/${batchId}`}
+        src={`http://localhost:3001/timetable/visual/${batchId}`}
         title="Timetable Preview"
         className="w-full h-[calc(100vh-140px)] rounded-lg border"
         frameBorder="0"

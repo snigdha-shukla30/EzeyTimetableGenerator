@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Search, Mail, Bell } from "lucide-react";
+import { Search } from "lucide-react";
 
 const placeholderTexts = [
   "Search time table",
@@ -8,64 +8,68 @@ const placeholderTexts = [
   "Search subject",
 ];
 
+const headerStyles = `
+  .header-search-input::placeholder {
+    color: #4BACCE !important;
+    opacity: 1 !important;
+  }
+`;
+
 const Header = () => {
-  const [placeholder, setPlaceholder] = useState(placeholderTexts[0]);
   const [index, setIndex] = useState(0);
 
-  // 🔁 Auto change placeholder text
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % placeholderTexts.length);
-      setPlaceholder(placeholderTexts[index]);
     }, 2000);
-
     return () => clearInterval(interval);
-  }, [index]);
+  }, []);
 
   return (
-    <div className="flex items-center justify-between gap-6 flex-1">
-      {/* Search bar – layout unchanged */}
-      <div className="flex-1 max-w-[400px]">
-        <div className="relative bg-[#F7FAFD] border border-[#BFBFBF] rounded-[16px] px-4 py-2.5">
-          <Search
-            size={16}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9AA5B6]"
-          />
-          <input
-            type="text"
-            placeholder={placeholder}
-            className="w-full bg-transparent pl-7 pr-3 text-sm text-[#374151] placeholder:text-[#265768] focus:outline-none transition-all duration-300"
-          />
-        </div>
-      </div>
-
-      {/* Right side */}
-      <div className="flex items-center gap-4">
-
-        <div className="flex items-center gap-3 pl-4 border-l border-[#DFDFDF]">
-          <div className="w-14 h-14 rounded-full overflow-hidden">
-            <img
-              src="logo.png"
-              alt="Maharishi University"
-              className="w-full h-full object-cover"
+    <>
+      <style>{headerStyles}</style>
+      <div className="w-full px-2 py-2 md:px-4 md:py-3 bg-white">
+        <div
+          className="flex items-center justify-between w-full px-3 py-2 md:px-5 md:py-3 bg-[#BFBFBF]/10"
+          style={{ border: "1px solid #BFBFBF", borderRadius: "0px" }}
+        >
+          {/* Left - Search Bar */}
+          <div className="relative w-[180px] md:w-[220px] lg:w-[260px]">
+            <Search
+              size={19}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+            {/* ✅ FIX: Removed wrong "placeholder-[#4BACCE]" class, added "header-search-input" */}
+            <input
+              type="text"
+              placeholder={placeholderTexts[index]}
+              className="header-search-input w-full pl-9 pr-3 py-1.5 md:py-2 text-xs md:text-sm text-gray-700 bg-white focus:outline-none"
+              style={{ border: "1.5px solid #BFBFBF", borderRadius: "8px" }}
             />
           </div>
-          <div className="leading-tight">
-            <div className="text-[13px] font-semibold text-[#0F566B]">
-              Maharishi University
+
+          {/* Right - University Info */}
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="w-8 h-8 md:w-10 md:h-10 lg:w-11 lg:h-11 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
+              <img
+                src="logo.png"
+                alt="Maharishi University"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="text-[11px] text-[#6B7280]">Lucknow,UP</div>
+            <div className="leading-tight">
+              <p className="text-[11px] md:text-[13px] lg:text-[14px] font-bold text-gray-900">
+                Maharishi University
+              </p>
+              <p className="text-[10px] md:text-[11px] lg:text-[12px] text-gray-500">
+                Lucknow,UP
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default Header;
-
-
-
-
-
-

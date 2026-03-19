@@ -27,7 +27,7 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
         console.error("[v0] Error fetching subjects:", err.message);
         setError(
           err.message ||
-            "Failed to load subjects. Make sure your backend server is running on http://localhost:5000"
+            "Failed to load subjects. Make sure your backend server is running on http://localhost:3001"
         );
         setSubjects([]);
       } finally {

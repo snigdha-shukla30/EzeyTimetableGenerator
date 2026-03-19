@@ -1,14 +1,6 @@
-
-
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { User } from "lucide-react";
-import { dashboardSummaryAPI } from "../../api/api"; // ✅ path adjust karo
+import { dashboardSummaryAPI } from "../../api/api";
 
 const FacultyStatus = () => {
   const [loading, setLoading] = useState(true);
@@ -31,13 +23,17 @@ const FacultyStatus = () => {
 
   return (
     <div
-      className="bg-white rounded-[10px] border border-[#CACACA] shadow w-[340px] max-w-full h-[391px] "
+      className="bg-white rounded-[10px] border border-[#CACACA] shadow"
       style={{
-        width: "340px",
-        height: "391px",
+        width: "clamp(220px, 26vw, 370px)", /* ⬅️ width yahan badlo */
+        height: "clamp(300px, 63vh, 540px)", /* ⬅️ height yahan badlo */
         borderRadius: "10px",
         borderWidth: "1px",
         opacity: 1,
+        overflow: "hidden",
+        marginLeft: "0", /* ⬅️ left position yahan badlo */
+        marginRight: "auto", /* ⬅️ right se space yahan badlo */
+        marginBottom: "45px", /* ⬅️ neeche se space yahan badlo */
       }}
     >
       {/* Header */}
@@ -53,15 +49,13 @@ const FacultyStatus = () => {
 
       {/* Faculty List Container */}
       <div
-        className="rounded-[10px] border border-[#E5E7EB] custom-scroll mx-2 my-2  h-[318px]"
+        className="custom-scroll"
         style={{
-          width: "320px",
-          height: "318px",
           margin: "10px",
           borderRadius: "10px",
-          borderWidth: "1px",
-          opacity: 1,
-          overflowY: "auto", // ✅ list zyada ho sakti hai, scroll add
+          border: "1px solid #E5E7EB",
+          overflowY: "auto",
+          height: "calc(100% - 60px)",
         }}
       >
         {loading ? (
@@ -77,7 +71,7 @@ const FacultyStatus = () => {
             <div
               key={member?._id || index}
               className="relative flex items-center border-b border-[#F3F4F6] last:border-b-0 group hover:bg-[#F9FAFB] transition-colors cursor-pointer"
-              style={{ height: "53px" }}
+              style={{ height: "clamp(44px, 6vh, 53px)" }}
             >
               {/* Hover Line - Left Side */}
               <div
@@ -89,15 +83,15 @@ const FacultyStatus = () => {
               <div
                 className="rounded-full overflow-hidden bg-[#F3F4F6] border border-[#E5E7EB] absolute flex items-center justify-center"
                 style={{
-                  width: "40px",
-                  height: "40px",
-                  top: "8px",
+                  width: "clamp(30px, 3.5vw, 40px)",
+                  height: "clamp(30px, 3.5vw, 40px)",
+                  top: "50%",
                   left: "16px",
+                  transform: "translateY(-50%)",
                   borderRadius: "57.86px",
                   opacity: 1,
                 }}
               >
-                {/* ✅ backend me avatar nahi aata, to placeholder initials */}
                 <span className="text-[12px] font-bold text-[#265768]">
                   {member?.name?.charAt(0)?.toUpperCase() || "F"}
                 </span>
@@ -107,13 +101,13 @@ const FacultyStatus = () => {
               <div
                 className="text-[#6B7280] absolute overflow-hidden text-ellipsis whitespace-nowrap"
                 style={{
-                  width: "240px",
-                  height: "18px",
-                  top: "19px",
-                  left: "64px",
+                  width: "calc(100% - 70px)",
+                  top: "50%",
+                  left: "clamp(52px, 6vw, 64px)",
+                  transform: "translateY(-50%)",
                   fontFamily: "Mulish, sans-serif",
                   fontWeight: 600,
-                  fontSize: "12px",
+                  fontSize: "clamp(10px, 1.1vw, 12px)",
                   lineHeight: "150%",
                   letterSpacing: "0%",
                   textAlign: "left",
@@ -127,7 +121,6 @@ const FacultyStatus = () => {
         )}
       </div>
 
-      {/* ✅ Classroom / Faculty jaisi scrollbar style */}
       <style>{`
         .custom-scroll::-webkit-scrollbar {
           width: 9.78px;
@@ -151,9 +144,3 @@ const FacultyStatus = () => {
 };
 
 export default FacultyStatus;
-
-
-
-
-
-
