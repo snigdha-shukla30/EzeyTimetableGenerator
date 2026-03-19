@@ -9,6 +9,7 @@ import QuickReport from '../../Components/Dashboard/QuickReport';
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
+  const [activeMenu, setActiveMenu] = useState("dashboard");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -35,19 +36,20 @@ const Dashboard = () => {
     : [];
 
   return (
-    <div className='flex h-screen w-full overflow-hidden bg-[#F3F4F6]'>
-      <Sidebar />
+    <div className='flex h-screen w-full overflow-hidden bg-white'>
+      {/* ✅ FIX: activeMenu aur setActiveMenu props pass kiye */}
+      <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
-      <div className='flex flex-col flex-1 min-w-0 overflow-hidden'>
+      <div className='flex flex-col flex-1 min-w-0 overflow-hidden bg-white'>
         <Header />
 
-        <div className='flex-1 p-4 overflow-hidden'>
+        <div className='flex-1 p-4 overflow-hidden bg-white'>
           <div
             style={{
               borderRadius: "5px",
               border: "1px solid #BFBFBF",
               boxShadow: "0px 1px 4px 0px #00000040",
-              background: "#FBFBFB",
+              background: "#FFFFFF", /* ✅ FIX: pure white */
               padding: "20px",
               height: "100%",
               display: "flex",
@@ -74,14 +76,14 @@ const Dashboard = () => {
             </section>
 
             {/* Main content: left column + FacultyStatus right */}
-            <div className='flex-1 flex gap-17 2xl:gap-[28vh]  min-h-0'>
+            <div className='flex-1 flex gap-17 2xl:gap-[28vh] min-h-0'>
 
               {/* Left: StatsCards + QuickReport */}
               <div className='flex-[3] flex flex-col gap-3 min-w-0 overflow-hidden'>
 
-                {/* StatsCards — ek hi line mein, nowrap */}
+                {/* StatsCards */}
                 <div
-                  className='shrink-0 '
+                  className='shrink-0'
                   style={{
                     display: "flex",
                     flexWrap: "nowrap",
@@ -96,14 +98,14 @@ const Dashboard = () => {
                 </div>
 
                 {/* QuickReport */}
-                <div className='flex-1 min-h-0 pr-5.5 2xl:pr-14 '>
+                <div className='flex-1 min-h-0 pr-5.5 2xl:pr-14'>
                   <QuickReport quickReport={dashboardData?.quickReport} />
                 </div>
               </div>
 
               {/* Right: FacultyStatus */}
               <div
-                className='min-w-0 min-h-0 flex items-start '
+                className='min-w-0 min-h-0 flex items-start'
                 style={{ paddingRight: "clamp(8px, 1.5vw, 20px)" }}
               >
                 <FacultyStatus />

@@ -70,7 +70,7 @@ const Student = () => {
 
         <div>
           <p className="text-base md:text-sm font-medium font-Mulish text-[#265768] mt-8 ml-1">
-            Enter Room No
+            Enter Room Number
           </p>
           <div className="relative ml-0 mt-0.5 w-full max-w-[270px] md:max-w-[270px]">
             <Search
@@ -109,8 +109,8 @@ const Student = () => {
                     {['S No', 'Room No', 'Preview Timetable'].map((header) => (
                       <th
                         key={header}
-                        className="px-2 py-2 text-center font-medium relative bg-white"
-                        style={{ borderBottom: "2px solid #0077FF" }}
+                        className="px-2 py-2  text-center font-medium relative bg-white"
+                        style={{ borderBottom: "2px solid #0077FF",   }}
                       >
                         {header}
                         <span className="absolute left-0 bottom-0 w-full h-[1px] bg-[#0077FF] shadow-[0_2px_4px_rgba(0,119,255,0.6)]"></span>
