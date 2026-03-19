@@ -2,25 +2,25 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Search } from 'lucide-react'
 
 const facultyData = [
-  { id: 1, name: "Dr Rakesh Kumar Yadav", email: "rakeshkumar879@gmail.com" },
-  { id: 2, name: "Dr Shweta Vikram", email: "shweta879@gmail.com" },
-  { id: 3, name: "Mrs Pooja Shukla", email: "poojashukla879@gmail.com" },
-  { id: 4, name: "Mr Sanjeev Kumar", email: "Sanjeev.879@gmail.com" },
-  { id: 5, name: "Dr Kalyan Acharya", email: "kalyan879@gmail.com" },
-  { id: 6, name: "Dr Om Prakash", email: "Omprakash879@gmail.com" },
-  { id: 7, name: "Dr Amit Sharma", email: "amitsharma879@gmail.com" },
-  { id: 8, name: "Mrs Neha Gupta", email: "nehagupta879@gmail.com" },
-  { id: 9, name: "Dr Priya Singh", email: "priyasingh879@gmail.com" },
-  { id: 10, name: "Mr Rohit Verma", email: "rohitverma879@gmail.com" },
-  { id: 11, name: "Dr Sunita Mishra", email: "sunitamishra879@gmail.com" },
-  { id: 12, name: "Dr Vikram Tiwari", email: "vikramtiwari879@gmail.com" },
+  { id: 1, roomNo: "101" },
+  { id: 2, roomNo: "102" },
+  { id: 3, roomNo: "103" },
+  { id: 4, roomNo: "104" },
+  { id: 5, roomNo: "105" },
+  { id: 6, roomNo: "106" },
+  { id: 7, roomNo: "107" },
+  { id: 8, roomNo: "108" },
+  { id: 9, roomNo: "109" },
+  { id: 10, roomNo: "110" },
+  { id: 11, roomNo: "111" },
+  { id: 12, roomNo: "112" },
 ]
 
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Mulish:wght@400;500;600&display=swap');
 
   .faculty-search-input::placeholder {
-    color: rgba(38, 87, 104, 0.5) !important;
+    color: #26576880 !important;
     opacity: 1 !important;
   }
   .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -31,14 +31,14 @@ const globalStyles = `
 
 const THUMB_HEIGHT_PX = 56
 
-const Tablefaculty = () => {
+const Student = () => {
   const [search, setSearch] = useState('')
   const [thumbTop, setThumbTop] = useState(0)
   const tableRef = useRef(null)
   const trackRef = useRef(null)
 
   const filteredFaculty = facultyData.filter((f) =>
-    f.name.toLowerCase().includes(search.toLowerCase())
+    f.roomNo.toLowerCase().includes(search.toLowerCase())
   )
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Tablefaculty = () => {
 
         <div>
           <p className="text-base md:text-sm font-medium font-Mulish text-[#265768] mt-8 ml-1">
-            Enter Faculty Name
+            Enter Room No
           </p>
           <div className="relative ml-0 mt-0.5 w-full max-w-[270px] md:max-w-[270px]">
             <Search
@@ -79,7 +79,7 @@ const Tablefaculty = () => {
             />
             <input
               type="text"
-              placeholder="Dr Rakesh Kumar Yadav"
+              placeholder="e.g. B 102"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="faculty-search-input w-full pl-8 pr-3 py-2.5 text-xs md:text-sm text-gray-700 bg-white focus:outline-none"
@@ -100,14 +100,13 @@ const Tablefaculty = () => {
             <div className="px-7 bg-white">
               <table className="w-full table-fixed border-separate border-spacing-y-2 text-sm md:text-base bg-white">
                 <colgroup>
-                  <col style={{ width: '10%' }} />
-                  <col style={{ width: '30%' }} />
+                  <col style={{ width: '20%' }} />
+                  <col style={{ width: '45%' }} />
                   <col style={{ width: '35%' }} />
-                  <col style={{ width: '25%' }} />
                 </colgroup>
                 <thead className="text-[#265768] sticky top-0 z-10 bg-white">
                   <tr>
-                    {['S No', 'Faculty Name', 'Email', 'Preview Timetable'].map((header) => (
+                    {['S No', 'Room No', 'Preview Timetable'].map((header) => (
                       <th
                         key={header}
                         className="px-2 py-2 text-center font-medium relative bg-white"
@@ -133,13 +132,7 @@ const Tablefaculty = () => {
                           className="px-4 py-2 border-b-2 text-center"
                           style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}
                         >
-                          {faculty.name}
-                        </td>
-                        <td
-                          className="px-4 py-2 border-b-2 text-center"
-                          style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}
-                        >
-                          {faculty.email}
+                          {faculty.roomNo}
                         </td>
                         <td
                           className="px-4 py-2 border-b-2 text-center"
@@ -163,11 +156,11 @@ const Tablefaculty = () => {
                   ) : (
                     <tr>
                       <td
-                        colSpan={4}
+                        colSpan={3}
                         className="py-6 text-center"
                         style={{ color: "rgba(38, 87, 104, 0.4)" }}
                       >
-                        No faculty found matching "{search}"
+                        No rooms found matching "{search}"
                       </td>
                     </tr>
                   )}
@@ -190,4 +183,4 @@ const Tablefaculty = () => {
   )
 }
 
-export default Tablefaculty
+export default Student

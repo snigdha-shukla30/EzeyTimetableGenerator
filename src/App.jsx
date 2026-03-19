@@ -22,6 +22,7 @@ import ManualEntryFaculty from "./pages/ManualEntryPages/ManualEntryFaculty";
 import ManualEntrySubject from "./pages/ManualEntryPages/ManualEntrySubject";
 import ManualEntryBatch from "./pages/ManualEntryPages/ManaualEntryBatch";
 import Facultytime from "./pages/Facultytimetable/Facultytime";
+import Room from "./pages/Room/Room";
 
 
 // import FacultyOptimizedTimeTablePage from "./pages/TimeTable/FacultyOptimizedTT";
@@ -58,6 +59,7 @@ function App() {
 
         <Route path="/verified" element={<EmailVerifiedPage />} />
         <Route path="/Facultytimetable" element={<Facultytime />} />
+        <Route path="/Room" element={<Room />} />
 
         {/* Protected Routes - Require Authentication */}
         {/* <Route 
