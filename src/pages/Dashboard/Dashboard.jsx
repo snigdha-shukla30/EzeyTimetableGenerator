@@ -28,16 +28,15 @@ const Dashboard = () => {
 
   const stats = dashboardData
     ? [
-        { label: "Classroom", count: dashboardData.totalClassrooms, imageUrl: "/classroom.webp" },
-        { label: "Subjects", count: dashboardData.totalSubjects, imageUrl: "/subjects.webp" },
-        { label: "Faculty", count: dashboardData.totalFaculties, imageUrl: "/faculty.webp" },
-        { label: "Time Tables", count: dashboardData.totalApprovedTimetables, imageUrl: "/timetable.webp" },
-      ]
+      { label: "Classroom", count: dashboardData.totalClassrooms, imageUrl: "/classroom.webp" },
+      { label: "Subjects", count: dashboardData.totalSubjects, imageUrl: "/subjects.webp" },
+      { label: "Faculty", count: dashboardData.totalFaculties, imageUrl: "/faculty.webp" },
+      { label: "Time Tables", count: dashboardData.totalApprovedTimetables, imageUrl: "/timetable.webp" },
+    ]
     : [];
 
   return (
-    <div className='flex h-screen w-full overflow-hidden bg-white'>
-      {/* ✅ FIX: activeMenu aur setActiveMenu props pass kiye */}
+    <div className='flex h-screen w-full overflow-hidden bg-[#BFBFBF]'>
       <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
 
       <div className='flex flex-col flex-1 min-w-0 overflow-hidden bg-white'>
@@ -47,9 +46,9 @@ const Dashboard = () => {
           <div
             style={{
               borderRadius: "5px",
-              border: "1px solid #BFBFBF",
+              border: "2px solid #BFBFBF",
               boxShadow: "0px 1px 4px 0px #00000040",
-              background: "#FFFFFF", /* ✅ FIX: pure white */
+              background: "rgba(191, 191, 191, 0.1)",
               padding: "20px",
               height: "100%",
               display: "flex",
@@ -67,11 +66,12 @@ const Dashboard = () => {
                 Welcome back, {user?.name || "User"}!
               </h1>
               <p
-                className="text-xs md:text-sm text-[#265768] max-w-3xl"
+                className="text-xs md:text-sm ml-1 text-[#26576880] mt-1 max-w-3xl"
                 style={{ fontFamily: "Mulish, sans-serif" }}
               >
-                Your smart scheduling workspace is ready. Seamlessly manage
-                departments, teachers, subjects, and classroom availability.
+                Your smart scheduling workspace is ready.{" "}
+                <br />
+                Seamlessly manage departments, teachers, subjects, and classroom availability.
               </p>
             </section>
 
@@ -79,7 +79,7 @@ const Dashboard = () => {
             <div className='flex-1 flex gap-17 2xl:gap-[28vh] min-h-0'>
 
               {/* Left: StatsCards + QuickReport */}
-              <div className='flex-[3] flex flex-col gap-3 min-w-0 overflow-hidden'>
+              <div className='flex-[3] flex flex-col gap-0 min-w-0 overflow-hidden'>
 
                 {/* StatsCards */}
                 <div
@@ -87,7 +87,8 @@ const Dashboard = () => {
                   style={{
                     display: "flex",
                     flexWrap: "nowrap",
-                    gap: "0px"
+                    gap: "0px",
+                    marginTop: "18px"
                   }}
                 >
                   {stats.map((item, index) => (
@@ -106,7 +107,7 @@ const Dashboard = () => {
               {/* Right: FacultyStatus */}
               <div
                 className='min-w-0 min-h-0 flex items-start'
-                style={{ paddingRight: "clamp(8px, 1.5vw, 20px)" }}
+                style={{ paddingRight: "clamp(8px, 1.5vw, 20px)", marginTop: "18px" }}
               >
                 <FacultyStatus />
               </div>

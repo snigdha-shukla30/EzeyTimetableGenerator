@@ -26,7 +26,7 @@ const FacultyStatus = () => {
       className="bg-white rounded-[10px] border border-[#CACACA] shadow"
       style={{
         width: "clamp(220px, 26vw, 370px)", /* ⬅️ width yahan badlo */
-        height: "clamp(300px, 63vh, 540px)", /* ⬅️ height yahan badlo */
+        height: "clamp(300px, 61vh, 540px)", /* ⬅️ height yahan badlo */
         borderRadius: "10px",
         borderWidth: "1px",
         opacity: 1,

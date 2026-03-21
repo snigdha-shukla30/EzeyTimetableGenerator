@@ -1,18 +1,25 @@
 import { Table, Paper } from "@mantine/core";
-import type { ReactNode } from "react";
+import { ReactNode } from "react";
 import "../../custom-scrollbar.css";
+
+type Column = {
+  key: string;
+  label: string;
+};
+
+type Props = {
+  columns?: Column[];
+  children?: ReactNode;
+  height?: string;
+  showActions?: boolean;
+};
 
 export default function DataEntryTable({
   columns = [],
   children,
   height = "calc(100vh - 410px)",
   showActions = true,
-}: {
-  columns?: { key: string; label: string }[];
-  children?: ReactNode;
-  height?: string;
-  showActions?: boolean;
-}) {
+}: Props) {
   return (
     <Paper
       radius="md"
@@ -26,6 +33,7 @@ export default function DataEntryTable({
         boxShadow: "0px 2px 8px rgba(0,0,0,0.06)",
       }}
     >
+      {/* Native Scroll Container */}
       <div
         className="custom-scroll"
         style={{
@@ -70,3 +78,6 @@ export default function DataEntryTable({
     </Paper>
   );
 }
+
+
+

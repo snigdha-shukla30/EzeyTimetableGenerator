@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { X, CheckCircle, AlertCircle, XCircle } from "lucide-react";
 
-const Alert = ({ message, type = "error", onClose, duration = 3001 }) => {
+const Alert = ({ message, type = "error", onClose, duration = 3000 }) => {
     useEffect(() => {
         if (duration && onClose) {
             const timer = setTimeout(() => {

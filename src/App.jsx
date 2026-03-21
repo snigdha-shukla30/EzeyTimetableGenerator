@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import { MantineProvider } from '@mantine/core';
 import Splash from "./pages/Splash/splash";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ImportSummary from "./pages/ImportSummary/ImportSummary";
@@ -31,6 +32,7 @@ import Room from "./pages/Room/Room";
 
 function App() {
   return (
+    <MantineProvider withGlobalStyles withNormalizeCSS>
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -53,79 +55,16 @@ function App() {
           path="/timetable/preview/:batchId"
           element={<BalancedTimeTablePage />}
         />
-        {/* <Route path="/timetable/preview/:timetableId" element={< BalancedTimeTablePage />} /> */}
-
-        {/* <Route path="/verified" element={< EmailVerifiedPage />} />  */}
+       
 
         <Route path="/verified" element={<EmailVerifiedPage />} />
         <Route path="/Facultytimetable" element={<Facultytime />} />
         <Route path="/Room" element={<Room />} />
 
-        {/* Protected Routes - Require Authentication */}
-        {/* <Route 
-          path="/form" 
-          element={
-            <ProtectedRoute>
-              <EzeyForm />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/splash" 
-          element={
-            <ProtectedRoute>
-              <Splash />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/import" 
-          element={
-            <ProtectedRoute>
-              <ImportSummary />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/dataentry" 
-          element={
-            <ProtectedRoute>
-              <DataEntry />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route 
-          path="/generate" 
-          element={
-            <ProtectedRoute>
-              <GenerateTimetablePage />
-            </ProtectedRoute>
-          } 
-        />
-
-        <Route
-          path="/timetable/preview/:batchId"
-          element={
-            <ProtectedRoute>
-              <BalancedTimeTablePage />
-            </ProtectedRoute>
-          }
-        /> */}
+        
       </Routes>
     </Router>
+    </MantineProvider>
   );
 }
 

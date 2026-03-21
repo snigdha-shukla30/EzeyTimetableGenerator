@@ -17,7 +17,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
   }, []);
 
   const mainMenu = [
-    { id: "dashboard", label: "Dashboard", icon: Home, path: "/dashboard" },
+    { id: "dashboard", label: "Dashboard", icon: Home, path: "/Dashboard" },
     { id: "dataentry", label: "Data Entry", icon: FileText, path: "/dataentry" },
     {
       id: "timetable",
@@ -25,8 +25,8 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
       icon: Calendar,
       path: "/generate",
       subMenu: [
-        { id: "room", label: "Room", path: "/generate/room" },
-        { id: "faculty", label: "Faculty", path: "/generate/faculty" },
+        { id: "room", label: "Room", path: "/Room" },
+        { id: "faculty", label: "Faculty", path: "/Facultytimetable" },
         { id: "student", label: "Student", path: "/generate/student" },
       ],
     },

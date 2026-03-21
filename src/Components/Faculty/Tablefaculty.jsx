@@ -1,3 +1,150 @@
+// import React, { useState, useRef, useEffect } from 'react'
+// import { Search } from 'lucide-react'
+// import DataEntryTable from '../ui/Newtable' 
+
+// const facultyData = [
+//   { id: 1, name: "Dr Rakesh Kumar Yadav", email: "rakeshkumar879@gmail.com" },
+//   { id: 2, name: "Dr Shweta Vikram", email: "shweta879@gmail.com" },
+//   { id: 3, name: "Mrs Pooja Shukla", email: "poojashukla879@gmail.com" },
+//   { id: 4, name: "Mr Sanjeev Kumar", email: "Sanjeev.879@gmail.com" },
+//   { id: 5, name: "Dr Kalyan Acharya", email: "kalyan879@gmail.com" },
+//   { id: 6, name: "Dr Om Prakash", email: "Omprakash879@gmail.com" },
+//   { id: 7, name: "Dr Amit Sharma", email: "amitsharma879@gmail.com" },
+//   { id: 8, name: "Mrs Neha Gupta", email: "nehagupta879@gmail.com" },
+//   { id: 9, name: "Dr Priya Singh", email: "priyasingh879@gmail.com" },
+//   { id: 10, name: "Mr Rohit Verma", email: "rohitverma879@gmail.com" },
+//   { id: 11, name: "Dr Sunita Mishra", email: "sunitamishra879@gmail.com" },
+//   { id: 12, name: "Dr Vikram Tiwari", email: "vikramtiwari879@gmail.com" },
+// ]
+
+// const globalStyles = `
+//   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Mulish:wght@400;500;600&display=swap');
+
+//   .faculty-search-input::placeholder {
+//     color: rgba(38, 87, 104, 0.5) !important;
+//     opacity: 1 !important;
+//   }
+//   .hide-scrollbar::-webkit-scrollbar { display: none; }
+//   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+//   .font-Playfair { font-family: 'Playfair Display', serif !important; }
+//   .font-Mulish { font-family: 'Mulish', sans-serif !important; }
+// `
+
+// const THUMB_HEIGHT_PX = 56
+
+// const Tablefaculty = () => {
+//   const [search, setSearch] = useState('')
+//   const [thumbTop, setThumbTop] = useState(0)
+//   const tableRef = useRef(null)
+//   const trackRef = useRef(null)
+
+//   const filteredFaculty = facultyData.filter((f) =>
+//     f.name.toLowerCase().includes(search.toLowerCase())
+//   )
+
+//   useEffect(() => {
+//     const el = tableRef.current
+//     if (!el) return
+//     const handleScroll = () => {
+//       const scrollRatio = el.scrollTop / (el.scrollHeight - el.clientHeight)
+//       const trackHeight = trackRef.current ? trackRef.current.clientHeight : 0
+//       const maxTop = trackHeight - THUMB_HEIGHT_PX
+//       setThumbTop(scrollRatio * maxTop)
+//     }
+//     el.addEventListener('scroll', handleScroll)
+//     return () => el.removeEventListener('scroll', handleScroll)
+//   }, [])
+
+//   return (
+//     <>
+//       <style>{globalStyles}</style>
+//       <div
+//         className="h-full w-full max-w-[98%] mx-auto px-3 py-4 border-2 border-[#BFBFBF] rounded shadow-xl bg-[#BFBFBF]/10"
+//         style={{ marginBottom: '0.5rem' }}
+//       >
+//         <h1 className="text-2xl md:text-3xl mt-4 ml-0 font-bold font-Playfair text-[#265768]">
+//           View / Edit generated schedules
+//         </h1>
+//         <p className="text-xs md:text-sm mt-1 ml-1 font-medium font-Mulish" style={{ color: 'rgba(38, 87, 104, 0.5)' }}>
+//           Faculty wise schedules
+//         </p>
+
+//         <div>
+//           <p className="text-base md:text-sm font-medium font-Mulish text-[#265768] mt-8 ml-1">
+//             Enter Faculty Name
+//           </p>
+//           <div className="relative ml-0 mt-0.5 w-full max-w-[270px] md:max-w-[270px]">
+//             <Search size={20} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#265768]" />
+//             <input
+//               type="text"
+//               placeholder="Dr Rakesh Kumar Yadav"
+//               value={search}
+//               onChange={(e) => setSearch(e.target.value)}
+//               className="faculty-search-input w-full pl-8 pr-3 py-2.5 text-xs md:text-sm text-gray-700 bg-white focus:outline-none"
+//               style={{ border: "1.5px solid #BFBFBF", borderRadius: "8px" }}
+//             />
+//           </div>
+//         </div>
+
+//         <div className="mt-8 w-full">
+//           <DataEntryTable
+//             className="w-full text-sm md:text-base"
+//             columns={[
+//               { key: "id", label: "S No" },
+//               { key: "name", label: "Faculty Name" },
+//               { key: "email", label: "Email" },
+//             ]}
+//           >
+//             {filteredFaculty.length > 0 ? (
+//               filteredFaculty.map((faculty) => (
+//                 <tr key={faculty.id} className="hover:bg-gray-100 text-sm md:text-base">
+//                   <td className="w-1/4 px-4 py-3 border-b-2 text-center" style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}>
+//                     {faculty.id}
+//                   </td>
+//                   <td className="w-1/4 px-4 py-3 border-b-2 text-center" style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}>
+//                     {faculty.name}
+//                   </td>
+//                   <td className="w-1/4 px-4 py-3 border-b-2 text-center" style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}>
+//                     {faculty.email}
+//                   </td>
+//                   <td className="w-1/4 px-4 py-3 border-b-2 text-center" style={{ borderColor: "#D9D9D9", color: "rgba(38, 87, 104, 0.5)" }}>
+//                     <div className="flex items-center justify-center gap-2">
+//                       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+//                         <rect x="1" y="1" width="16" height="16" rx="2" stroke="#265768" strokeOpacity="0.5" strokeWidth="1.5" />
+//                       </svg>
+//                       <button style={{ color: "rgba(38, 87, 104, 0.5)" }}>
+//                         View
+//                       </button>
+//                     </div>
+//                   </td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan={4} className="py-6 text-center text-sm md:text-base" style={{ color: "rgba(38, 87, 104, 0.4)" }}>
+//                   No faculty found matching "{search}"
+//                 </td>
+//               </tr>
+//             )}
+//           </DataEntryTable>
+//         </div>
+
+//       </div>
+//     </>
+//   )
+// }
+
+// export default Tablefaculty
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useRef, useEffect } from 'react'
 import { Search } from 'lucide-react'
 

@@ -58,7 +58,7 @@ const Header = () => {
               />
             </div>
             <div className="leading-tight">
-              <p className="text-[11px] md:text-[13px] lg:text-[14px] font-bold text-gray-900">
+              <p className="text-[11px] md:text-[13px] lg:text-[14px] font-medium text-[#265768]">
                 Maharishi University
               </p>
               <p className="text-[10px] md:text-[11px] lg:text-[12px] text-gray-500">
