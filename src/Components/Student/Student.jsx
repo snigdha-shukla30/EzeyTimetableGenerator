@@ -45,7 +45,9 @@ const Student = () => {
     const el = tableRef.current
     if (!el) return
     const handleScroll = () => {
-      const scrollRatio = el.scrollTop / (el.scrollHeight - el.clientHeight)
+      const scrollable = el.scrollHeight - el.clientHeight
+      if (scrollable <= 0) return
+      const scrollRatio = el.scrollTop / scrollable
       const trackHeight = trackRef.current ? trackRef.current.clientHeight : 0
       const maxTop = trackHeight - THUMB_HEIGHT_PX
       setThumbTop(scrollRatio * maxTop)
@@ -88,8 +90,12 @@ const Student = () => {
           </div>
         </div>
 
+        <p className="text-[#265768] font-medium font-Mulish text-sm text-right mt-4 mb-1 pr-1">
+          Total roomwise Timetables: 20
+        </p>
+
         <div
-          className="relative mt-8 border-2 border-[#DFDFDF] rounded-2xl shadow-sm overflow-hidden"
+          className="relative mt-0 border-2 border-[#DFDFDF] rounded-2xl shadow-sm overflow-hidden"
           style={{ maxHeight: '380px' }}
         >
           <div
@@ -109,8 +115,8 @@ const Student = () => {
                     {['S No', 'Room No', 'Preview Timetable'].map((header) => (
                       <th
                         key={header}
-                        className="px-2 py-2  text-center font-medium relative bg-white"
-                        style={{ borderBottom: "2px solid #0077FF",   }}
+                        className="px-2 py-2 text-center font-medium relative bg-white"
+                        style={{ borderBottom: "2px solid #0077FF" }}
                       >
                         {header}
                         <span className="absolute left-0 bottom-0 w-full h-[1px] bg-[#0077FF] shadow-[0_2px_4px_rgba(0,119,255,0.6)]"></span>

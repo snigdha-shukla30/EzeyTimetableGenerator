@@ -12,19 +12,20 @@ import {
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
 
-
-// Component for Upload Button (UNCHANGED)
 const Component = ({ property1, className, headingClassName, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`bg-[linear-gradient(0deg,rgba(38,87,104,1)_0%,rgba(75,172,206,1)_100%)] w-52 left-2.5 h-10 overflow-hidden rounded-md relative ${property1 === "variant-12" ? "top-[214px]" : "top-[146px]"
-        } ${property1 === "variant-12" ? "shadow-[0px_4px_4px_#00000040]" : ""} ${className || ""
-        }`}
+      className={`bg-[linear-gradient(0deg,rgba(38,87,104,1)_0%,rgba(75,172,206,1)_100%)] w-52 left-2.5 h-10 overflow-hidden rounded-md relative ${
+        property1 === "variant-12" ? "top-[214px]" : "top-[146px]"
+      } ${property1 === "variant-12" ? "shadow-[0px_4px_4px_#00000040]" : ""} ${
+        className || ""
+      }`}
     >
       <p
-        className={`[font-family:'Mulish',Helvetica] left-2 tracking-[0] text-base top-[11px] text-white font-medium text-center whitespace-nowrap leading-[19.2px] absolute ${headingClassName || ""
-          }`}
+        className={`[font-family:'Mulish',Helvetica] left-2 tracking-[0] text-base top-[11px] text-white font-medium text-center whitespace-nowrap leading-[19.2px] absolute ${
+          headingClassName || ""
+        }`}
       >
         Upload File ( CSV / XLSX )
       </p>
@@ -32,13 +33,7 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
   );
 };
 
-// ✅ FacultyData Component (table/list height SMALL)
-const FacultyData = ({
-  searchQuery = "",
-  facultyList = [],
-  onEdit,
-  onDelete,
-}) => {
+const FacultyData = ({ searchQuery = "", facultyList = [], onEdit, onDelete }) => {
   const query = searchQuery.toLowerCase();
   const filtered = facultyList.filter((f) =>
     `${f.name} ${f.email}`.toLowerCase().includes(query)
@@ -50,7 +45,7 @@ const FacultyData = ({
         className="bg-white w-full relative"
         style={{
           width: "100%",
-          height: "calc(100vh - 420px)", // ✅ SMALLER table box height
+          height: "calc(100vh - 420px)",
           borderRadius: "12.23px",
           border: "1.83px solid #DFDFDF",
           overflow: "hidden",
@@ -60,11 +55,9 @@ const FacultyData = ({
         <div className="px-8 pt-4 pb-2 bg-white mr-3">
           <div
             className="flex items-center text-[14px] font-medium"
-            style={{
-              color: "#265768",
-              fontFamily: "'Mulish', sans-serif",
-            }}
+            style={{ color: "#265768", fontFamily: "'Mulish', sans-serif" }}
           >
+            <div className="w-10 text-center">S.No</div>
             <div className="flex-[1.7] text-center">Faculty Name</div>
             <div className="flex-[1.7] text-center">Email</div>
             <div className="flex-[0.8] text-center">Max load/day</div>
@@ -85,9 +78,7 @@ const FacultyData = ({
         {/* Body rows */}
         <div
           className="overflow-y-auto custom-scroll mr-3"
-          style={{
-            maxHeight: "calc(100vh - 500px)", // ✅ SMALLER scroll area
-          }}
+          style={{ maxHeight: "calc(100vh - 500px)" }}
         >
           <div className="px-8">
             {filtered.length === 0 ? (
@@ -101,6 +92,11 @@ const FacultyData = ({
                   className="flex items-center py-3.5 hover:bg-gray-50 transition"
                   style={{ borderBottom: "3px solid #D9D9D9" }}
                 >
+                  {/* S.No */}
+                  <div className="w-10 text-[13px] text-[#265768] text-center">
+                    {idx + 1}
+                  </div>
+
                   <div className="flex-[1.7] text-[13px] font-medium text-[#265768] text-center">
                     {f.name}
                   </div>
@@ -143,32 +139,17 @@ const FacultyData = ({
           </div>
         </div>
 
-        {/* ✅ Scrollbar styling */}
         <style>{`
-          .custom-scroll::-webkit-scrollbar {
-            width: 8.78px;
-          }
-          .custom-scroll::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 44.02px;
-            border: 1.22px solid #E5E5E5;
-          }
-          .custom-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);
-            border-radius: 4.89px;
-            width: 13.23px;
-            min-height: 70px;
-          }
-          .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%);
-          }
+          .custom-scroll::-webkit-scrollbar { width: 8.78px; }
+          .custom-scroll::-webkit-scrollbar-track { background: transparent; border-radius: 44.02px; border: 1.22px solid #E5E5E5; }
+          .custom-scroll::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%); border-radius: 4.89px; width: 13.23px; min-height: 70px; }
+          .custom-scroll::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%); }
         `}</style>
       </div>
     </div>
   );
 };
 
-// Main ManualEntryFaculty Component
 export const ManualEntryFaculty = () => {
   const [showTable, setShowTable] = useState(false);
   const [facultyName, setFacultyName] = useState("");
@@ -193,9 +174,7 @@ export const ManualEntryFaculty = () => {
     try {
       setLoading(true);
       setError("");
-
       const response = await getFaculties();
-
       if (response?.success && response?.data) {
         setFacultyList(Array.isArray(response.data) ? response.data : []);
         if (response.data.length > 0) setShowTable(true);
@@ -228,16 +207,12 @@ export const ManualEntryFaculty = () => {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     ];
 
-    if (
-      !validTypes.includes(file.type) &&
-      !file.name.match(/\.(csv|xlsx|xls)$/i)
-    ) {
+    if (!validTypes.includes(file.type) && !file.name.match(/\.(csv|xlsx|xls)$/i)) {
       Swal.fire({
-  icon: "warning",
-  text: "Please upload a valid CSV or XLSX file",
-  confirmButtonColor: "#4BACCE",
-});
-
+        icon: "warning",
+        text: "Please upload a valid CSV or XLSX file",
+        confirmButtonColor: "#4BACCE",
+      });
       event.target.value = "";
       return;
     }
@@ -246,18 +221,16 @@ export const ManualEntryFaculty = () => {
       setUploading(true);
       setError("");
       const response = await bulkUploadFaculties(file);
-
       if (response.success) {
         await loadFaculties();
         setShowTable(true);
       }
     } catch (err) {
       Swal.fire({
-  icon: "error",
-  text: "Failed to upload file: " + (err.message || "Unknown error"),
-  confirmButtonColor: "#4BACCE",
-});
-
+        icon: "error",
+        text: "Failed to upload file: " + (err.message || "Unknown error"),
+        confirmButtonColor: "#4BACCE",
+      });
     } finally {
       setUploading(false);
       event.target.value = "";
@@ -273,7 +246,6 @@ export const ManualEntryFaculty = () => {
     try {
       setLoading(true);
       setError("");
-
       const facultyData = {
         name: facultyName,
         email: email,
@@ -289,13 +261,12 @@ export const ManualEntryFaculty = () => {
         if (response.success || response._id) {
           await loadFaculties();
           resetForm();
-          // alert("Faculty updated successfully!");
           Swal.fire({
-  title: "Success!",
-  text: "Faculty added successfully",
-  icon: "success",
-  confirmButtonColor: "#4BACCE",
-});
+            title: "Success!",
+            text: "Faculty updated successfully",
+            icon: "success",
+            confirmButtonColor: "#4BACCE",
+          });
         }
       } else {
         const response = await addFaculty(facultyData);
@@ -303,19 +274,16 @@ export const ManualEntryFaculty = () => {
           await loadFaculties();
           resetForm();
           setShowTable(true);
-          // alert("Faculty added successfully!");
         }
       }
     } catch (err) {
       const msg = err.message || "Unknown error occurred";
       setError(msg);
-      // alert("Failed to save faculty: " + msg);
       Swal.fire({
-  icon: "error",
-  text: "Failed to save faculty: " + msg,
-  confirmButtonColor: "#4BACCE",
-});
-
+        icon: "error",
+        text: "Failed to save faculty: " + msg,
+        confirmButtonColor: "#4BACCE",
+      });
     } finally {
       setLoading(false);
     }
@@ -330,60 +298,35 @@ export const ManualEntryFaculty = () => {
     setEditingId(faculty._id);
   };
 
-  // const handleDelete = async (facultyId) => {
-  //   if (!window.confirm("Are you sure you want to delete this faculty?")) return;
-
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-  //     const response = await deleteFaculty(facultyId);
-  //     if (response.success) {
-  //       await loadFaculties();
-  //       // alert("Faculty deleted successfully!");
-  //     }
-  //   } catch (err) {
-  //     const msg = err.message || "Unknown error occurred";
-  //     setError(msg);
-  //     alert("Failed to delete faculty: " + msg);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleDelete = async (facultyId) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this faculty?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#F04438",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    setLoading(true);
-    setError("");
-    const response = await deleteFaculty(facultyId);
-    if (response.success) {
-      await loadFaculties();
-    }
-  } catch (err) {
-    const msg = err.message || "Unknown error occurred";
-
-    Swal.fire({
-      icon: "error",
-      text: "Failed to delete faculty: " + msg,
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this faculty?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04438",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
 
-    setError(msg);
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!result.isConfirmed) return;
 
+    try {
+      setLoading(true);
+      setError("");
+      const response = await deleteFaculty(facultyId);
+      if (response.success) await loadFaculties();
+    } catch (err) {
+      const msg = err.message || "Unknown error occurred";
+      Swal.fire({
+        icon: "error",
+        text: "Failed to delete faculty: " + msg,
+        confirmButtonColor: "#4BACCE",
+      });
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const resetForm = () => {
     setFacultyName("");
@@ -413,12 +356,10 @@ export const ManualEntryFaculty = () => {
       <div className="w-full h-full">
         <div
           className="bg-white rounded-[10px] shadow-sm border relative w-full h-full"
-          style={{
-            borderColor: "#e8e8e8",
-          }}
+          style={{ borderColor: "#e8e8e8" }}
         >
           <div className="px-6 pt-4 pb-4">
-            {/* HEADER (Row 1: Logo + Close) */}
+            {/* HEADER */}
             <div className="flex justify-between items-start mb-6">
               <div
                 className="text-3xl font-['Playfair_Display'] font-bold text-[#6b6b6b]"
@@ -432,12 +373,11 @@ export const ManualEntryFaculty = () => {
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
                 aria-label="Close"
               >
-                {/* <X size={28} color="#265768" strokeWidth={3} /> */}
                 <BackButton />
               </button>
             </div>
 
-            {/* TITLE ROW (Row 2: Title + Upload) */}
+            {/* TITLE ROW */}
             <div className="flex justify-between items-end mb-3">
               <div className="flex items-center gap-2">
                 <svg
@@ -458,7 +398,6 @@ export const ManualEntryFaculty = () => {
               </div>
 
               <div>
-                {/* Hidden file input */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -466,15 +405,13 @@ export const ManualEntryFaculty = () => {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-
                 <button
                   onClick={handleUploadClick}
                   disabled={uploading}
                   style={{
                     minWidth: 170,
                     height: 34,
-                    background:
-                      "linear-gradient(0deg, #265768 0%, #4BACCE 100%)",
+                    background: "linear-gradient(0deg, #265768 0%, #4BACCE 100%)",
                     borderRadius: 6,
                     color: "white",
                     fontSize: 12,
@@ -490,26 +427,17 @@ export const ManualEntryFaculty = () => {
               </div>
             </div>
 
-
-
-            {/* blue line */}
+            {/* Blue line */}
             <div
               className="w-full h-[3px] bg-[#0b84d6] rounded"
               style={{ boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }}
             />
 
-            {/* form */}
+            {/* Form */}
             <div className="mt-6">
               <div className="grid grid-cols-12 gap-x-2 gap-y-6 mr-8">
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif", fontSize: "14px" }}>
                     Faculty Name
                   </div>
                   <input
@@ -524,14 +452,7 @@ export const ManualEntryFaculty = () => {
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif", fontSize: "14px" }}>
                     Email
                   </div>
                   <input
@@ -546,14 +467,7 @@ export const ManualEntryFaculty = () => {
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif", fontSize: "14px" }}>
                     Max load per day
                   </div>
                   <input
@@ -568,25 +482,10 @@ export const ManualEntryFaculty = () => {
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif", fontSize: "14px" }}>
                     Leaves per month
                   </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      justifyContent: "space-around",
-                      gap: "5px",
-                    }}
-                  >
+                  <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-around", gap: "5px" }}>
                     <input
                       type="number"
                       value={leaves}
@@ -596,18 +495,11 @@ export const ManualEntryFaculty = () => {
                       style={inputStyle}
                       className="custom-input"
                     />
-
                     <button
                       onClick={handleAddFaculty}
                       disabled={loading}
-                      className="after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100"
+                      className="after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:bg-[#4A9FB5] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"
                       style={{
-                        
                         fontSize: "12px",
                         color: "rgb(77, 172, 206)",
                         background: "transparent",
@@ -620,24 +512,13 @@ export const ManualEntryFaculty = () => {
                         opacity: loading ? 0.6 : 1,
                       }}
                     >
-                      {loading
-                        ? "Processing..."
-                        : editingId
-                          ? "+ Update faculty"
-                          : "+ Add faculty"}
+                      {loading ? "Processing..." : editingId ? "+ Update faculty" : "+ Add faculty"}
                     </button>
                   </div>
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif", fontSize: "14px" }}>
                     Assigned subjects
                   </div>
                   <input
@@ -707,31 +588,29 @@ export const ManualEntryFaculty = () => {
                   </>
                 )}
               </div>
-
             )}
           </div>
+
           <style>{`
-
-  .custom-input {
-  width: 274.5px;
-  height: 40px;
-  border-radius: 15px;
-  border: 1.5px solid #DFDFDF;
-  font-size: 14px;
-  font-family: 'Mulish', sans-serif;
-  color: #000000;
-  background: #FFFFFF;
-  padding: 0 12px;
-  box-sizing: border-box;
-  outline: none;
-  transition: 0.2s ease;
-}
-
-.custom-input:focus {
-  border: 1.5px solid #0b84d6;     /* focus border */
-  box-shadow: 0 0 0 3px rgba(11,132,214,0.2);  /* glow */
-}
- `}</style>
+            .custom-input {
+              width: 274.5px;
+              height: 40px;
+              border-radius: 15px;
+              border: 1.5px solid #DFDFDF;
+              font-size: 14px;
+              font-family: 'Mulish', sans-serif;
+              color: #000000;
+              background: #FFFFFF;
+              padding: 0 12px;
+              box-sizing: border-box;
+              outline: none;
+              transition: 0.2s ease;
+            }
+            .custom-input:focus {
+              border: 1.5px solid #0b84d6;
+              box-shadow: 0 0 0 3px rgba(11,132,214,0.2);
+            }
+          `}</style>
         </div>
       </div>
     </div>
@@ -739,33 +618,3 @@ export const ManualEntryFaculty = () => {
 };
 
 export default ManualEntryFaculty;
-
-<style>{`
-
-  .custom-input {
-  width: 274.5px;
-  height: 40px;
-  border-radius: 15px;
-  border: 1.5px solid #DFDFDF;
-  font-size: 14px;
-  font-family: 'Mulish', sans-serif;
-  color: #000000;
-  background: #FFFFFF;
-  padding: 0 12px;
-  box-sizing: border-box;
-  outline: none;
-  transition: 0.2s ease;
-}
-
-.custom-input:focus {
-  border: 1.5px solid #0b84d6;     /* focus border */
-  box-shadow: 0 0 0 3px rgba(11,132,214,0.2);  /* glow */
-}
- `}</style>
-
-
-
-
-
-
-

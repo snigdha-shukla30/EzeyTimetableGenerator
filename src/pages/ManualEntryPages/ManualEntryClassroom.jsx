@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Edit2, Trash2, X, Check } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // ✅ added
+import { useNavigate } from "react-router-dom";
 import '../../custom-scrollbar.css';
 import noDataImage from '../../assets/images/nodataa.png';
 import {
@@ -13,9 +13,6 @@ import {
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
 
-
-
-// Component for Upload Button (UNCHANGED)
 const Component = ({ property1, className, headingClassName, onClick }) => {
   return (
     <button
@@ -34,7 +31,6 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
   );
 };
 
-// ClassroomData Component (✅ Edit/Delete mapping fixed)
 const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ name: "", type: "", capacity: "" });
@@ -45,16 +41,12 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
 
   const handleEditClick = (room) => {
     setEditingId(room._id);
-    setEditForm({
-      name: room.name,
-      type: room.type,
-      capacity: room.capacity,
-    });
+    setEditForm({ name: room.name, type: room.type, capacity: room.capacity });
   };
 
   const handleSaveEdit = async (id) => {
     try {
-      await onEdit(id, editForm); // ✅ correct mapping
+      await onEdit(id, editForm);
       setEditingId(null);
     } catch (error) {
       alert("Failed to update classroom: " + error.message);
@@ -82,11 +74,9 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
         <div className="px-8 pt-4 pb-2 bg-white mr-3">
           <div
             className="flex items-center text-[14px] font-medium"
-            style={{
-              color: "#265768",
-              fontFamily: "'Mulish', sans-serif",
-            }}
+            style={{ color: "#265768", fontFamily: "'Mulish', sans-serif" }}
           >
+            <div className="w-10 text-center">S.No</div>
             <div className="flex-[1.5] text-center">Classroom number</div>
             <div className="flex-[1.5] text-center">Classroom type</div>
             <div className="flex-1 text-center">Capacity</div>
@@ -111,12 +101,18 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
             {filtered.map((room, idx) => (
               <div
                 key={room._id || idx}
-                className={`flex items-center py-3.5 hover:bg-gray-50 transition ${idx === filtered.length - 1 ? "border-b-0" : ""
-                  }`}
+                className={`flex items-center py-3.5 hover:bg-gray-50 transition ${
+                  idx === filtered.length - 1 ? "border-b-0" : ""
+                }`}
                 style={{ borderBottom: "3px solid #D9D9D9" }}
               >
                 {editingId === room._id ? (
                   <>
+                    {/* S.No in edit mode */}
+                    <div className="w-10 text-[13px] text-[#265768] text-center">
+                      {idx + 1}
+                    </div>
+
                     <div className="flex-[1.5]">
                       <input
                         type="text"
@@ -160,7 +156,6 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
                       >
                         <Check size={15} />
                       </button>
-
                       <button
                         onClick={handleCancelEdit}
                         className="text-[#EF4444] hover:text-[#DC2626]"
@@ -171,6 +166,11 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
                   </>
                 ) : (
                   <>
+                    {/* S.No in view mode */}
+                    <div className="w-10 text-[13px] text-[#265768] text-center">
+                      {idx + 1}
+                    </div>
+
                     <div className="flex-[1.5] text-[13px] text-[#265768] text-center">
                       {room.name}
                     </div>
@@ -190,8 +190,6 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
                       >
                         <Edit2 size={15} />
                       </button>
-
-                      {/* ✅ Delete mapping fixed */}
                       <button
                         onClick={() => onDelete(room._id)}
                         className="text-[#C0C6D0] hover:text-[#F04438] transition"
@@ -205,14 +203,11 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
             ))}
           </div>
         </div>
-
-
       </div>
     </div>
   );
 };
 
-// Main ManualEntryClassroom Component
 export const ManualEntryClassroom = () => {
   const [classrooms, setClassrooms] = useState([]);
   const [showTable, setShowTable] = useState(false);
@@ -240,26 +235,20 @@ export const ManualEntryClassroom = () => {
       }
     } catch (err) {
       setError("Failed to load classrooms: " + err.message);
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleAddClassroom = async () => {
-    // if (!classroomNumber || !classroomType || !classroomCapacity) {
-    //   alert("Please fill in all fields");
-    //   return;
-    // }
     if (!classroomNumber || !classroomType || !classroomCapacity) {
-  Swal.fire({
-    icon: "warning",
-    text: "Please fill in all fields",
-    confirmButtonColor: "#4BACCE",
-  });
-  return;
-}
-
+      Swal.fire({
+        icon: "warning",
+        text: "Please fill in all fields",
+        confirmButtonColor: "#4BACCE",
+      });
+      return;
+    }
 
     try {
       setLoading(true);
@@ -268,9 +257,7 @@ export const ManualEntryClassroom = () => {
         type: classroomType,
         capacity: parseInt(classroomCapacity, 10),
       };
-
       const response = await addClassroom(newClassroom);
-
       if (response.success) {
         await fetchClassrooms();
         setClassroomNumber("");
@@ -280,64 +267,37 @@ export const ManualEntryClassroom = () => {
       }
     } catch (err) {
       alert("Failed to add classroom: " + err.message);
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // const handleDeleteClassroom = async (id) => {
-  //   if (!window.confirm("Are you sure you want to delete this classroom?")) {
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     const response = await deleteClassroom(id);
-
-  //     if (response.success) {
-  //       await fetchClassrooms();
-
-  //     }
-  //   } catch (err) {
-  //     alert("Failed to delete classroom: " + err.message);
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleDeleteClassroom = async (id) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this classroom?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#F04438",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    setLoading(true);
-    const response = await deleteClassroom(id);
-
-    if (response.success) {
-      await fetchClassrooms();
-    }
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      text: "Failed to delete classroom: " + err.message,
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this classroom?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04438",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
 
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+      const response = await deleteClassroom(id);
+      if (response.success) await fetchClassrooms();
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: "Failed to delete classroom: " + err.message,
+        confirmButtonColor: "#4BACCE",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleEditClassroom = async (id, updatedData) => {
     try {
@@ -347,10 +307,7 @@ export const ManualEntryClassroom = () => {
         type: updatedData.type,
         capacity: parseInt(updatedData.capacity, 10),
       });
-
-      if (response.success) {
-        await fetchClassrooms();
-      }
+      if (response.success) await fetchClassrooms();
     } catch (err) {
       alert("Failed to update classroom: " + err.message);
       throw err;
@@ -373,16 +330,12 @@ export const ManualEntryClassroom = () => {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     ];
 
-    if (
-      !validTypes.includes(file.type) &&
-      !file.name.match(/\.(csv|xlsx|xls)$/i)
-    ) {
+    if (!validTypes.includes(file.type) && !file.name.match(/\.(csv|xlsx|xls)$/i)) {
       Swal.fire({
-  icon: "warning",
-  text: "Please upload a valid CSV or XLSX file",
-  confirmButtonColor: "#4BACCE",
-});
-
+        icon: "warning",
+        text: "Please upload a valid CSV or XLSX file",
+        confirmButtonColor: "#4BACCE",
+      });
       event.target.value = "";
       return;
     }
@@ -391,25 +344,16 @@ export const ManualEntryClassroom = () => {
       setUploading(true);
       setError("");
       const response = await bulkUploadClassrooms(file);
-
-      // if (response.success) {
-      //   await fetchClassrooms();
-      //   setShowTable(true);
-      //   alert(`Successfully uploaded ${response.data?.count || "classrooms"}!`);
-      // }
       if (response?.success || Array.isArray(response)) {
-  await fetchClassrooms();
-  setShowTable(true);
-}
-
+        await fetchClassrooms();
+        setShowTable(true);
+      }
     } catch (err) {
-     Swal.fire({
-  icon: "error",
-  text: "Failed to upload file: " + err.message,
-  confirmButtonColor: "#4BACCE",
-});
-
-      console.error(err);
+      Swal.fire({
+        icon: "error",
+        text: "Failed to upload file: " + err.message,
+        confirmButtonColor: "#4BACCE",
+      });
     } finally {
       setUploading(false);
       event.target.value = "";
@@ -421,18 +365,14 @@ export const ManualEntryClassroom = () => {
       <div className="w-full h-full pb-0">
         <div
           className="bg-white rounded-[10px] shadow-sm border relative w-full h-full"
-          style={{
-            borderColor: "#e8e8e8",
-          }}
+          style={{ borderColor: "#e8e8e8" }}
         >
           <div className="px-6 pt-4 pb-4">
             {/* Header */}
             <div className="flex justify-between items-start mb-6">
               <div
                 className="text-3xl font-['Playfair_Display'] font-bold text-[#6b6b6b]"
-                style={{
-                  textShadow: "0px 6px 6px rgba(0, 0, 0, 0.25)",
-                }}
+                style={{ textShadow: "0px 6px 6px rgba(0, 0, 0, 0.25)" }}
               >
                 Ezey
               </div>
@@ -442,13 +382,11 @@ export const ManualEntryClassroom = () => {
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
                 aria-label="Close"
               >
-                {/* <X size={28} color="#265768" strokeWidth={3} /> */}
                 <BackButton />
               </button>
             </div>
 
             <div className="flex justify-between items-end mb-3">
-              {/* Title */}
               <div className="flex items-center gap-2">
                 <img
                   className="w-[24px] h-[24px]"
@@ -460,7 +398,6 @@ export const ManualEntryClassroom = () => {
                 </h2>
               </div>
 
-              {/* Upload Button */}
               <div>
                 <input
                   ref={fileInputRef}
@@ -540,29 +477,27 @@ export const ManualEntryClassroom = () => {
                   />
                 </div>
 
-                {/* Add Button */}
                 <div className="lg:col-span-3 flex items-end justify-start lg:justify-end">
                   <button
                     onClick={handleAddClassroom}
                     disabled={loading}
-                     style={{
-                        
-                        fontSize: "12px",
-                        color: "rgb(77, 172, 206)",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        position: "relative",
-                        whiteSpace: "nowrap",
-                        opacity: loading ? 0.6 : 1,
-                      }}
-                    className=" flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors"
+                    style={{
+                      fontSize: "12px",
+                      color: "rgb(77, 172, 206)",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      fontFamily: "'Mulish', sans-serif",
+                      position: "relative",
+                      whiteSpace: "nowrap",
+                      opacity: loading ? 0.6 : 1,
+                    }}
+                    className="flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
+                      after:absolute after:left-0 after:-bottom-[2px]
+                      after:h-[1px] after:w-full after:bg-[#4A9FB5]
+                      after:scale-x-0 after:origin-left
+                      after:transition-transform after:duration-300
+                      hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors"
                   >
                     {loading ? "Adding..." : "+ Add classroom"}
                   </button>
@@ -574,14 +509,14 @@ export const ManualEntryClassroom = () => {
 
             {(error || uploading) && (
               <div
-                className={`mt-3 text-center  text-sm font-medium ${error ? "text-red-500" : "text-blue-500"
-                  }`}
+                className={`mt-3 text-center text-sm font-medium ${
+                  error ? "text-red-500" : "text-blue-500"
+                }`}
               >
                 {uploading ? "Uploading file..." : error}
               </div>
             )}
 
-            {/* Table / No data */}
             {showTable ? (
               <ClassroomData
                 classrooms={classrooms}
@@ -610,31 +545,8 @@ export const ManualEntryClassroom = () => {
           </div>
         </div>
       </div>
-
-    </div >
+    </div>
   );
 };
 
 export default ManualEntryClassroom;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
 
-
 // ============================================
 // MULTISELECT COMPONENT
 // ============================================
@@ -39,11 +38,9 @@ function MultiSelect({
         setSearchTerm("");
       }
     };
-
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -59,14 +56,12 @@ function MultiSelect({
   };
 
   const filteredOptions = options.filter((option) => {
-    const isNotSelected = !selectedItems.some(
-      (item) => item._id === option._id,
-    );
+    const isNotSelected = !selectedItems.some((item) => item._id === option._id);
     const matchesSearch =
       option[displayKey]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (secondaryKey &&
         option[secondaryKey]?.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      additionalKeys.some(key =>
+      additionalKeys.some((key) =>
         option[key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
       );
     return isNotSelected && matchesSearch;
@@ -198,27 +193,15 @@ function MultiSelect({
                     {option[displayKey]}
                   </div>
                   {secondaryKey && option[secondaryKey] && (
-                    <div
-                      style={{
-                        fontSize: "12px",
-                        color: "#666",
-                        marginTop: "2px",
-                      }}
-                    >
+                    <div style={{ fontSize: "12px", color: "#666", marginTop: "2px" }}>
                       {option[secondaryKey]}
                     </div>
                   )}
                   {additionalKeys.length > 0 && (
-                    <div
-                      style={{
-                        fontSize: "12px",
-                        color: "#666",
-                        marginTop: "2px",
-                      }}
-                    >
+                    <div style={{ fontSize: "12px", color: "#666", marginTop: "2px" }}>
                       {additionalKeys
-                        .filter(key => option[key])
-                        .map(key => option[key])
+                        .filter((key) => option[key])
+                        .map((key) => option[key])
                         .join(" • ")}
                     </div>
                   )}
@@ -228,7 +211,6 @@ function MultiSelect({
           </div>
         </div>
       )}
-
     </div>
   );
 }
@@ -276,10 +258,6 @@ export default function ManualEntryBatch() {
   };
 
   const openListPopup = (title, items) => {
-    console.log("🔍 Opening popup:", title);
-    console.log("📋 Items received:", items);
-    console.log("📊 Items count:", items?.length);
-
     setPopupTitle(title);
     setPopupItems(Array.isArray(items) ? items : []);
     setShowPopup(true);
@@ -296,10 +274,8 @@ export default function ManualEntryBatch() {
   const loadSubjects = async () => {
     try {
       const res = await getSubjects();
-      const list = normalizeArrayResponse(res);
-      setSubjectsList(list);
+      setSubjectsList(normalizeArrayResponse(res));
     } catch (err) {
-      console.log("❌ getSubjects failed:", err?.message);
       setSubjectsList([]);
     }
   };
@@ -307,10 +283,8 @@ export default function ManualEntryBatch() {
   const loadFaculties = async () => {
     try {
       const res = await getFaculties();
-      const list = normalizeArrayResponse(res);
-      setFacultiesList(list);
+      setFacultiesList(normalizeArrayResponse(res));
     } catch (err) {
-      console.log("❌ getFaculties failed:", err?.message);
       setFacultiesList([]);
     }
   };
@@ -320,16 +294,7 @@ export default function ManualEntryBatch() {
       setLoading(true);
       setError("");
       const res = await getBatches();
-      const batchesData = normalizeArrayResponse(res);
-
-      console.log("📦 Raw API Response:", res);
-      console.log("📊 Normalized Batches:", batchesData);
-
-      if (batchesData.length > 0) {
-        console.log("🔍 First Batch Structure:", batchesData[0]);
-      }
-
-      setBatches(batchesData);
+      setBatches(normalizeArrayResponse(res));
     } catch (err) {
       setError(err.message || "Failed to load batches");
       setBatches([]);
@@ -343,7 +308,6 @@ export default function ManualEntryBatch() {
   const handleFileChange = (e) => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
-    console.log("File selected:", f.name);
   };
 
   const handleChange = (e) => {
@@ -355,10 +319,7 @@ export default function ManualEntryBatch() {
     setForm((prev) => {
       const exists = prev.subjects.find((s) => s._id === subject._id);
       if (exists) {
-        return {
-          ...prev,
-          subjects: prev.subjects.filter((s) => s._id !== subject._id),
-        };
+        return { ...prev, subjects: prev.subjects.filter((s) => s._id !== subject._id) };
       } else {
         return { ...prev, subjects: [...prev.subjects, subject] };
       }
@@ -369,10 +330,7 @@ export default function ManualEntryBatch() {
     setForm((prev) => {
       const exists = prev.faculties.find((f) => f._id === faculty._id);
       if (exists) {
-        return {
-          ...prev,
-          faculties: prev.faculties.filter((f) => f._id !== faculty._id),
-        };
+        return { ...prev, faculties: prev.faculties.filter((f) => f._id !== faculty._id) };
       } else {
         return { ...prev, faculties: [...prev.faculties, faculty] };
       }
@@ -394,17 +352,10 @@ export default function ManualEntryBatch() {
   };
 
   const handleAddBatch = async () => {
-    if (
-      !form.course ||
-      !form.department ||
-      !form.name ||
-      !form.strength ||
-      !form.semester
-    ) {
+    if (!form.course || !form.department || !form.name || !form.strength || !form.semester) {
       setError("Please fill all required fields");
       return;
     }
-
     if (form.subjects.length === 0) {
       setError("Please select at least one subject");
       return;
@@ -413,9 +364,7 @@ export default function ManualEntryBatch() {
     try {
       setLoading(true);
       setError("");
-
       const code = `${form.department}_${Number(form.semester)}_${form.name}_2025`;
-
       const payload = {
         name: form.name,
         course: form.course,
@@ -423,7 +372,7 @@ export default function ManualEntryBatch() {
         semester: Number(form.semester),
         department: form.department,
         strength: Number(form.strength),
-        subjects: form.subjects.map(subject => subject._id),
+        subjects: form.subjects.map((subject) => subject._id),
       };
 
       let res;
@@ -444,54 +393,26 @@ export default function ManualEntryBatch() {
   };
 
   const handleEdit = (batch) => {
-    // Get subjects from raw object
     const subjects = batch.raw?.subjects || batch.subjects || [];
-
     const subjectsFromBatch = Array.isArray(subjects)
-      ? subjects
-        .map((s) => (typeof s.subject === "object" ? s.subject : s))
-        .filter(Boolean)
+      ? subjects.map((s) => (typeof s.subject === "object" ? s.subject : s)).filter(Boolean)
       : [];
-
     const facultiesFromBatch = Array.isArray(subjects)
-      ? subjects
-        .map((s) => (typeof s.faculty === "object" ? s.faculty : s))
-        .filter(Boolean)
+      ? subjects.map((s) => (typeof s.faculty === "object" ? s.faculty : s)).filter(Boolean)
       : [];
 
     setForm({
       course: batch.course || batch.degree || "",
       department: batch.department || "",
       name: batch.section || batch.name || batch.raw?.name || "",
-      strength:
-        (
-          batch.capacity ||
-          batch.strength ||
-          batch.raw?.strength
-        )?.toString?.() || "",
+      strength: (batch.capacity || batch.strength || batch.raw?.strength)?.toString?.() || "",
       semester: batch.semester?.toString?.() || "",
       subjects: subjectsFromBatch,
       faculties: facultiesFromBatch,
     });
-
     setEditingId(batch._id);
     setError("");
   };
-
-  // const handleDeleteBatch = async (id) => {
-  //   if (!window.confirm("Are you sure you want to delete this batch?")) return;
-
-  //   try {
-  //     setLoading(true);
-  //     setError("");
-  //     const res = await deleteBatch(id);
-  //     if (res?.success) await loadBatches();
-  //   } catch (err) {
-  //     setError(err.message || "Failed to delete batch");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleDeleteBatch = async (id) => {
     const result = await Swal.fire({
@@ -520,7 +441,6 @@ export default function ManualEntryBatch() {
       setLoading(false);
     }
   };
-
 
   const resetForm = () => {
     setForm({
@@ -565,7 +485,7 @@ export default function ManualEntryBatch() {
           style={{ borderColor: "#e8e8e8" }}
         >
           <div className="px-6 pt-4 pb-4">
-            {/* HEADER (Row 1: Logo + Close) */}
+            {/* HEADER */}
             <div className="flex justify-between items-start mb-6">
               <div
                 className="text-3xl font-['Playfair_Display'] font-bold text-[#6b6b6b]"
@@ -579,12 +499,11 @@ export default function ManualEntryBatch() {
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
                 aria-label="Close"
               >
-                {/* <X size={28} color="#265768" strokeWidth={3} /> */}
                 <BackButton />
               </button>
             </div>
 
-            {/* TITLE ROW (Row 2: Title + Upload) */}
+            {/* TITLE ROW */}
             <div className="flex justify-between items-end mb-3">
               <div className="flex items-center gap-2">
                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
@@ -597,8 +516,6 @@ export default function ManualEntryBatch() {
                   Quick add batch
                 </h2>
               </div>
-
-
             </div>
 
             <div
@@ -693,36 +610,6 @@ export default function ManualEntryBatch() {
                 />
               </div>
 
-
-
-              {/* <div className="lg:col-span-3 flex relative items-end justify-start lg:justify-end">
-                <button
-                  onClick={handleAddBatch}
-                  disabled={loading}
-                  className=" flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors "
-                  style={{
-                    fontSize: "12px",
-                    color: "rgb(77, 172, 206)",
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    fontFamily: "'Mulish', sans-serif",
-                    whiteSpace: "nowrap",
-                    opacity: loading ? 0.6 : 1,
-                  }}
-                >
-                  {loading
-                    ? "Processing..."
-                    : editingId
-                      ? "+ Update batch"
-                      : "+ Add batch"}
-                </button>
-              </div> */}
               <div className="lg:col-span-3 flex items-end justify-start lg:justify-end">
                 <button
                   onClick={handleAddBatch}
@@ -738,12 +625,12 @@ export default function ManualEntryBatch() {
                     whiteSpace: "nowrap",
                     opacity: loading ? 0.6 : 1,
                   }}
-                  className=" flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors"
+                  className="flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
+                    after:absolute after:left-0 after:-bottom-[2px]
+                    after:h-[1px] after:w-full after:bg-[#4A9FB5]
+                    after:scale-x-0 after:origin-left
+                    after:transition-transform after:duration-300
+                    hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors"
                 >
                   {loading ? "Adding..." : "+ Add batch"}
                 </button>
@@ -787,11 +674,11 @@ export default function ManualEntryBatch() {
                 }}
               >
                 <div style={{ minWidth: "1000px" }}>
+                  {/* Table Header */}
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns:
-                        "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
+                      gridTemplateColumns: "50px 1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
                       background: "#F8F9FA",
                       borderBottom: "2px solid #4BACCE",
                       fontFamily: "'Mulish', sans-serif",
@@ -803,31 +690,27 @@ export default function ManualEntryBatch() {
                       zIndex: 10,
                     }}
                   >
+                    <div style={{ padding: "14px 16px" }}>S.No</div>
                     <div style={{ padding: "14px 16px" }}>Degree / Course</div>
                     <div style={{ padding: "14px 16px" }}>Department</div>
                     <div style={{ padding: "14px 16px" }}>Capacity</div>
                     <div style={{ padding: "14px 16px" }}>Semester</div>
                     <div style={{ padding: "14px 16px" }}>Section</div>
-                    <div style={{ padding: "14px 16px" }}>
-                      Assigned Subjects
-                    </div>
-                    <div style={{ padding: "14px 16px", textAlign: "center" }}>
-                      Actions
-                    </div>
+                    <div style={{ padding: "14px 16px" }}>Assigned Subjects</div>
+                    <div style={{ padding: "14px 16px", textAlign: "center" }}>Actions</div>
                   </div>
 
+                  {/* Table Rows */}
                   <div>
                     {batches.map((batch, index) => {
-                      const subjects =
-                        batch.raw?.subjects || batch.subjects || [];
+                      const subjects = batch.raw?.subjects || batch.subjects || [];
 
                       return (
                         <div
                           key={batch._id || `batch-${index}`}
                           style={{
                             display: "grid",
-                            gridTemplateColumns:
-                              "1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
+                            gridTemplateColumns: "50px 1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
                             borderBottom:
                               index < batches.length - 1
                                 ? "1px solid #E8E8E8"
@@ -838,6 +721,9 @@ export default function ManualEntryBatch() {
                             alignItems: "center",
                           }}
                         >
+                          {/* S.No */}
+                          <div style={{ padding: "14px 16px" }}>{index + 1}</div>
+
                           <div style={{ padding: "14px 16px" }}>
                             {batch.course || batch.degree || "-"}
                           </div>
@@ -845,19 +731,13 @@ export default function ManualEntryBatch() {
                             {batch.department || "-"}
                           </div>
                           <div style={{ padding: "14px 16px" }}>
-                            {batch.capacity ||
-                              batch.strength ||
-                              batch.raw?.strength ||
-                              "-"}
+                            {batch.capacity || batch.strength || batch.raw?.strength || "-"}
                           </div>
                           <div style={{ padding: "14px 16px" }}>
                             {batch.semester || "-"}
                           </div>
                           <div style={{ padding: "14px 16px" }}>
-                            {batch.section ||
-                              batch.name ||
-                              batch.raw?.name ||
-                              "-"}
+                            {batch.section || batch.name || batch.raw?.name || "-"}
                           </div>
                           <div style={{ padding: "14px 16px" }}>
                             {subjects.length > 0 ? (
@@ -865,7 +745,7 @@ export default function ManualEntryBatch() {
                                 onClick={() =>
                                   openListPopup(
                                     "Assigned Subjects",
-                                    subjects.map((p) => p.subject),
+                                    subjects.map((p) => p.subject)
                                   )
                                 }
                                 style={{
@@ -905,7 +785,6 @@ export default function ManualEntryBatch() {
                             >
                               <Edit2 size={16} color="#4BACCE" />
                             </button>
-
                             <button
                               onClick={() => handleDeleteBatch(batch._id)}
                               disabled={loading}
@@ -954,14 +833,9 @@ export default function ManualEntryBatch() {
                   </button>
                 </div>
 
-                <div
-                  className="p-4 overflow-y-auto"
-                  style={{ maxHeight: "340px" }}
-                >
+                <div className="p-4 overflow-y-auto" style={{ maxHeight: "340px" }}>
                   {popupItems.length === 0 ? (
-                    <div className="text-center text-gray-400 py-10">
-                      No data
-                    </div>
+                    <div className="text-center text-gray-400 py-10">No data</div>
                   ) : (
                     <ul className="space-y-2">
                       {popupItems.map((x, i) => (
@@ -988,40 +862,16 @@ export default function ManualEntryBatch() {
               box-shadow: 0 0 0 3px rgba(11, 132, 214, 0.2);
               outline: none;
             }
-
-            input::placeholder,
-            select::placeholder {
+            input::placeholder, select::placeholder {
               color: #999999;
               opacity: 1;
             }
-
-            select option {
-              padding: 8px;
-            }
-
-            /* Custom Scrollbar for Table */
-            div[style*="overflow: auto"]::-webkit-scrollbar {
-              width: 8px;
-              height: 8px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-track {
-              background: #f1f1f1;
-              border-radius: 4px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-thumb {
-              background: #4BACCE;
-              border-radius: 4px;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-thumb:hover {
-              background: #265768;
-            }
-
-            div[style*="overflow: auto"]::-webkit-scrollbar-corner {
-              background: #f1f1f1;
-            }
+            select option { padding: 8px; }
+            div[style*="overflow: auto"]::-webkit-scrollbar { width: 8px; height: 8px; }
+            div[style*="overflow: auto"]::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+            div[style*="overflow: auto"]::-webkit-scrollbar-thumb { background: #4BACCE; border-radius: 4px; }
+            div[style*="overflow: auto"]::-webkit-scrollbar-thumb:hover { background: #265768; }
+            div[style*="overflow: auto"]::-webkit-scrollbar-corner { background: #f1f1f1; }
           `}</style>
         </div>
       </div>

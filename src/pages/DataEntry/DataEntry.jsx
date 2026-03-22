@@ -121,7 +121,6 @@ const DataEntry = () => {
 
           {/* Card */}
           <CardContainer className="min-h-[calc(100vh-150px)] flex flex-col">
-          {/* <CardContainer className="min-h-[calc(100vh-150px)] xl:min-h-[calc(100vh-80px)] flex flex-col"> */}
             {/* Title */}
             <section className="mb-4 flex items-start justify-between gap-8">
               <div className="ml-4">
@@ -132,34 +131,35 @@ const DataEntry = () => {
                   Manage your academic resources and constraints
                 </p>
               </div>
+              <p className="text-[#265768] font-medium font-Mulish text-sm pr-1 shrink-0">
+                Total {activeTab}: 20
+              </p>
             </section>
 
             {/* Tabs + Search + Add */}
             <div className="w-full flex justify-center">
               <div className="w-full">
                 {/* Tabs */}
-                {/* Tabs */}
-<div className="flex items-center gap-10 mb-5 border-b-[2px] border-[#D1D5DB] relative">
-  <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-white" />
+                <div className="flex items-center gap-10 mb-5 border-b-[2px] border-[#D1D5DB] relative">
+                  <span className="absolute left-0 right-0 bottom-0 h-[1px] bg-white" />
 
-  {tabs.map((tab) => (
-    <button
-      key={tab}
-      onClick={() => setActiveTab(tab)}
-      className={`pb-3 text-[14px] font-medium relative transition-colors ${
-        activeTab === tab
-          ? "text-[#265768]/90"
-          : "text-[#9CA3AF] hover:text-[#265768]"
-      }`}
-    >
-      {tab}
-      {activeTab === tab && (
-        <span className="absolute bottom-[-2px] left-1/2 -translate-x-1/2 w-[140%] h-[8px] rounded-full bg-[#0077FF] border-[2px] border-white" />
-      )}
-    </button>
-  ))}
-</div>
-
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`pb-3 text-[14px] font-medium relative transition-colors ${
+                        activeTab === tab
+                          ? "text-[#265768]/90"
+                          : "text-[#9CA3AF] hover:text-[#265768]"
+                      }`}
+                    >
+                      {tab}
+                      {activeTab === tab && (
+                        <span className="absolute bottom-[-2px] left-1/2 -translate-x-1/2 w-[140%] h-[8px] rounded-full bg-[#0077FF] border-[2px] border-white" />
+                      )}
+                    </button>
+                  ))}
+                </div>
 
                 {/* Search + Add */}
                 <div className="flex items-center justify-between gap-8 mb-6">
@@ -183,12 +183,12 @@ const DataEntry = () => {
                   <button
                     onClick={handleAddNavigate}
                     className="h-[40px] px-5 text-sm font-medium text-white rounded-[6px] flex items-center gap-2 hover:opacity-90 transition-opacity 
-      bg-[linear-gradient(0deg,#265768_0%,#4BACCE_100%)]
-      drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
-      hover:drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
-      hover:shadow-[inset_0px_4px_10px_rgba(0,0,0,0.35)]
-      font-playfair
-      leading-[120%]"
+                      bg-[linear-gradient(0deg,#265768_0%,#4BACCE_100%)]
+                      drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+                      hover:drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
+                      hover:shadow-[inset_0px_4px_10px_rgba(0,0,0,0.35)]
+                      font-playfair
+                      leading-[120%]"
                   >
                     <span className="text-lg leading-none">+</span>
                     {getAddButtonLabel()}
@@ -224,18 +224,3 @@ const DataEntry = () => {
 };
 
 export default DataEntry;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

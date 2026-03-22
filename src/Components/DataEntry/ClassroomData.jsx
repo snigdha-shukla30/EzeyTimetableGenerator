@@ -1,177 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import Swal from "sweetalert2";
-// import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
-// // import {DataEntryTable} from "../ui/Newtable";
-// import DataEntryTable from "../ui/Newtable";
-// import { Pencil, Trash2 } from "lucide-react";
-
-// export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
-//   const [classrooms, setClassrooms] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [editingId, setEditingId] = useState(null);
-//   const [editData, setEditData] = useState(null);
-
-//   const columns = [
-//     { key: "name", label: "Classroom Name" },
-//     { key: "type", label: "Classroom Type" },
-//     { key: "capacity", label: "Capacity" },
-//   ];
-
-//   useEffect(() => {
-//     fetchClassrooms();
-//   }, [refreshTrigger]);
-
-//   const fetchClassrooms = async () => {
-//     try {
-//       setIsLoading(true);
-//       const response = await getClassrooms();
-//       if (response.success) setClassrooms(response.data || []);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const handleEdit = (room) => {
-//     setEditingId(room._id);
-//     setEditData({
-//       type: room.type || "",
-//       capacity: room.capacity || "",
-//     });
-//   };
-
-//   const handleCancel = () => {
-//     setEditingId(null);
-//     setEditData(null);
-//   };
-
-//   const handleUpdate = async () => {
-//     if (!editData.type.trim() || !editData.capacity) return;
-
-//     const res = await updateClassroom(editingId, {
-//       type: editData.type.trim(),
-//       capacity: Number(editData.capacity),
-//     });
-
-//     if (res.success) {
-//       setClassrooms((prev) =>
-//         prev.map((x) => (x._id === editingId ? { ...x, ...res.data } : x))
-//       );
-
-//       handleCancel();
-//     }
-//   };
-
-//   const handleDelete = async (id, name) => {
-//     const result = await Swal.fire({
-//       text: `Delete "${name}"?`,
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#F04438",
-//       cancelButtonColor: "#4BACCE",
-//     });
-
-//     if (!result.isConfirmed) return;
-
-//     const res = await deleteClassroom(id);
-//     if (res.success) setClassrooms((p) => p.filter((x) => x._id !== id));
-//   };
-
-//   const filtered = classrooms.filter((c) =>
-//     c.name?.toLowerCase().includes(searchQuery.toLowerCase())
-//   );
-
-//   return (
-//     <DataEntryTable columns={columns} height="calc(100vh - 410px)">
-//       {isLoading && (
-//         <tr>
-//           <td colSpan={4} className="py-10 text-center text-[#8A96A8]">
-//             Loading classrooms...
-//           </td>
-//         </tr>
-//       )}
-
-//       {!isLoading &&
-//         filtered.map((room, idx) => (
-//           <tr
-//             key={room._id}
-//             className={`text-sm border-b border-[#ECF0F4] hover:bg-[#F7FAFF] transition ${
-//               idx === filtered.length - 1 ? "border-b-0" : ""
-//             }`}
-//           >
-//             <td className="py-5 text-center text-[#4C5968]">{room.name}</td>
-
-//             <td className="py-5 text-center text-[#8A96A8]">
-//               {editingId === room._id ? (
-//                 <input
-//                   value={editData.type}
-//                   onChange={(e) =>
-//                     setEditData({ ...editData, type: e.target.value })
-//                   }
-//                   className="w-[220px] px-2 py-1 border border-[#BFBFBF] rounded text-center"
-//                 />
-//               ) : (
-//                 room.type
-//               )}
-//             </td>
-
-//             <td className="py-5 text-center text-[#8A96A8]">
-//               {editingId === room._id ? (
-//                 <input
-//                   type="number"
-//                   value={editData.capacity}
-//                   onChange={(e) =>
-//                     setEditData({ ...editData, capacity: e.target.value })
-//                   }
-//                   className="w-[110px] px-2 py-1 border border-[#BFBFBF] rounded text-center"
-//                 />
-//               ) : (
-//                 room.capacity
-//               )}
-//             </td>
-
-//             <td className="py-5">
-//               {editingId === room._id ? (
-//                 <div className="flex justify-center gap-2">
-//                   <button
-//                     onClick={handleUpdate}
-//                     className="text-[#1A8FE3] text-sm"
-//                   >
-//                     Save
-//                   </button>
-//                   <button
-//                     onClick={handleCancel}
-//                     className="text-[#8A96A8] text-sm"
-//                   >
-//                     Cancel
-//                   </button>
-//                 </div>
-//               ) : (
-//                 <div className="flex items-center justify-center gap-3">
-//                   <button
-//                     onClick={() => handleEdit(room)}
-//                     className="text-[rgba(38,87,104,0.5)] hover:text-[rgba(38,87,104,0.8)]"
-//                   >
-//                     <Pencil size={15} strokeWidth={1.5} />
-//                   </button>
-
-//                   <button
-//                     onClick={() => handleDelete(room._id, room.name)}
-//                     className="text-[rgba(38,87,104,0.5)] hover:text-[rgba(38,87,104,0.8)]"
-//                   >
-//                     <Trash2 size={15} strokeWidth={1.5} />
-//                   </button>
-//                 </div>
-//               )}
-//             </td>
-//           </tr>
-//         ))}
-//     </DataEntryTable>
-//   );
-// }
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
@@ -310,14 +136,16 @@ export default function ClassroomData({ searchQuery, refreshTrigger }) {
       <div className="px-8 pt-4">
         <table className="w-full table-fixed">
           <colgroup>
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "25%" }} />
+            <col style={{ width: "10%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "24%" }} />
           </colgroup>
 
           <thead>
             <tr className="text-[13px] font-semibold text-[#6C7A90]">
+              <th className="text-center pb-3">S.No</th>
               <th className="text-center pb-3">Classroom Name</th>
               <th className="text-center pb-3">Classroom Type</th>
               <th className="text-center pb-3">Capacity</th>
@@ -354,10 +182,11 @@ export default function ClassroomData({ searchQuery, refreshTrigger }) {
         {!isLoading && !error && filtered.length > 0 && (
           <table className="w-full table-fixed">
             <colgroup>
-              <col style={{ width: "25%" }} />
-              <col style={{ width: "25%" }} />
-              <col style={{ width: "25%" }} />
-              <col style={{ width: "25%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "24%" }} />
             </colgroup>
 
             <tbody>
@@ -368,6 +197,11 @@ export default function ClassroomData({ searchQuery, refreshTrigger }) {
                     idx === filtered.length - 1 ? "border-b-0" : ""
                   }`}
                 >
+                  {/* S.No */}
+                  <td className="py-5 text-center text-[#4C5968]">
+                    {idx + 1}
+                  </td>
+
                   <td className="py-5 text-center text-[#4C5968]">
                     {room.name}
                   </td>
@@ -467,10 +301,3 @@ export default function ClassroomData({ searchQuery, refreshTrigger }) {
     </div>
   );
 }
-
-
-
-
-
-
-

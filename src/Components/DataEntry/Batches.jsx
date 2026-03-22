@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getBatches, updateBatch, deleteBatch } from "../../api/api";
@@ -21,9 +20,7 @@ export default function Batches({ searchQuery, refreshTrigger }) {
   const fetchBatches = async () => {
     try {
       setLoading(true);
-
       const response = await getBatches();
-
       setBatches(response.data || []);
     } catch (err) {
       console.error("Error fetching batches:", err);
@@ -68,13 +65,10 @@ export default function Batches({ searchQuery, refreshTrigger }) {
   const handleUpdate = async () => {
     try {
       const response = await updateBatch(editingId, editData);
-
       const updated = response?.data || editData;
-
       setBatches((prev) =>
         prev.map((b) => (b._id === editingId ? updated : b))
       );
-
       setEditingId(null);
       setEditData(null);
     } catch (err) {
@@ -131,25 +125,26 @@ export default function Batches({ searchQuery, refreshTrigger }) {
   return (
     <div
       className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm"
-      // style={{ maxWidth: "1068px", minHeight: "293px" }}
       style={{ maxWidth: "100%", minHeight: "100%" }}
     >
-      {/* HEADER (ClassroomData style -> table-fixed + colgroup) */}
+      {/* HEADER */}
       <div className="px-8 pt-4">
         <table className="w-full">
           <colgroup>
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "16%" }} />
+            <col style={{ width: "5%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "11%" }} />
+            <col style={{ width: "15%" }} />
             <col style={{ width: "10%" }} />
             <col style={{ width: "10%" }} />
             <col style={{ width: "10%" }} />
-            <col style={{ width: "16%" }} />
+            <col style={{ width: "15%" }} />
             <col style={{ width: "10%" }} />
           </colgroup>
 
           <thead>
             <tr className="text-[13px] font-semibold text-[#6C7A90]">
+              <th className="text-center pb-3">S.No</th>
               <th className="text-center pb-3">Degree / Course</th>
               <th className="text-center pb-3">Batch code</th>
               <th className="text-center pb-3">Department</th>
@@ -162,17 +157,14 @@ export default function Batches({ searchQuery, refreshTrigger }) {
           </thead>
         </table>
 
-        {/* Blue Divider (same as ClassroomData) */}
+        {/* Blue Divider */}
         <div className="h-[3px] w-full bg-[#0077FF] rounded-full shadow-[0px_4px_4px_0px_#00000040]" />
       </div>
 
       {/* BODY */}
       <div
         className="overflow-y-auto custom-scroll px-8 pr-5 mr-1.5 batches-body"
-        //  style={{ maxHeight: "calc(293px - 76px)" }}
-        // style={{ maxHeight: "100%" }}
       >
-        {/* Empty */}
         {filtered.length === 0 ? (
           <div className="flex items-center justify-center py-10 text-[#8A96A8]">
             No results found.
@@ -180,13 +172,14 @@ export default function Batches({ searchQuery, refreshTrigger }) {
         ) : (
           <table className="w-full table-fixed">
             <colgroup>
+              <col style={{ width: "5%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "11%" }} />
               <col style={{ width: "15%" }} />
-              <col style={{ width: "13%" }} />
-              <col style={{ width: "16%" }} />
               <col style={{ width: "10%" }} />
               <col style={{ width: "10%" }} />
               <col style={{ width: "10%" }} />
-              <col style={{ width: "16%" }} />
+              <col style={{ width: "15%" }} />
               <col style={{ width: "10%" }} />
             </colgroup>
 
@@ -198,6 +191,11 @@ export default function Batches({ searchQuery, refreshTrigger }) {
                     idx === filtered.length - 1 ? "border-b-0" : ""
                   }`}
                 >
+                  {/* S.No */}
+                  <td className="py-5 text-center text-[#4C5968]">
+                    {idx + 1}
+                  </td>
+
                   {/* Degree / Course */}
                   <td className="py-5 text-center text-[#4C5968]">
                     {editingId === item._id ? (
@@ -290,7 +288,6 @@ export default function Batches({ searchQuery, refreshTrigger }) {
                   </td>
 
                   {/* Assigned Subjects */}
-
                   <td className="py-5 text-center">
                     {(item.raw?.subjects || item.subjects || []).length > 0 ? (
                       <button
@@ -299,14 +296,13 @@ export default function Batches({ searchQuery, refreshTrigger }) {
                             "Assigned Subjects",
                             (item.raw?.subjects || item.subjects || []).map(
                               (s) =>
-                                typeof s.subject === "object" ? s.subject : s,
-                            ),
+                                typeof s.subject === "object" ? s.subject : s
+                            )
                           )
                         }
                         className="text-[#1A8FE3] hover:underline text-[13px] font-medium"
                       >
-                        See List ({(item.raw?.subjects || item.subjects).length}
-                        )
+                        See List ({(item.raw?.subjects || item.subjects).length})
                       </button>
                     ) : (
                       "None"
@@ -403,47 +399,37 @@ export default function Batches({ searchQuery, refreshTrigger }) {
         )}
       </div>
 
-      {/* Scrollbar Styling (exact ClassroomData) */}
+      {/* Scrollbar Styling */}
       <style>{`
-
         .batches-body {
-  max-height: calc(293px - 76px); /* laptop SAME */
-}
-
-/* XL screens */
-@media (min-width: 1280px) {
-  .batches-body {
-    max-height: calc(420px - 76px);
-  }
-}
-
-/* 2XL big monitors */
-@media (min-width: 1536px) {
-  .batches-body {
-    max-height: calc(520px - 76px);
-  }
-}
-
+          max-height: calc(293px - 76px);
+        }
+        @media (min-width: 1280px) {
+          .batches-body {
+            max-height: calc(420px - 76px);
+          }
+        }
+        @media (min-width: 1536px) {
+          .batches-body {
+            max-height: calc(520px - 76px);
+          }
+        }
         .custom-scroll::-webkit-scrollbar {
           width: 9.78px;
         }
-
         .custom-scroll::-webkit-scrollbar-track {
           background: transparent;
           border-radius: 44.02px;
           border: 1.22px solid #E5E5E5;
         }
-
         ::-webkit-scrollbar {
-  display: none;
-}
-
+          display: none;
+        }
         .custom-scroll::-webkit-scrollbar-thumb {
           background: linear-gradient(180deg, #575757 -93.33%, #75CBF6 100%);
           border-radius: 4.89px;
           width: 12.23px;
         }
-
         .custom-scroll::-webkit-scrollbar-thumb:hover {
           background: linear-gradient(180deg, #575757 -93.33%, #5BB8E8 100%);
         }

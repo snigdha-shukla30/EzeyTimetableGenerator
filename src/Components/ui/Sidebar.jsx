@@ -27,7 +27,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
       subMenu: [
         { id: "room", label: "Room", path: "/Room" },
         { id: "faculty", label: "Faculty", path: "/Facultytimetable" },
-        { id: "student", label: "Student", path: "/generate/student" },
+        { id: "Batch", label: "Batch", path: "/generate/student" },
       ],
     },
   ];

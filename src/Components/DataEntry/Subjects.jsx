@@ -45,7 +45,6 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
       .includes(query)
   );
 
-  // Handle delete
   const handleDelete = async (subjectId) => {
     const result = await Swal.fire({
       text: "Are you sure you want to delete this subject?",
@@ -103,16 +102,18 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
       <div className="px-8 pt-4">
         <table className="w-full table-fixed">
           <colgroup>
-            <col style={{ width: "26%" }} />
+            <col style={{ width: "6%" }} />
+            <col style={{ width: "22%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
             <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "10%" }} />
           </colgroup>
 
           <thead>
             <tr className="text-[13px] font-semibold text-[#6C7A90]">
+              <th className="text-center pb-3">S.No</th>
               <th className="text-center pb-3">Subject Name</th>
               <th className="text-center pb-3">Subject Code</th>
               <th className="text-center pb-3">Department</th>
@@ -154,12 +155,13 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
         {!loading && !error && filtered.length > 0 && (
           <table className="w-full table-fixed">
             <colgroup>
-              <col style={{ width: "26%" }} />
+              <col style={{ width: "6%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "14%" }} />
               <col style={{ width: "16%" }} />
-              <col style={{ width: "16%" }} />
-              <col style={{ width: "16%" }} />
-              <col style={{ width: "16%" }} />
-              <col style={{ width: "10%" }} />
             </colgroup>
 
             <tbody>
@@ -170,6 +172,11 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
                     idx === filtered.length - 1 ? "border-b-0" : ""
                   }`}
                 >
+                  {/* S.No */}
+                  <td className="py-5 text-center text-[#4C5968]">
+                    {idx + 1}
+                  </td>
+
                   <td className="py-5 text-center text-[#4C5968]">
                     {editingId === sub._id ? (
                       <input
@@ -317,14 +324,3 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

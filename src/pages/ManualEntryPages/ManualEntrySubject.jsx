@@ -6,16 +6,12 @@ import {
   getSubjects,
   addSubjectAPI,
   deleteSubjectAPI,
-  updateSubjectAPI, bulkUploadSubjects
+  updateSubjectAPI,
+  bulkUploadSubjects,
 } from "../../api/api";
 import BackButton from "../../Components/backbutton";
 import Swal from "sweetalert2";
 
-
-
-// =============================
-// COMPONENT
-// =============================
 export default function ManualEntrySubject() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -23,7 +19,6 @@ export default function ManualEntrySubject() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const [editingId, setEditingId] = useState(null);
 
   const [form, setForm] = useState({
@@ -63,16 +58,12 @@ export default function ManualEntrySubject() {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     ];
 
-    if (
-      !validTypes.includes(file.type) &&
-      !file.name.match(/\.(csv|xlsx|xls)$/i)
-    ) {
+    if (!validTypes.includes(file.type) && !file.name.match(/\.(csv|xlsx|xls)$/i)) {
       Swal.fire({
         icon: "warning",
         text: "Please upload a valid CSV or XLSX file",
         confirmButtonColor: "#4BACCE",
       });
-
       e.target.value = "";
       return;
     }
@@ -80,12 +71,8 @@ export default function ManualEntrySubject() {
     try {
       setLoading(true);
       setError("");
-
       const response = await bulkUploadSubjects(file);
-
-      if (response?.success || Array.isArray(response)) {
-        await fetchSubjects();
-      }
+      if (response?.success || Array.isArray(response)) await fetchSubjects();
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -98,7 +85,6 @@ export default function ManualEntrySubject() {
     }
   };
 
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
@@ -108,9 +94,7 @@ export default function ManualEntrySubject() {
     try {
       setLoading(true);
       setError("");
-
       const response = await getSubjects();
-
       const mapped = (response?.data || []).map((s) => ({
         _id: s._id,
         name: s.name,
@@ -123,7 +107,6 @@ export default function ManualEntrySubject() {
         course: s.course || "",
         isElective: s.isElective || false,
       }));
-
       setSubjects(mapped);
     } catch (err) {
       setError(err.message || "Failed to load subjects");
@@ -141,7 +124,6 @@ export default function ManualEntrySubject() {
       setError("Please enter Subject name and Subject code");
       return;
     }
-
     if (!form.type || !["theory", "lab"].includes(form.type)) {
       setError("Please select valid type (Theory / Practical)");
       return;
@@ -150,7 +132,6 @@ export default function ManualEntrySubject() {
     try {
       setLoading(true);
       setError("");
-
       const payload = {
         name: form.name,
         code: form.code,
@@ -170,15 +151,8 @@ export default function ManualEntrySubject() {
       if (response?.success || response?._id) {
         await fetchSubjects();
         setForm({
-          name: "",
-          code: "",
-          department: "",
-          section: "",
-          semester: "",
-          hrsWeek: "",
-          type: "",
-          course: "",
-          isElective: false,
+          name: "", code: "", department: "", section: "",
+          semester: "", hrsWeek: "", type: "", course: "", isElective: false,
         });
         setEditingId(null);
       } else {
@@ -210,15 +184,8 @@ export default function ManualEntrySubject() {
   const cancelEdit = () => {
     setEditingId(null);
     setForm({
-      name: "",
-      code: "",
-      department: "",
-      section: "",
-      semester: "",
-      hrsWeek: "",
-      type: "",
-      course: "",
-      isElective: false,
+      name: "", code: "", department: "", section: "",
+      semester: "", hrsWeek: "", type: "", course: "", isElective: false,
     });
     setError("");
   };
@@ -238,9 +205,7 @@ export default function ManualEntrySubject() {
     try {
       setLoading(true);
       setError("");
-
       const response = await deleteSubjectAPI(id);
-
       if (response.success || response?.status) await fetchSubjects();
     } catch (err) {
       Swal.fire({
@@ -253,18 +218,15 @@ export default function ManualEntrySubject() {
     }
   };
 
-
   return (
     <div className="h-screen overflow-hidden bg-[#F3F6FB]">
       <div className="w-full h-full pb-0">
         <div
           className="bg-white rounded-[10px] shadow-sm border relative w-full h-full"
-          style={{
-            borderColor: "#e8e8e8",
-          }}
+          style={{ borderColor: "#e8e8e8" }}
         >
           <div className="px-6 pt-4 pb-4">
-            {/* HEADER (Row 1: Logo + Close) */}
+            {/* HEADER */}
             <div className="flex justify-between items-start mb-6">
               <div
                 className="text-3xl font-['Playfair_Display'] font-bold text-[#6b6b6b]"
@@ -282,7 +244,7 @@ export default function ManualEntrySubject() {
               </button>
             </div>
 
-            {/* TITLE ROW (Row 2: Title + Upload) */}
+            {/* TITLE ROW */}
             <div className="flex justify-between items-end mb-3">
               <div className="flex items-center gap-2">
                 <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
@@ -306,58 +268,42 @@ export default function ManualEntrySubject() {
             <div className="mt-6">
               <div className="grid grid-cols-12 gap-x-2 gap-y-6 mr-8">
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Subject name
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Subject name</div>
                   <input name="name" value={form.name} onChange={handleChange} placeholder="e.g. DAA" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Subject code
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Subject code</div>
                   <input name="code" value={form.code} onChange={handleChange} placeholder="e.g. CS201" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Department
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Department</div>
                   <input name="department" value={form.department} onChange={handleChange} placeholder="e.g. CSE" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Course
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Course</div>
                   <input name="course" value={form.course} onChange={handleChange} placeholder="e.g. BTECH" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Section
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Section</div>
                   <input name="section" value={form.section} onChange={handleChange} placeholder="e.g. A" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Semester
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Semester</div>
                   <input name="semester" value={form.semester} onChange={handleChange} placeholder="e.g. 4" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Hrs/Week
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Hrs/Week</div>
                   <input name="hrsWeek" value={form.hrsWeek} onChange={handleChange} placeholder="e.g. 4" style={inputStyle} className="custom-input" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Type
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Type</div>
                   <select name="type" value={form.type} onChange={handleChange} style={inputStyle} className="custom-input">
                     <option value="">Select Type</option>
                     <option value="theory">Theory</option>
@@ -366,9 +312,7 @@ export default function ManualEntrySubject() {
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Is Elective?
-                  </div>
+                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>Is Elective?</div>
                   <select
                     name="isElective"
                     value={form.isElective ? "true" : "false"}
@@ -386,12 +330,7 @@ export default function ManualEntrySubject() {
                     <button
                       onClick={saveSubject}
                       disabled={loading}
-                      className="after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100"
+                      className="after:content-[''] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:bg-[#4A9FB5] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100"
                       style={{
                         fontSize: "12px",
                         color: "rgb(77, 172, 206)",
@@ -466,8 +405,13 @@ export default function ManualEntrySubject() {
                     overflow: "hidden",
                   }}
                 >
+                  {/* Header */}
                   <div className="px-8 pt-4 pb-2 bg-white mr-3">
-                    <div className="flex items-center text-[14px] font-medium" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif" }}>
+                    <div
+                      className="flex items-center text-[14px] font-medium"
+                      style={{ color: "#265768", fontFamily: "'Mulish', sans-serif" }}
+                    >
+                      <div className="w-10 text-center">S.No</div>
                       <div className="flex-1 text-center">Subject Name</div>
                       <div className="flex-1 text-center">Subject Code</div>
                       <div className="flex-1 text-center">Department</div>
@@ -478,13 +422,29 @@ export default function ManualEntrySubject() {
                       <div className="flex-1 text-center">Actions</div>
                     </div>
 
-                    <div className="mt-3 h-[3px] rounded" style={{ background: "#0b84d6", boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }} />
+                    <div
+                      className="mt-3 h-[3px] rounded"
+                      style={{ background: "#0b84d6", boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }}
+                    />
                   </div>
 
-                  <div className="overflow-y-auto custom-scroll mr-3" style={{ maxHeight: "300px" }}>
+                  {/* Body */}
+                  <div
+                    className="overflow-y-auto custom-scroll mr-3"
+                    style={{ maxHeight: "300px" }}
+                  >
                     <div className="px-8">
                       {subjects.map((item, idx) => (
-                        <div key={item._id || idx} className="flex items-center py-3.5 hover:bg-gray-50 transition" style={{ borderBottom: "3px solid #D9D9D9" }}>
+                        <div
+                          key={item._id || idx}
+                          className="flex items-center py-3.5 hover:bg-gray-50 transition"
+                          style={{ borderBottom: "3px solid #D9D9D9" }}
+                        >
+                          {/* S.No */}
+                          <div className="w-10 text-[13px] text-[#265768] text-center">
+                            {idx + 1}
+                          </div>
+
                           <div className="flex-1 text-[13px] font-medium text-[#265768] text-center">{item.name}</div>
                           <div className="flex-1 text-[13px] text-[#265768] text-center">{item.code}</div>
                           <div className="flex-1 text-[13px] text-[#265768] truncate text-center">{item.department}</div>
@@ -494,10 +454,18 @@ export default function ManualEntrySubject() {
                           <div className="flex-1 text-[13px] text-[#265768] text-center">{item.hrsWeek}</div>
 
                           <div className="flex-1 flex items-center justify-center gap-3">
-                            <button onClick={() => handleEditSubject(item)} className="text-[#C0C6D0] hover:text-[#1A8FE3] transition" title="Edit">
+                            <button
+                              onClick={() => handleEditSubject(item)}
+                              className="text-[#C0C6D0] hover:text-[#1A8FE3] transition"
+                              title="Edit"
+                            >
                               <Edit2 size={15} />
                             </button>
-                            <button onClick={() => handleDeleteSubject(item._id)} className="text-[#C0C6D0] hover:text-[#F04438] transition" title="Delete">
+                            <button
+                              onClick={() => handleDeleteSubject(item._id)}
+                              className="text-[#C0C6D0] hover:text-[#F04438] transition"
+                              title="Delete"
+                            >
                               <Trash2 size={15} />
                             </button>
                           </div>
@@ -511,6 +479,6 @@ export default function ManualEntrySubject() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

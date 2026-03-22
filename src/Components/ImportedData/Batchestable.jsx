@@ -4,6 +4,7 @@ const BatchesTable = ({ data }) => {
   return (
     <DataTable
       columns={[
+        "S.No",
         "Degree/Course",
         "Degree Type",
         "Department",
@@ -17,6 +18,7 @@ const BatchesTable = ({ data }) => {
           key={index}
           className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
         >
+          <td className="py-4 px-4 text-sm">{index + 1}</td>
           <td className="py-4 px-4 text-sm">{item.course}</td>
           <td className="py-4 px-4 text-sm">{item.degreeType}</td>
           <td className="py-4 px-4 text-sm">{item.department}</td>

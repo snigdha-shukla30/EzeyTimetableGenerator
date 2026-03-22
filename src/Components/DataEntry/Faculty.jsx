@@ -42,50 +42,32 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
     });
   };
 
-  // const handleDelete = async (facultyId) => {
-  //   if (!window.confirm("Are you sure you want to delete this faculty?")) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await deleteFaculty(facultyId);
-  //     if (response.success) {
-  //       fetchFaculties();
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting faculty:", error);
-  //     alert(error.message || "Failed to delete faculty");
-  //   }
-  // };
-
   const handleDelete = async (facultyId) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this faculty?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#F04438",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    const response = await deleteFaculty(facultyId);
-    if (response.success) {
-      fetchFaculties();
-    }
-  } catch (error) {
-    console.error("Error deleting faculty:", error);
-
-    Swal.fire({
-      icon: "error",
-      text: error.message || "Failed to delete faculty",
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this faculty?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04438",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
-  }
-};
 
+    if (!result.isConfirmed) return;
+
+    try {
+      const response = await deleteFaculty(facultyId);
+      if (response.success) {
+        fetchFaculties();
+      }
+    } catch (error) {
+      console.error("Error deleting faculty:", error);
+      Swal.fire({
+        icon: "error",
+        text: error.message || "Failed to delete faculty",
+        confirmButtonColor: "#4BACCE",
+      });
+    }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -103,8 +85,8 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
           facultyList.map((f) =>
             f._id === editingId
               ? { ...f, ...updateData, subjects: updateData.subjects }
-              : f,
-          ),
+              : f
+          )
         );
         setEditingId(null);
         setEditData(null);
@@ -112,11 +94,10 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
     } catch (error) {
       console.error("Error updating faculty:", error);
       Swal.fire({
-  icon: "error",
-  text: error.message || "Failed to update faculty",
-  confirmButtonColor: "#4BACCE",
-});
-
+        icon: "error",
+        text: error.message || "Failed to update faculty",
+        confirmButtonColor: "#4BACCE",
+      });
     }
   };
 
@@ -125,23 +106,17 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
     setEditData(null);
   };
 
-  //   const openSubjectsPopup = (subjects) => {
-  //   setPopupItems(Array.isArray(subjects) ? subjects : []);
-  //   setShowPopup(true);
-  // };
-
   const openSubjectsPopup = (subjects) => {
     const list = Array.isArray(subjects)
       ? subjects.map((s) => s?.name || s)
       : [];
-
     setPopupItems(list);
     setShowPopup(true);
   };
 
   const query = searchQuery.toLowerCase();
   const filtered = facultyList.filter((f) =>
-    `${f.name} ${f.email}`.toLowerCase().includes(query),
+    `${f.name} ${f.email}`.toLowerCase().includes(query)
   );
 
   if (loading) {
@@ -160,20 +135,22 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
       className="bg-white rounded-[10px] border border-[#DFDFDF] w-full shadow-sm"
       style={{ maxWidth: "100%", minHeight: "293px" }}
     >
-      {/* HEADER (ClassroomData style -> table-fixed + colgroup) */}
+      {/* HEADER */}
       <div className="px-8 pt-4">
         <table className="w-full table-fixed">
           <colgroup>
-            <col style={{ width: "22%" }} />
-            <col style={{ width: "23%" }} />
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "15%" }} />
-            <col style={{ width: "10%" }} />
+            <col style={{ width: "5%" }} />
+            <col style={{ width: "19%" }} />
+            <col style={{ width: "21%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "13%" }} />
           </colgroup>
 
           <thead>
             <tr className="text-[13px] font-semibold text-[#6C7A90]">
+              <th className="text-center pb-3">S.No</th>
               <th className="text-center pb-3">Faculty Name</th>
               <th className="text-center pb-3">Email</th>
               <th className="text-center pb-3">Max load per day</th>
@@ -184,7 +161,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
           </thead>
         </table>
 
-        {/* Blue Divider (same as ClassroomData) */}
+        {/* Blue Divider */}
         <div className="h-[3px] w-full bg-[#0077FF] rounded-full shadow-[0px_4px_4px_0px_#00000040]" />
       </div>
 
@@ -193,7 +170,6 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
         className="overflow-y-auto custom-scroll px-8 pr-5 mr-1.5"
         style={{ maxHeight: "calc(293px - 76px)" }}
       >
-        {/* Empty */}
         {filtered.length === 0 ? (
           <div className="flex items-center justify-center py-10 text-[#8A96A8]">
             No faculties found
@@ -201,12 +177,13 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
         ) : (
           <table className="w-full table-fixed">
             <colgroup>
-              <col style={{ width: "22%" }} />
-              <col style={{ width: "23%" }} />
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "10%" }} />
+              <col style={{ width: "5%" }} />
+              <col style={{ width: "19%" }} />
+              <col style={{ width: "21%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "13%" }} />
             </colgroup>
 
             <tbody>
@@ -217,6 +194,11 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
                     idx === filtered.length - 1 ? "border-b-0" : ""
                   }`}
                 >
+                  {/* S.No */}
+                  <td className="py-5 text-center text-[#4C5968]">
+                    {idx + 1}
+                  </td>
+
                   {/* Faculty Name */}
                   <td className="py-5 text-center text-[#4C5968]">{f.name}</td>
 
@@ -273,9 +255,6 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
                         className="w-[220px] px-2 py-1 border border-[#BFBFBF] rounded text-[13px] text-center focus:outline-none focus:ring-1 focus:ring-[#1DA5FF]"
                       />
                     ) : (
-                      // <button className="text-[13px] font-medium text-[#1A8FE3] hover:underline">
-                      //   See List ({f.subjects?.length || 0})
-                      // </button>
                       <button
                         onClick={() => openSubjectsPopup(f.subjects)}
                         className="text-[13px] font-medium text-[#1A8FE3] hover:underline"
@@ -324,6 +303,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
             </tbody>
           </table>
         )}
+
         {showPopup && (
           <div
             className="fixed inset-0 z-[999] flex items-center justify-center"
@@ -372,7 +352,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
         )}
       </div>
 
-      {/* Scrollbar Styling (exact ClassroomData) */}
+      {/* Scrollbar Styling */}
       <style>{`
         .custom-scroll::-webkit-scrollbar {
           width: 9.78px;

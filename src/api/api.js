@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:3001";
 // import { tokenManager } from "../tokenManager/tokenmanager";
 
 // Helper function to handle unauthorized responses
@@ -497,7 +497,7 @@ export const getTimetableVisualHTML = async (batchId) => {
 
 export const getTimetableById = async (timetableId) => {
   const res = await axios.get(
-    `http://localhost:3000/timetable/${timetableId}`,
+    `http://localhost:3001/timetable/${timetableId}`,
     { withCredentials: true }
   );
   return res.data;
