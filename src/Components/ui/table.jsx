@@ -4,8 +4,8 @@ import "../../custom-scrollbar.css";
 export default function DataEntryTable({
   columns = [],
   children,
-  height = "calc(100vh - 410px)",   // 👈 table height now prop
-  showActions = true,              // 👈 optional Actions column
+  height = "calc(100vh - 410px)",   
+  showActions = true,              
 }) {
   return (
     <Paper
