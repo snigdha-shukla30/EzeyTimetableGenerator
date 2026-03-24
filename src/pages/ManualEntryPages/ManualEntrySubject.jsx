@@ -11,6 +11,10 @@ import {
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
 import ManualEntryTable from "../../components/ui/manualEntryTable";
+import SubjectTable from "../../components/ManualEntry/SubjectTable";
+import FormInput from "../../components/ManualEntry/FormInput";
+import FormSelect from "../../components/ManualEntry/FormSelect";
+import { Button } from "../../components/ui/Button";
 
 
 
@@ -39,18 +43,6 @@ export default function ManualEntrySubject() {
     isElective: false,
   });
 
-  const inputStyle = {
-    width: "274.5px",
-    height: "40px",
-    borderRadius: "15px",
-    border: "1.5px solid #DFDFDF",
-    fontSize: "14px",
-    fontFamily: "'Mulish', sans-serif",
-    color: "#000000",
-    background: "#FFFFFF",
-    padding: "0 12px",
-    boxSizing: "border-box",
-  };
 
   const triggerFile = () => fileInputRef.current?.click();
 
@@ -303,111 +295,61 @@ export default function ManualEntrySubject() {
               style={{ boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }}
             />
 
-            {/* FORM */}
             <div className="mt-6">
               <div className="grid grid-cols-12 gap-x-2 gap-y-6 mr-8">
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Subject name
-                  </div>
-                  <input name="name" value={form.name} onChange={handleChange} placeholder="e.g. DAA" style={inputStyle} className="custom-input" />
+                  <FormInput label="Subject name" name="name" value={form.name} onChange={handleChange} placeholder="e.g. DAA" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Subject code
-                  </div>
-                  <input name="code" value={form.code} onChange={handleChange} placeholder="e.g. CS201" style={inputStyle} className="custom-input" />
+                  <FormInput label="Subject code" name="code" value={form.code} onChange={handleChange} placeholder="e.g. CS201" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Department
-                  </div>
-                  <input name="department" value={form.department} onChange={handleChange} placeholder="e.g. CSE" style={inputStyle} className="custom-input" />
+                  <FormInput label="Department" name="department" value={form.department} onChange={handleChange} placeholder="e.g. CSE" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Course
-                  </div>
-                  <input name="course" value={form.course} onChange={handleChange} placeholder="e.g. BTECH" style={inputStyle} className="custom-input" />
+                  <FormInput label="Course" name="course" value={form.course} onChange={handleChange} placeholder="e.g. BTECH" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Section
-                  </div>
-                  <input name="section" value={form.section} onChange={handleChange} placeholder="e.g. A" style={inputStyle} className="custom-input" />
+                  <FormInput label="Section" name="section" value={form.section} onChange={handleChange} placeholder="e.g. A" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Semester
-                  </div>
-                  <input name="semester" value={form.semester} onChange={handleChange} placeholder="e.g. 4" style={inputStyle} className="custom-input" />
+                  <FormInput label="Semester" name="semester" value={form.semester} onChange={handleChange} placeholder="e.g. 4" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Hrs/Week
-                  </div>
-                  <input name="hrsWeek" value={form.hrsWeek} onChange={handleChange} placeholder="e.g. 4" style={inputStyle} className="custom-input" />
+                  <FormInput label="Hrs/Week" name="hrsWeek" value={form.hrsWeek} onChange={handleChange} placeholder="e.g. 4" />
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Type
-                  </div>
-                  <select name="type" value={form.type} onChange={handleChange} style={inputStyle} className="custom-input">
+                  <FormSelect label="Type" name="type" value={form.type} onChange={handleChange}>
                     <option value="">Select Type</option>
                     <option value="theory">Theory</option>
                     <option value="lab">Practical / Lab</option>
-                  </select>
+                  </FormSelect>
                 </div>
 
                 <div className="col-span-3">
-                  <div className="text-xs mb-1" style={{ color: "#265768", fontSize: "14px" }}>
-                    Is Elective?
-                  </div>
-                  <select
+                  <FormSelect
+                    label="Is Elective?"
                     name="isElective"
                     value={form.isElective ? "true" : "false"}
                     onChange={(e) => handleChange({ target: { name: "isElective", value: e.target.value === "true", type: "select" } })}
-                    style={inputStyle}
-                    className="custom-input"
                   >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
-                  </select>
+                  </FormSelect>
                 </div>
 
                 <div className="col-span-3 flex items-end">
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
-                    <button
-                      onClick={saveSubject}
-                      disabled={loading}
-                      className="after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100"
-                      style={{
-                        fontSize: "12px",
-                        color: "rgb(77, 172, 206)",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        position: "relative",
-                        whiteSpace: "nowrap",
-                        opacity: loading ? 0.6 : 1,
-                        textAlign: "left",
-                      }}
-                    >
+                    <Button variant="addItem" onClick={saveSubject} disabled={loading}>
                       {editingId ? (loading ? "Updating..." : "+ Update subject") : loading ? "Adding..." : "+ Add subject"}
-                    </button>
+                    </Button>
                     {editingId && (
                       <button
                         onClick={cancelEdit}
@@ -457,111 +399,16 @@ export default function ManualEntrySubject() {
               </div>
             ) : (
               <div className="mt-6 pb-6">
-                {/* <div
-                  className="bg-white w-full relative"
-                  style={{
-                    width: "100%",
-                    height: "325px",
-                    borderRadius: "12.23px",
-                    border: "1.83px solid #DFDFDF",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div className="px-8 pt-4 pb-2 bg-white mr-3">
-                    <div className="flex items-center text-[14px] font-medium" style={{ color: "#265768", fontFamily: "'Mulish', sans-serif" }}>
-                      <div className="flex-1 text-center">Subject Name</div>
-                      <div className="flex-1 text-center">Subject Code</div>
-                      <div className="flex-1 text-center">Department</div>
-                      <div className="flex-1 text-center">Semester</div>
-                      <div className="flex-1 text-center">Section</div>
-                      <div className="flex-1 text-center">Type</div>
-                      <div className="flex-1 text-center">Hrs/Week</div>
-                      <div className="flex-1 text-center">Actions</div>
-                    </div>
-
-                    <div className="mt-3 h-[3px] rounded" style={{ background: "#0b84d6", boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)" }} />
-                  </div>
-
-                  <div className="overflow-y-auto custom-scroll mr-3" style={{ maxHeight: "300px" }}>
-                    <div className="px-8">
-                      {subjects.map((item, idx) => (
-                        <div key={item._id || idx} className="flex items-center py-3.5 hover:bg-gray-50 transition" style={{ borderBottom: "3px solid #D9D9D9" }}>
-                          <div className="flex-1 text-[13px] font-medium text-[#265768] text-center">{item.name}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] text-center">{item.code}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] truncate text-center">{item.department}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] text-center">{item.semester}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] text-center">{item.section}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] text-center">{item.type}</div>
-                          <div className="flex-1 text-[13px] text-[#265768] text-center">{item.hrsWeek}</div>
-
-                          <div className="flex-1 flex items-center justify-center gap-3">
-                            <button onClick={() => handleEditSubject(item)} className="text-[#C0C6D0] hover:text-[#1A8FE3] transition" title="Edit">
-                              <Edit2 size={15} />
-                            </button>
-                            <button onClick={() => handleDeleteSubject(item._id)} className="text-[#C0C6D0] hover:text-[#F04438] transition" title="Delete">
-                              <Trash2 size={15} />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div> */}
-                <ManualEntryTable
-  height="calc(100vh - 460px)"
-  columns={[
-    { key: "sno", label: "S.No", width: "70px" },
-    { key: "name", label: "Subject Name" },
-    { key: "code", label: "Subject Code" },
-    { key: "department", label: "Department" },
-    { key: "semester", label: "Semester" },
-    { key: "section", label: "Section" },
-    { key: "type", label: "Type" },
-    { key: "hrsWeek", label: "Hrs/Week" },
-  ]}
->
-  {subjects.map((item, idx) => (
-    <tr
-      key={item._id || idx}
-      className={`text-sm border-b border-[#ECF0F4] hover:bg-[#F7FAFF] transition ${
-        idx === subjects.length - 1 ? "border-b-0" : ""
-      }`}
-    >
-      <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.name}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.code}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.department}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.semester}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.section}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.type}</td>
-      <td className="py-5 text-center text-[#4C5968]">{item.hrsWeek}</td>
-
-      <td className="py-5">
-        <div className="flex justify-center gap-3">
-          <button
-            onClick={() => handleEditSubject(item)}
-            className="text-[#C0C6D0] hover:text-[#1A8FE3]"
-          >
-            <Edit2 size={15} />
-          </button>
-
-          <button
-            onClick={() => handleDeleteSubject(item._id)}
-            className="text-[#C0C6D0] hover:text-[#F04438]"
-          >
-            <Trash2 size={15} />
-          </button>
-        </div>
-      </td>
-    </tr>
-  ))}
-</ManualEntryTable>
-
+                <SubjectTable
+                  subjects={subjects}
+                  onEdit={handleEditSubject}
+                  onDelete={handleDeleteSubject}
+                />
               </div>
             )}
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

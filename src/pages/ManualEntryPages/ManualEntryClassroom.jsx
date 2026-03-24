@@ -13,333 +13,13 @@ import {
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
 import ManualEntryTable from "../../components/ui/manualEntryTable";
+import ClassroomData from "../../components/ManualEntry/ClassroomData";
+import UploadButton from "../../components/ManualEntry/UploadButton";
+import FormInput from "../../components/ManualEntry/FormInput";
+import FormSelect from "../../components/ManualEntry/FormSelect";
+import { Button } from "../../components/ui/Button";
 
 
-
-// Component for Upload Button (UNCHANGED)
-const Component = ({ property1, className, headingClassName, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`bg-[linear-gradient(0deg,rgba(38,87,104,1)_0%,rgba(75,172,206,1)_100%)] w-52 left-2.5 h-10 overflow-hidden rounded-md relative ${property1 === "variant-12" ? "top-[260px]" : "top-[186px]"
-        } ${property1 === "variant-12" ? "shadow-[0px_4px_4px_#00000040]" : ""} ${className || ""
-        }`}
-    >
-      <p
-        className={`font-['Mulish',Helvetica] left-2 tracking-[0] text-base top-[11px] text-white font-medium text-center whitespace-nowrap leading-[19.2px] absolute ${headingClassName || ""
-          }`}
-      >
-        Upload File ( CSV / XLSX )
-      </p>
-    </button>
-  );
-};
-
-// ClassroomData Component (✅ Edit/Delete mapping fixed)
-// const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
-//   const [editingId, setEditingId] = useState(null);
-//   const [editForm, setEditForm] = useState({ name: "", type: "", capacity: "" });
-
-//   const filtered = classrooms.filter((c) =>
-//     c.name.toLowerCase().includes(searchQuery.toLowerCase())
-//   );
-
-//   const handleEditClick = (room) => {
-//     setEditingId(room._id);
-//     setEditForm({
-//       name: room.name,
-//       type: room.type,
-//       capacity: room.capacity,
-//     });
-//   };
-
-//   const handleSaveEdit = async (id) => {
-//     try {
-//       await onEdit(id, editForm); // ✅ correct mapping
-//       setEditingId(null);
-//     } catch (error) {
-//       alert("Failed to update classroom: " + error.message);
-//     }
-//   };
-
-//   const handleCancelEdit = () => {
-//     setEditingId(null);
-//     setEditForm({ name: "", type: "", capacity: "" });
-//   };
-
-//   return (
-//     <div className="mt-6 pb-6">
-//       <div
-//         className="bg-white w-full relative"
-//         style={{
-//           width: "100%",
-//           height: "410px",
-//           borderRadius: "12.23px",
-//           border: "1.83px solid #DFDFDF",
-//           overflow: "hidden",
-//         }}
-//       >
-//         {/* Header row */}
-//         <div className="px-8 pt-4 pb-2 bg-white mr-3">
-//           <div
-//             className="flex items-center text-[14px] font-medium"
-//             style={{
-//               color: "#265768",
-//               fontFamily: "'Mulish', sans-serif",
-//             }}
-//           >
-//             <div className="flex-[1.5] text-center">Classroom number</div>
-//             <div className="flex-[1.5] text-center">Classroom type</div>
-//             <div className="flex-1 text-center">Capacity</div>
-//             <div className="w-20 text-center">Actions</div>
-//           </div>
-
-//           <div
-//             className="mt-3 h-[3px] rounded"
-//             style={{
-//               background: "#0b84d6",
-//               boxShadow: "0px 4px 4px 0px rgba(0,0,0,0.25)",
-//             }}
-//           />
-//         </div>
-
-//         {/* Body rows */}
-//         <div
-//           className="overflow-y-auto custom-scroll mr-3"
-//           style={{ maxHeight: "400px" }}
-//         >
-//           <div className="px-8">
-//             {filtered.map((room, idx) => (
-//               <div
-//                 key={room._id || idx}
-//                 className={`flex items-center py-3.5 hover:bg-gray-50 transition ${idx === filtered.length - 1 ? "border-b-0" : ""
-//                   }`}
-//                 style={{ borderBottom: "3px solid #D9D9D9" }}
-//               >
-//                 {editingId === room._id ? (
-//                   <>
-//                     <div className="flex-[1.5]">
-//                       <input
-//                         type="text"
-//                         value={editForm.name}
-//                         onChange={(e) =>
-//                           setEditForm({ ...editForm, name: e.target.value })
-//                         }
-//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#4C5968]"
-//                       />
-//                     </div>
-
-//                     <div className="flex-[1.5] px-2">
-//                       <select
-//                         value={editForm.type}
-//                         onChange={(e) =>
-//                           setEditForm({ ...editForm, type: e.target.value })
-//                         }
-//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-[#8C96A3]"
-//                       >
-//                         <option value="lecture">Lecture Hall</option>
-//                         <option value="lab">Computer Lab</option>
-//                         <option value="seminar">Seminar Room</option>
-//                       </select>
-//                     </div>
-
-//                     <div className="flex-1 px-2">
-//                       <input
-//                         type="number"
-//                         value={editForm.capacity}
-//                         onChange={(e) =>
-//                           setEditForm({ ...editForm, capacity: e.target.value })
-//                         }
-//                         className="w-full px-2 py-1 border border-[#1DA5FF] rounded text-center text-[#4C5968]"
-//                       />
-//                     </div>
-
-//                     <div className="w-20 flex items-center justify-center gap-3">
-//                       <button
-//                         onClick={() => handleSaveEdit(room._id)}
-//                         className="text-[#10B981] hover:text-[#059669]"
-//                       >
-//                         <Check size={15} />
-//                       </button>
-
-//                       <button
-//                         onClick={handleCancelEdit}
-//                         className="text-[#EF4444] hover:text-[#DC2626]"
-//                       >
-//                         <X size={15} />
-//                       </button>
-//                     </div>
-//                   </>
-//                 ) : (
-//                   <>
-//                     <div className="flex-[1.5] text-[13px] text-[#265768] text-center">
-//                       {room.name}
-//                     </div>
-
-//                     <div className="flex-[1.5] text-center text-[13px] text-[#265768] capitalize">
-//                       {room.type}
-//                     </div>
-
-//                     <div className="flex-1 text-center text-[13px] text-[#265768]">
-//                       {room.capacity}
-//                     </div>
-
-//                     <div className="w-20 flex items-center justify-center gap-3">
-//                       <button
-//                         onClick={() => handleEditClick(room)}
-//                         className="text-[#C0C6D0] hover:text-[#1A8FE3] transition"
-//                       >
-//                         <Edit2 size={15} />
-//                       </button>
-
-//                       {/* ✅ Delete mapping fixed */}
-//                       <button
-//                         onClick={() => onDelete(room._id)}
-//                         className="text-[#C0C6D0] hover:text-[#F04438] transition"
-//                       >
-//                         <Trash2 size={15} />
-//                       </button>
-//                     </div>
-//                   </>
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-
-//       </div>
-//     </div>
-//   );
-// };
-
-const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ name: "", type: "", capacity: "" });
-
-  const filtered = classrooms.filter((c) =>
-    c.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const handleEditClick = (room) => {
-    setEditingId(room._id);
-    setEditForm({
-      name: room.name,
-      type: room.type,
-      capacity: room.capacity,
-    });
-  };
-
-  const handleSaveEdit = async (id) => {
-    await onEdit(id, editForm);
-    setEditingId(null);
-  };
-
-  const handleCancelEdit = () => setEditingId(null);
-
-  return (
-    <div className="mt-6">
-      <ManualEntryTable
-        height="calc(100vh - 330px)"
-
-        columns={[
-          { key: "sno", label: "S.No", width: "70px" },
-          { key: "name", label: "Classroom number" },
-          { key: "type", label: "Classroom type" },
-          { key: "capacity", label: "Capacity" },
-        ]}
-      >
-        {filtered.map((room, idx) => (
-          <tr
-            key={room._id || idx}
-            style={{
-              borderBottom:
-                idx === filtered.length - 1 ? "none" : "1px solid #D9D9D9",
-            }}
-          >
-            {/* S.No */}
-            <td align="center" className="text-[13px] text-[#265768] py-3">{idx + 1}</td>
-
-            {/* NAME */}
-            <td align="center" className="text-[13px] text-[#265768] py-3">
-              {editingId === room._id ? (
-                <input
-                  value={editForm.name}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, name: e.target.value })
-                  }
-                  className="px-2 py-1 border border-[#1DA5FF] rounded text-center"
-                />
-              ) : (
-                room.name
-              )}
-            </td>
-
-            {/* TYPE */}
-            <td align="center" className="text-[13px] text-[#265768]">
-              {editingId === room._id ? (
-                <select
-                  value={editForm.type}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, type: e.target.value })
-                  }
-                  className="px-2 py-1 border border-[#1DA5FF] rounded"
-                >
-                  <option value="lecture">Lecture Hall</option>
-                  <option value="lab">Computer Lab</option>
-                  <option value="seminar">Seminar Room</option>
-                </select>
-              ) : (
-                room.type
-              )}
-            </td>
-
-            {/* CAPACITY */}
-            <td align="center" className="text-[13px] text-[#265768]">
-              {editingId === room._id ? (
-                <input
-                  type="number"
-                  value={editForm.capacity}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, capacity: e.target.value })
-                  }
-                  className="px-2 py-1 border border-[#1DA5FF] rounded text-center w-[80px]"
-                />
-              ) : (
-                room.capacity
-              )}
-            </td>
-
-            {/* ACTIONS */}
-            <td align="center">
-              {editingId === room._id ? (
-                <div className="flex justify-center gap-3">
-                  <button onClick={() => handleSaveEdit(room._id)}>
-                    <Check size={15} color="#10B981" />
-                  </button>
-
-                  <button onClick={handleCancelEdit}>
-                    <X size={15} color="#EF4444" />
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-center gap-3">
-                  <button onClick={() => handleEditClick(room)} className="text-[#C0C6D0] hover:text-[#1A8FE3]">
-                    <Edit2 size={15} />
-                  </button>
-
-                  <button onClick={() => onDelete(room._id)} className="text-[#C0C6D0] hover:text-[#F04438]">
-                    <Trash2 size={15} />
-                  </button>
-                </div>
-              )}
-            </td>
-          </tr>
-        ))}
-      </ManualEntryTable>
-    </div>
-  );
-};
 
 
 
@@ -571,7 +251,6 @@ export const ManualEntryClassroom = () => {
                 </h2>
               </div>
 
-              {/* Upload Button */}
               <div>
                 <input
                   ref={fileInputRef}
@@ -580,25 +259,7 @@ export const ManualEntryClassroom = () => {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-                <button
-                  onClick={handleUploadClick}
-                  disabled={uploading}
-                  style={{
-                    minWidth: 170,
-                    height: 34,
-                    background: "linear-gradient(0deg, #265768 0%, #4BACCE 100%)",
-                    borderRadius: 6,
-                    color: "white",
-                    fontSize: 12,
-                    fontFamily: "'Mulish', sans-serif",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.12)",
-                    opacity: uploading ? 0.7 : 1,
-                    cursor: uploading ? "not-allowed" : "pointer",
-                    padding: "0 14px",
-                  }}
-                >
-                  {uploading ? "Uploading..." : "Upload File ( CSV / XLSX )"}
-                </button>
+                <UploadButton onClick={handleUploadClick} uploading={uploading} />
               </div>
             </div>
 
@@ -611,72 +272,42 @@ export const ManualEntryClassroom = () => {
             <div className="mt-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-6 mr-0 lg:mr-8">
                 <div className="lg:col-span-3">
-                  <div className="text-[#265768] font-['Mulish'] text-[14px] mb-1">
-                    Enter classroom number
-                  </div>
-                  <input
+                  <FormInput
+                    label="Enter classroom number"
                     type="text"
                     value={classroomNumber}
                     onChange={(e) => setClassroomNumber(e.target.value)}
                     placeholder="e.g. B-210"
-                    className="w-full h-[40px] rounded-[15px] border-[1.5px] border-[#DFDFDF] px-3 text-[14px] font-['Mulish'] text-black bg-white focus:outline-none focus:border-[#4BACCE]"
                   />
                 </div>
 
                 <div className="lg:col-span-3">
-                  <div className="text-[#265768] font-['Mulish'] text-[14px] mb-1">
-                    Classroom type
-                  </div>
-                  <select
+                  <FormSelect
+                    label="Classroom type"
                     value={classroomType}
                     onChange={(e) => setClassroomType(e.target.value)}
-                    className="w-full h-[40px] rounded-[15px] border-[1.5px] border-[#DFDFDF] px-3 text-[14px] font-['Mulish'] text-black bg-white focus:outline-none focus:border-[#4BACCE]"
                   >
                     <option value="lecture">Lecture Hall</option>
                     <option value="lab">Computer Lab</option>
                     <option value="seminar">Seminar Room</option>
-                  </select>
+                  </FormSelect>
                 </div>
 
                 <div className="lg:col-span-3">
-                  <div className="text-[#265768] font-['Mulish'] text-[14px] mb-1">
-                    Classroom capacity
-                  </div>
-                  <input
+                  <FormInput
+                    label="Classroom capacity"
                     type="number"
                     value={classroomCapacity}
                     onChange={(e) => setClassroomCapacity(e.target.value)}
                     placeholder="e.g. 45"
-                    className="w-full h-[40px] rounded-[15px] border-[1.5px] border-[#DFDFDF] px-3 text-[14px] font-['Mulish'] text-black bg-white focus:outline-none focus:border-[#4BACCE]"
                   />
                 </div>
 
                 {/* Add Button */}
                 <div className="lg:col-span-3 flex items-end justify-start lg:justify-end">
-                  <button
-                    onClick={handleAddClassroom}
-                    disabled={loading}
-                    style={{
-
-                      fontSize: "12px",
-                      color: "rgb(77, 172, 206)",
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                      fontFamily: "'Mulish', sans-serif",
-                      position: "relative",
-                      whiteSpace: "nowrap",
-                      opacity: loading ? 0.6 : 1,
-                    }}
-                    className=" flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100 hover:text-[#4BACCE] whitespace-nowrap transition-colors"
-                  >
+                  <Button variant="addItem" onClick={handleAddClassroom} disabled={loading}>
                     {loading ? "Adding..." : "+ Add classroom"}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

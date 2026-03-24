@@ -2,8 +2,10 @@ export const Button = ({
   children,
   onClick,
   variant = "primary",
+  type = "button",
+  disabled = false,
   className = "",
-  marginClass = "", // ✅ NEW PROP
+  marginClass = "",
 }) => {
   const baseStyle = "flex items-center justify-center gap-2";
 
@@ -77,11 +79,30 @@ export const Button = ({
 `,
 
 
+    // Used in all 4 Manual Entry pages: "+ Add batch", "+ Add classroom", etc.
+    addItem: `
+      relative
+      text-[12px] text-[#4DACCE]
+      bg-transparent border-none
+      font-['Mulish']
+      cursor-pointer
+      whitespace-nowrap
+      transition-colors duration-200
+      hover:text-[#4BACCE]
+      after:content-[''] after:absolute after:left-0 after:-bottom-[2px]
+      after:h-[1px] after:w-full after:bg-[#4A9FB5]
+      after:scale-x-0 after:origin-left
+      after:transition-transform after:duration-300
+      hover:after:scale-x-100
+      disabled:opacity-60 disabled:cursor-not-allowed
+    `,
   };
 
   return (
     <button
+      type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`${baseStyle} ${variants[variant]} ${marginClass} ${className}`}
     >
       {children}

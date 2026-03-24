@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* ============================================
+   Manual Entry shared form input styles
+   (used by FormInput.jsx and FormSelect.jsx)
+   ============================================ */
+.form-input:focus {
+  border-color: #0b84d6 !important;
+  box-shadow: 0 0 0 3px rgba(11, 132, 214, 0.2);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #999999;
+  opacity: 1;
+}
+
+select.form-input option {
+  padding: 8px;
+}
+
+
 /* 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

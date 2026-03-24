@@ -12,124 +12,14 @@ import {
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
 import ManualEntryTable from "../../components/ui/manualEntryTable";
+import FacultyData from "../../components/ManualEntry/FacultyData";
+import UploadButton from "../../components/ManualEntry/UploadButton";
+import FormInput from "../../components/ManualEntry/FormInput";
+import { Button } from "../../components/ui/Button";
 
 
-// Component for Upload Button (UNCHANGED)
-const Component = ({ property1, className, headingClassName, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`bg-[linear-gradient(0deg,rgba(38,87,104,1)_0%,rgba(75,172,206,1)_100%)] w-52 left-2.5 h-10 overflow-hidden rounded-md relative ${property1 === "variant-12" ? "top-[214px]" : "top-[146px]"
-        } ${property1 === "variant-12" ? "shadow-[0px_4px_4px_#00000040]" : ""} ${className || ""
-        }`}
-    >
-      <p
-        className={`[font-family:'Mulish',Helvetica] left-2 tracking-[0] text-base top-[11px] text-white font-medium text-center whitespace-nowrap leading-[19.2px] absolute ${headingClassName || ""
-          }`}
-      >
-        Upload File ( CSV / XLSX )
-      </p>
-    </button>
-  );
-};
 
 
-  const FacultyData = ({
-  searchQuery = "",
-  facultyList = [],
-  onEdit,
-  onDelete,
-}) => {
-  const query = searchQuery.toLowerCase();
-
-  const filtered = facultyList.filter((f) =>
-    `${f.name} ${f.email}`.toLowerCase().includes(query)
-  );
-
-  return (
-    <div className="mt-6 pb-4">
-      <ManualEntryTable
-        height="calc(100vh - 380px)"
-        minWidth="100%"
-        columns={[
-          { key: "sno", label: "S.No", width: "70px" },
-          { key: "name", label: "Faculty Name" },
-          { key: "email", label: "Email" },
-          { key: "maxLoad", label: "Max load/day" },
-          { key: "leaves", label: "Leaves/month" },
-          { key: "subjects", label: "Assigned Subjects" },
-        ]}
-      >
-        {filtered.length === 0 ? (
-          <tr>
-            <td colSpan={6} className="py-10 text-center text-gray-400">
-              No faculties found
-            </td>
-          </tr>
-        ) : (
-          filtered.map((f, idx) => (
-            <tr
-              key={f._id || idx}
-              className={`text-sm border-b border-[#D9D9D9] hover:bg-gray-50 transition ${
-                idx === filtered.length - 1 ? "border-b-0" : ""
-              }`}
-            >
-              <td className="py-4 text-center text-[#265768]">{idx + 1}</td>
-              {/* Faculty Name */}
-              <td className="py-4 text-center text-[#265768] font-medium">
-                {f.name}
-              </td>
-
-              {/* Email */}
-              <td className="py-4 text-center text-[#265768]">
-                {f.email}
-              </td>
-
-              {/* Max Load */}
-              <td className="py-4 text-center text-[#265768]">
-                {f.maxLoad} Hrs
-              </td>
-
-              {/* Leaves */}
-              <td className="py-4 text-center text-[#265768]">
-                {f.leavesPerMonth}
-              </td>
-
-              {/* Subjects */}
-              <td className="py-4 text-center">
-                <button className="text-[13px] font-medium text-[#1A8FE3] hover:underline">
-                  See List ({f.subjects?.length || 0})
-                </button>
-              </td>
-
-              {/* Actions */}
-              <td className="py-4">
-                <div className="flex justify-center gap-3">
-                  <button
-                    onClick={() => onEdit(f)}
-                    className="text-[#C0C6D0] hover:text-[#1A8FE3]"
-                  >
-                    <Edit2 size={15} />
-                  </button>
-
-                  <button
-                    onClick={() => onDelete(f._id)}
-                    className="text-[#C0C6D0] hover:text-[#F04438]"
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))
-        )}
-      </ManualEntryTable>
-    </div>
-  );
-};
-
-
-// Main ManualEntryFaculty Component
 export const ManualEntryFaculty = () => {
   const [showTable, setShowTable] = useState(false);
   const [facultyName, setFacultyName] = useState("");
@@ -336,18 +226,6 @@ export const ManualEntryFaculty = () => {
     setError("");
   };
 
-  const inputStyle = {
-    width: "274.5px",
-    height: "40px",
-    borderRadius: "15px",
-    border: "1.5px solid #DFDFDF",
-    fontSize: "14px",
-    fontFamily: "'Mulish', sans-serif",
-    color: "#000000",
-    background: "#FFFFFF",
-    padding: "0 12px",
-    boxSizing: "border-box",
-  };
 
   return (
     <div className="h-screen bg-[#F3F6FB] overflow-hidden">
@@ -399,7 +277,6 @@ export const ManualEntryFaculty = () => {
               </div>
 
               <div>
-                {/* Hidden file input */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -407,27 +284,7 @@ export const ManualEntryFaculty = () => {
                   onChange={handleFileChange}
                   className="hidden"
                 />
-
-                <button
-                  onClick={handleUploadClick}
-                  disabled={uploading}
-                  style={{
-                    minWidth: 170,
-                    height: 34,
-                    background:
-                      "linear-gradient(0deg, #265768 0%, #4BACCE 100%)",
-                    borderRadius: 6,
-                    color: "white",
-                    fontSize: 12,
-                    fontFamily: "'Mulish', sans-serif",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.12)",
-                    opacity: uploading ? 0.7 : 1,
-                    cursor: uploading ? "not-allowed" : "pointer",
-                    padding: "0 14px",
-                  }}
-                >
-                  {uploading ? "Uploading..." : "Upload File ( CSV / XLSX )"}
-                </button>
+                <UploadButton onClick={handleUploadClick} uploading={uploading} />
               </div>
             </div>
 
@@ -443,151 +300,70 @@ export const ManualEntryFaculty = () => {
             <div className="mt-6">
               <div className="grid grid-cols-12 gap-x-2 gap-y-6 mr-8">
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Faculty Name
-                  </div>
-                  <input
+                  <FormInput
+                    label="Faculty Name"
                     type="text"
                     value={facultyName}
                     onChange={(e) => setFacultyName(e.target.value)}
                     placeholder="e.g. Mrs Pooja Shukla"
                     disabled={loading}
-                    style={inputStyle}
-                    className="custom-input"
                   />
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Email
-                  </div>
-                  <input
+                  <FormInput
+                    label="Email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="e.g. poojasunshore@gmail.com"
                     disabled={loading}
-                    style={inputStyle}
-                    className="custom-input"
                   />
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Max load per day
-                  </div>
-                  <input
+                  <FormInput
+                    label="Max load per day"
                     type="number"
                     value={maxLoad}
                     onChange={(e) => setMaxLoad(e.target.value)}
                     placeholder="e.g. 5"
                     disabled={loading}
-                    style={inputStyle}
-                    className="custom-input"
                   />
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Leaves per month
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      justifyContent: "space-around",
-                      gap: "5px",
-                    }}
-                  >
-                    <input
-                      type="number"
-                      value={leaves}
-                      onChange={(e) => setLeaves(e.target.value)}
-                      placeholder="e.g 5"
-                      disabled={loading}
-                      style={inputStyle}
-                      className="custom-input"
-                    />
-
-                    <button
-                      onClick={handleAddFaculty}
-                      disabled={loading}
-                      className="after:content-['']
-              after:absolute after:left-0 after:-bottom-[2px]
-              after:h-[1px] after:w-full after:bg-[#4A9FB5]
-              after:scale-x-0 after:origin-left
-              after:transition-transform after:duration-300
-              hover:after:scale-x-100"
-                      style={{
-                        
-                        fontSize: "12px",
-                        color: "rgb(77, 172, 206)",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        position: "relative",
-                        top: "50px",
-                        whiteSpace: "nowrap",
-                        opacity: loading ? 0.6 : 1,
-                      }}
-                    >
-                      {loading
-                        ? "Processing..."
-                        : editingId
-                          ? "+ Update faculty"
-                          : "+ Add faculty"}
-                    </button>
+                  <div className="flex items-end justify-around gap-2">
+                    <div className="flex-1">
+                      <FormInput
+                        label="Leaves per month"
+                        type="number"
+                        value={leaves}
+                        onChange={(e) => setLeaves(e.target.value)}
+                        placeholder="e.g 5"
+                        disabled={loading}
+                      />
+                    </div>
+                    <div className="flex items-end pb-0">
+                      <Button
+                        variant="addItem"
+                        onClick={handleAddFaculty}
+                        disabled={loading}
+                      >
+                        {loading ? "Processing..." : editingId ? "+ Update faculty" : "+ Add faculty"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
                 <div className="col-span-3">
-                  <div
-                    className="text-xs mb-1"
-                    style={{
-                      color: "#265768",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "14px",
-                    }}
-                  >
-                    Assigned subjects
-                  </div>
-                  <input
+                  <FormInput
+                    label="Assigned subjects"
                     type="text"
                     value={assignedSubjects}
                     onChange={(e) => setAssignedSubjects(e.target.value)}
                     placeholder="e.g. DAA, OS (comma separated)"
                     disabled={loading}
-                    style={inputStyle}
                   />
                 </div>
 
@@ -651,28 +427,7 @@ export const ManualEntryFaculty = () => {
 
             )}
           </div>
-          <style>{`
 
-  .custom-input {
-  width: 274.5px;
-  height: 40px;
-  border-radius: 15px;
-  border: 1.5px solid #DFDFDF;
-  font-size: 14px;
-  font-family: 'Mulish', sans-serif;
-  color: #000000;
-  background: #FFFFFF;
-  padding: 0 12px;
-  box-sizing: border-box;
-  outline: none;
-  transition: 0.2s ease;
-}
-
-.custom-input:focus {
-  border: 1.5px solid #0b84d6;     /* focus border */
-  box-shadow: 0 0 0 3px rgba(11,132,214,0.2);  /* glow */
-}
- `}</style>
         </div>
       </div>
     </div>
