@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Mail } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
 
 
-import { emailVerificationAPI } from "../../api/api";
+import { emailVerificationAPI } from "../../services/api";
 
 const EmailVerificationForm = ({ initialEmail = "" }) => {
   const [email, setEmail] = useState(initialEmail);

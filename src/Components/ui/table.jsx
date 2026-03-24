@@ -1,5 +1,5 @@
 import { Table, Paper } from "@mantine/core";
-import "../../custom-scrollbar.css";
+import "../../styles/custom-scrollbar.css";
 
 export default function DataEntryTable({
   columns = [],

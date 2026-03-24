@@ -1,6 +1,6 @@
-import LeftAuthBox from "../../Components/auth/LeftAuthLayout";
-import RightAuthSlider from "../../Components/auth/RightAuthSlider";
-import ForgotPasswordForm from "../../Components/auth/ForgetPasswordForm";
+import LeftAuthBox from "../../components/auth/LeftAuthLayout";
+import RightAuthSlider from "../../components/auth/RightAuthSlider";
+import ForgotPasswordForm from "../../components/auth/ForgetPasswordForm";
 
 const EzeyForgotPasswordPage = () => {
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Edit2, Trash2, X, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // ✅ added
-import '../../custom-scrollbar.css';
+import '../../styles/custom-scrollbar.css';
 import noDataImage from '../../assets/images/nodataa.png';
 import {
   getClassrooms,
@@ -9,10 +9,10 @@ import {
   deleteClassroom,
   updateClassroom,
   bulkUploadClassrooms,
-} from "../../api/api";
-import BackButton from "../../Components/backbutton";
+} from "../../services/api";
+import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
-import DataEntryTable from "../../Components/ui/manualEntryTable";
+import DataEntryTable from "../../components/ui/manualEntryTable";
 
 
 
@@ -240,7 +240,7 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
   return (
     <div className="mt-6">
       <DataEntryTable
-         height="calc(100vh - 330px)"
+        height="calc(100vh - 330px)"
 
         columns={[
           { key: "name", label: "Classroom number" },
@@ -324,7 +324,7 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
                     <Edit2 size={15} />
                   </button>
 
-                  <button onClick={() => onDelete(room._id)}  className="text-[#C0C6D0] hover:text-[#F04438]"> 
+                  <button onClick={() => onDelete(room._id)} className="text-[#C0C6D0] hover:text-[#F04438]">
                     <Trash2 size={15} />
                   </button>
                 </div>
@@ -380,13 +380,13 @@ export const ManualEntryClassroom = () => {
     //   return;
     // }
     if (!classroomNumber || !classroomType || !classroomCapacity) {
-  Swal.fire({
-    icon: "warning",
-    text: "Please fill in all fields",
-    confirmButtonColor: "#4BACCE",
-  });
-  return;
-}
+      Swal.fire({
+        icon: "warning",
+        text: "Please fill in all fields",
+        confirmButtonColor: "#4BACCE",
+      });
+      return;
+    }
 
 
     try {
@@ -415,35 +415,35 @@ export const ManualEntryClassroom = () => {
   };
 
   const handleDeleteClassroom = async (id) => {
-  const result = await Swal.fire({
-    text: "Are you sure you want to delete this classroom?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#F04438",
-    cancelButtonColor: "#4BACCE",
-    confirmButtonText: "Yes",
-  });
-
-  if (!result.isConfirmed) return;
-
-  try {
-    setLoading(true);
-    const response = await deleteClassroom(id);
-
-    if (response.success) {
-      await fetchClassrooms();
-    }
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      text: "Failed to delete classroom: " + err.message,
-      confirmButtonColor: "#4BACCE",
+    const result = await Swal.fire({
+      text: "Are you sure you want to delete this classroom?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F04438",
+      cancelButtonColor: "#4BACCE",
+      confirmButtonText: "Yes",
     });
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+      const response = await deleteClassroom(id);
+
+      if (response.success) {
+        await fetchClassrooms();
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        text: "Failed to delete classroom: " + err.message,
+        confirmButtonColor: "#4BACCE",
+      });
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const handleEditClassroom = async (id, updatedData) => {
@@ -485,10 +485,10 @@ export const ManualEntryClassroom = () => {
       !file.name.match(/\.(csv|xlsx|xls)$/i)
     ) {
       Swal.fire({
-  icon: "warning",
-  text: "Please upload a valid CSV or XLSX file",
-  confirmButtonColor: "#4BACCE",
-});
+        icon: "warning",
+        text: "Please upload a valid CSV or XLSX file",
+        confirmButtonColor: "#4BACCE",
+      });
 
       event.target.value = "";
       return;
@@ -505,16 +505,16 @@ export const ManualEntryClassroom = () => {
       //   alert(`Successfully uploaded ${response.data?.count || "classrooms"}!`);
       // }
       if (response?.success || Array.isArray(response)) {
-  await fetchClassrooms();
-  setShowTable(true);
-}
+        await fetchClassrooms();
+        setShowTable(true);
+      }
 
     } catch (err) {
-     Swal.fire({
-  icon: "error",
-  text: "Failed to upload file: " + err.message,
-  confirmButtonColor: "#4BACCE",
-});
+      Swal.fire({
+        icon: "error",
+        text: "Failed to upload file: " + err.message,
+        confirmButtonColor: "#4BACCE",
+      });
 
       console.error(err);
     } finally {
@@ -652,18 +652,18 @@ export const ManualEntryClassroom = () => {
                   <button
                     onClick={handleAddClassroom}
                     disabled={loading}
-                     style={{
-                        
-                        fontSize: "12px",
-                        color: "rgb(77, 172, 206)",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontFamily: "'Mulish', sans-serif",
-                        position: "relative",
-                        whiteSpace: "nowrap",
-                        opacity: loading ? 0.6 : 1,
-                      }}
+                    style={{
+
+                      fontSize: "12px",
+                      color: "rgb(77, 172, 206)",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      fontFamily: "'Mulish', sans-serif",
+                      position: "relative",
+                      whiteSpace: "nowrap",
+                      opacity: loading ? 0.6 : 1,
+                    }}
                     className=" flex items-center text-[12px] font-['Mulish'] text-[#9CA3AF] after:content-['']
               after:absolute after:left-0 after:-bottom-[2px]
               after:h-[1px] after:w-full after:bg-[#4A9FB5]

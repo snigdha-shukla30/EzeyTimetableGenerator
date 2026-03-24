@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
-import { getSubjects, deleteSubjectAPI, updateSubjectAPI } from "../../api/api";
+import { getSubjects, deleteSubjectAPI, updateSubjectAPI } from "../../services/api";
 import Swal from "sweetalert2";
 import DataEntryTable from "../ui/table";
 
@@ -242,7 +242,7 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
 
 // import { useState, useEffect } from "react";
 // import { Edit2, Trash2 } from "lucide-react";
-// import { getSubjects, deleteSubjectAPI, updateSubjectAPI } from "../../api/api";
+// import { getSubjects, deleteSubjectAPI, updateSubjectAPI } from "../../services/api";
 // import Swal from "sweetalert2";
 
 // export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {

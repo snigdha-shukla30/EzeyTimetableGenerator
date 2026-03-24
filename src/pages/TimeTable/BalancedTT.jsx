@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Sidebar from "../../Components/ui/Sidebar";
-import Header from "../../Components/ui/Header";
-import BalancedTimeTable from "../../Components/timetable/BalancedTimetable";
+import Sidebar from "../../components/ui/Sidebar";
+import Header from "../../components/ui/Header";
+import BalancedTimeTable from "../../components/timetable/BalancedTimetable";
 
 const BalancedTimeTablePage = () => {
   const [activeMenu, setActiveMenu] = useState("timetable");

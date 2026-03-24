@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { CreditCard, Key } from "lucide-react";
 import { CardContainer } from "./CardContainer";
-import { InputField } from "../../Components/ui/InputField";
-import { Button } from "../../Components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
+import { Button } from "../../components/ui/Button";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 

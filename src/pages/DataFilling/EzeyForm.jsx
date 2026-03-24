@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { StepNavigation } from "../../Components/Steps/StepsNavigation";
-import { ERPConnectionScreen } from "../../Components/Steps/ERPconnectionscreen";
-import { LoadchartScreen } from "../../Components/Steps/LoadchartScreen";
-import { ManualEntryScreen } from "../../Components/Steps/ManualEntryScreen";
+import { StepNavigation } from "../../components/Steps/StepsNavigation";
+import { ERPConnectionScreen } from "../../components/Steps/ERPconnectionscreen";
+import { LoadchartScreen } from "../../components/Steps/LoadchartScreen";
+import { ManualEntryScreen } from "../../components/Steps/ManualEntryScreen";
 
 const EzeyForm = () => {
   const [currentStep, setCurrentStep] = useState(3);

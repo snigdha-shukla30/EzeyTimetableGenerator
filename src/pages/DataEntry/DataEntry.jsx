@@ -2,18 +2,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Sidebar from "../../Components/ui/Sidebar";
-import Header from "../../Components/ui/Header";
-import { CardContainer } from "../../Components/ui/Card";
+import Sidebar from "../../components/ui/Sidebar";
+import Header from "../../components/ui/Header";
+import { CardContainer } from "../../components/ui/Card";
 
-import ClassroomData from "../../Components/DataEntry/ClassroomData";
-import Batches from "../../Components/DataEntry/Batches";
-import Subjects from "../../Components/DataEntry/Subjects";
-import Faculty from "../../Components/DataEntry/Faculty";
+import ClassroomData from "../../components/DataEntry/ClassroomData";
+import Batches from "../../components/DataEntry/Batches";
+import Subjects from "../../components/DataEntry/Subjects";
+import Faculty from "../../components/DataEntry/Faculty";
 import { Search } from "lucide-react";
 
 // ✅ API import (uncomment if you are using it)
-// import { getClassrooms } from "../../api/api";
+// import { getClassrooms } from "../../services/api";
 
 const DataEntry = () => {
   const navigate = useNavigate();

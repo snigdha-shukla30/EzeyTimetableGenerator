@@ -1,6 +1,6 @@
-import LeftAuthLayout from "../../Components/auth/LeftAuthLayout";
-import RightAuthSlider from "../../Components/auth/RightAuthSlider";
-import SignupForm from "../../Components/auth/SignupForm";
+import LeftAuthLayout from "../../components/auth/LeftAuthLayout";
+import RightAuthSlider from "../../components/auth/RightAuthSlider";
+import SignupForm from "../../components/auth/SignupForm";
 
 const EzeySignupPage = () => {
   return (

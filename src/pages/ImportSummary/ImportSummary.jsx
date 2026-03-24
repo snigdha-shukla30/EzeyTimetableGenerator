@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Edit } from "lucide-react";
 
-import Tabs from "../../Components/ImportedData/Tabs";
-import PaginationDots from "../../Components/ImportedData/PagnitionDots";
-import ClassroomTable from "../../Components/ImportedData/Classroomtable";
-import BatchesTable from "../../Components/ImportedData/Batchestable";
-import SubjectsTable from "../../Components/ImportedData/Subjectstable";
-import FacultyTable from "../../Components/ImportedData/Facultytable";
+import Tabs from "../../components/ImportedData/Tabs";
+import PaginationDots from "../../components/ImportedData/PagnitionDots";
+import ClassroomTable from "../../components/ImportedData/Classroomtable";
+import BatchesTable from "../../components/ImportedData/Batchestable";
+import SubjectsTable from "../../components/ImportedData/Subjectstable";
+import FacultyTable from "../../components/ImportedData/Facultytable";
 
 const ImportSummary = () => {
   const [activeTab, setActiveTab] = useState("Classroom");
@@ -19,10 +19,10 @@ const ImportSummary = () => {
 
   // 🔥 API CALLS (replace URLs later)
   useEffect(() => {
-    fetch("/api/classrooms").then(r => r.json()).then(setClassrooms);
-    fetch("/api/batches").then(r => r.json()).then(setBatches);
-    fetch("/api/subjects").then(r => r.json()).then(setSubjects);
-    fetch("/api/faculty").then(r => r.json()).then(setFaculty);
+    fetch("/services/classrooms").then(r => r.json()).then(setClassrooms);
+    fetch("/services/batches").then(r => r.json()).then(setBatches);
+    fetch("/services/subjects").then(r => r.json()).then(setSubjects);
+    fetch("/services/faculty").then(r => r.json()).then(setFaculty);
   }, []);
 
   const tabs = ["Classroom", "Batches", "Subjects", "Faculty"];

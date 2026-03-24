@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-import { signupAPI } from "../../api/api";
+import { signupAPI } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 // ✅ shared components
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
 import Swal from "sweetalert2";
 
 import EmailVerificationForm from "./EmailVerificationForm";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
-import { getBatches, updateBatch, deleteBatch } from "../../api/api";
+import { getBatches, updateBatch, deleteBatch } from "../../services/api";
 import Swal from "sweetalert2";
 import DataEntryTable from "../ui/table";
 
@@ -295,7 +295,7 @@ export default function Batches({ searchQuery, refreshTrigger }) {
 
 // import React, { useState, useEffect } from "react";
 // import { Edit2, Trash2 } from "lucide-react";
-// import { getBatches, updateBatch, deleteBatch } from "../../api/api";
+// import { getBatches, updateBatch, deleteBatch } from "../../services/api";
 // import Swal from "sweetalert2";
 // import DataEntryTable from "../ui/table";
 

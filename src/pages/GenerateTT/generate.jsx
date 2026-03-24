@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Sidebar from "../../Components/ui/Sidebar";
-import Header from "../../Components/ui/Header";
-import TimetableContent from "../../Components/timetable/GenerateTT";
+import Sidebar from "../../components/ui/Sidebar";
+import Header from "../../components/ui/Header";
+import TimetableContent from "../../components/timetable/GenerateTT";
 
 const GenerateTimetablePage = () => {
   const [activeMenu, setActiveMenu] = useState("timetable");

@@ -6,8 +6,8 @@ import {
   getTimetablePreviewAPI,
   getTimetableVisualHTML,
   generateTimetable,
-} from "../../api/api";
-import { Button } from "../../Components/ui/Button";
+} from "../../services/api";
+import { Button } from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 

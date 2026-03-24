@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
-import { Button } from "../../Components/ui/Button";
-import { emailVerificationAPI } from "../../api/api";
+import { Button } from "../../components/ui/Button";
+import { emailVerificationAPI } from "../../services/api";
 
 const EmailVerifiedForm = () => {
   const [loading, setLoading] = useState(false);
@@ -105,8 +105,8 @@ export default EmailVerifiedForm;
 // import React, { useState, useEffect } from "react";
 
 
-// import { Button } from "../../Components/ui/Button";
-// import { emailVerificationAPI } from "../../api/api";
+// import { Button } from "../../components/ui/Button";
+// import { emailVerificationAPI } from "../../services/api";
 // import { useSearchParams } from "react-router-dom";
 
 

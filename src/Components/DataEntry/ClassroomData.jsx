@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
+import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
 import DataEntryTable from "../ui/table";
 import { Pencil, Trash2 } from "lucide-react";
 
@@ -180,7 +180,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
 
 // import React, { useState, useEffect } from "react";
 // import Swal from "sweetalert2";
-// import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
+// import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
 // import DataEntryTable from "../ui/table";
 // import { Pencil, Trash2 } from "lucide-react";
 
@@ -404,7 +404,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
 
 // import React, { useState, useEffect } from "react";
 // import Swal from "sweetalert2";
-// import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
+// import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
 // import DataEntryTable from "../ui/table";
 
 // export default function ClassroomData({ searchQuery, refreshTrigger }) {
@@ -550,7 +550,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
 // } from "@mantine/core";
 
 // import { Pencil, Trash2 } from "lucide-react";
-// import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
+// import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
 // import Swal from "sweetalert2";
 
 // export default function ClassroomData({ searchQuery, refreshTrigger }) {
@@ -740,7 +740,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
 
 // import React, { useState, useEffect } from "react";
 // import { Edit2, Trash2 } from "lucide-react";
-// import { getClassrooms, deleteClassroom, updateClassroom } from "../../api/api";
+// import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
 // import Swal from "sweetalert2";
 
 // export default function ClassroomData({ searchQuery, refreshTrigger }) {

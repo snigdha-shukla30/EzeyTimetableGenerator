@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Home, FileText, Calendar, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { logoutAPI } from "../../api/api";
+import { logoutAPI } from "../../services/api";
 
 const Sidebar = ({ activeMenu, setActiveMenu }) => {
   const navigate = useNavigate();

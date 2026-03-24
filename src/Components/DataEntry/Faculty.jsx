@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
-import { getFaculties, updateFaculty, deleteFaculty } from "../../api/api";
+import { getFaculties, updateFaculty, deleteFaculty } from "../../services/api";
 import Swal from "sweetalert2";
 import DataEntryTable from "../ui/table";
 
@@ -278,7 +278,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
 
 // import React, { useState, useEffect } from "react";
 // import { Edit2, Trash2 } from "lucide-react";
-// import { getFaculties, updateFaculty, deleteFaculty } from "../../api/api";
+// import { getFaculties, updateFaculty, deleteFaculty } from "../../services/api";
 // import Swal from "sweetalert2";
 
 // export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {

@@ -8,10 +8,10 @@ import {
   updateFaculty,
   deleteFaculty,
   bulkUploadFaculties,
-} from "../../api/api";
-import BackButton from "../../Components/backbutton";
+} from "../../services/api";
+import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
-import DataEntryTable from "../../Components/ui/manualEntryTable";
+import DataEntryTable from "../../components/ui/manualEntryTable";
 
 
 // Component for Upload Button (UNCHANGED)

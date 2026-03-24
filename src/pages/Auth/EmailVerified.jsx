@@ -1,6 +1,6 @@
-import LeftAuthBox from "../../Components/auth/LeftAuthLayout";
-import RightAuthSlider from "../../Components/auth/RightAuthSlider";
-import EmailVerifiedForm from "../../Components/auth/EmailVerified";
+import LeftAuthBox from "../../components/auth/LeftAuthLayout";
+import RightAuthSlider from "../../components/auth/RightAuthSlider";
+import EmailVerifiedForm from "../../components/auth/EmailVerified";
 
 const EzeyVerifiedPage = () => {
   return (

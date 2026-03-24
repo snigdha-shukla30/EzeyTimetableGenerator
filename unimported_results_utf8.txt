@@ -1,0 +1,33 @@
+﻿
+       summary               unimported v1.31.0 (node)
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+       entry file          : src/main.jsx
+
+       unresolved imports  : 0
+       unused dependencies : 2
+       unimported files    : 8
+
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö¼ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+     Γöé 2 unused dependencies
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+   1 Γöé @tailwindcss/vite
+   2 Γöé tailwindcss
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö┤ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö¼ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+     Γöé 8 unimported files
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö╝ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+   1 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\DataEntry\Constraints.jsx
+   2 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ManualEntry\addBatch.jsx
+   3 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ManualEntry\BatchTable.jsx
+   4 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ManualEntry\QuickAddBatch.jsx
+   5 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ManualEntry\QuickAddSubject.jsx
+   6 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ManualEntry\SubjectTable.jsx
+   7 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\Steps\TabButton.jsx
+   8 Γöé C:\Users\Snigdha Shukla\Downloads\EzeyTimetableGenerator\src\Components\ui\Alert.jsx
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓö┤ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+
+       Inspect the results and run npx unimported -u to update ignore lists

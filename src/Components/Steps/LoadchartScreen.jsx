@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CardContainer } from "./CardContainer";
-import { Button } from "../../Components/ui/Button";
+import { Button } from "../../components/ui/Button";
 import { Footer } from "./Footer";
 import { useNavigate } from "react-router-dom";
 

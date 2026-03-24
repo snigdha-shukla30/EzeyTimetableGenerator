@@ -8,9 +8,9 @@ import {
   deleteBatch,
   getSubjects,
   getFaculties,
-} from "../../api/api";
+} from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../../Components/backbutton";
+import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
 
 // ============================================
@@ -899,11 +899,11 @@ export default function ManualEntryBatch() {
 //   deleteBatch,
 //   getSubjects,
 //   getFaculties,
-// } from "../../api/api";
+// } from "../../services/api";
 // import { useNavigate } from "react-router-dom";
-// import BackButton from "../../Components/backbutton";
+// import BackButton from "../../components/common/BackButton";
 // import Swal from "sweetalert2";
-// import DataEntryTable from "../../Components/ui/manualEntryTable";
+// import DataEntryTable from "../../components/ui/manualEntryTable";
 
 
 

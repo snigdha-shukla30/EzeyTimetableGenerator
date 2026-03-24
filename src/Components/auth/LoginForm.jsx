@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { loginAPI } from "../../api/api";
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { loginAPI } from "../../services/api";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
 import Swal from "sweetalert2";
 
 const LoginForm = () => {
@@ -170,9 +170,9 @@ export default LoginForm;
 // import React, { useEffect, useState } from "react";
 // import { Mail, Lock } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
-// import { loginAPI } from "../../api/api";
-// import { Button } from "../../Components/ui/Button";
-// import { InputField } from "../../Components/ui/InputField";
+// import { loginAPI } from "../../services/api";
+// import { Button } from "../../components/ui/Button";
+// import { InputField } from "../../components/ui/InputField";
 // import Swal from "sweetalert2";
 
 // const LoginForm = () => {
