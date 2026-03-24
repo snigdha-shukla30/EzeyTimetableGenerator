@@ -46,6 +46,7 @@ export default function DataEntryTable({
                   c="#265768"
                   fw={600}
                   fz="15px"
+                  w={c.width || undefined}
                 >
                   {c.label}
                 </Table.Th>

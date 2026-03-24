@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
+import ManualEntryTable from "../../components/ui/manualEntryTable";
 
 // ============================================
 // MULTISELECT COMPONENT
@@ -664,146 +665,84 @@ export default function ManualEntryBatch() {
                 </div>
               </div>
             ) : (
-              <div
-                style={{
-                  border: "1.5px solid #DFDFDF",
-                  borderRadius: "12px",
-                  overflow: "auto",
-                  background: "white",
-                  maxHeight: "500px",
-                }}
-              >
-                <div style={{ minWidth: "1000px" }}>
-                  {/* Table Header */}
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "50px 1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
-                      background: "#F8F9FA",
-                      borderBottom: "2px solid #4BACCE",
-                      fontFamily: "'Mulish', sans-serif",
-                      fontSize: "13px",
-                      fontWeight: "700",
-                      color: "#265768",
-                      position: "sticky",
-                      top: 0,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div style={{ padding: "14px 16px" }}>S.No</div>
-                    <div style={{ padding: "14px 16px" }}>Degree / Course</div>
-                    <div style={{ padding: "14px 16px" }}>Department</div>
-                    <div style={{ padding: "14px 16px" }}>Capacity</div>
-                    <div style={{ padding: "14px 16px" }}>Semester</div>
-                    <div style={{ padding: "14px 16px" }}>Section</div>
-                    <div style={{ padding: "14px 16px" }}>Assigned Subjects</div>
-                    <div style={{ padding: "14px 16px", textAlign: "center" }}>Actions</div>
-                  </div>
+              <div className="mt-6 pb-6">
+                <ManualEntryTable
+                  height="calc(100vh - 460px)"
+                  columns={[
+                    { key: "sno", label: "S.No", width: "70px" },
+                    { key: "degree", label: "Degree / Course" },
+                    { key: "department", label: "Department" },
+                    { key: "capacity", label: "Capacity" },
+                    { key: "semester", label: "Semester" },
+                    { key: "section", label: "Section" },
+                    { key: "subjects", label: "Assigned Subjects" },
+                  ]}
+                >
+                  {batches.map((batch, index) => {
+                    const subjects = batch.raw?.subjects || batch.subjects || [];
 
-                  {/* Table Rows */}
-                  <div>
-                    {batches.map((batch, index) => {
-                      const subjects = batch.raw?.subjects || batch.subjects || [];
-
-                      return (
-                        <div
-                          key={batch._id || `batch-${index}`}
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "50px 1fr 1fr 1fr 1fr 1fr 1.2fr 100px",
-                            borderBottom:
-                              index < batches.length - 1
-                                ? "1px solid #E8E8E8"
-                                : "none",
-                            fontFamily: "'Mulish', sans-serif",
-                            fontSize: "13px",
-                            color: "#333",
-                            alignItems: "center",
-                          }}
-                        >
-                          {/* S.No */}
-                          <div style={{ padding: "14px 16px" }}>{index + 1}</div>
-
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.course || batch.degree || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.department || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.capacity || batch.strength || batch.raw?.strength || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.semester || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {batch.section || batch.name || batch.raw?.name || "-"}
-                          </div>
-                          <div style={{ padding: "14px 16px" }}>
-                            {subjects.length > 0 ? (
-                              <button
-                                onClick={() =>
-                                  openListPopup(
-                                    "Assigned Subjects",
-                                    subjects.map((p) => p.subject)
-                                  )
-                                }
-                                style={{
-                                  color: "#4BACCE",
-                                  background: "none",
-                                  border: "none",
-                                  cursor: "pointer",
-                                  fontSize: "13px",
-                                  fontFamily: "'Mulish', sans-serif",
-                                  textDecoration: "underline",
-                                }}
-                              >
-                                See List ({subjects.length})
-                              </button>
-                            ) : (
-                              "-"
-                            )}
-                          </div>
-                          <div
-                            style={{
-                              padding: "14px 16px",
-                              display: "flex",
-                              justifyContent: "center",
-                              gap: "12px",
-                            }}
-                          >
+                    return (
+                      <tr
+                        key={batch._id || `batch-${index}`}
+                        className={`text-sm border-b border-[#ECF0F4] hover:bg-[#F7FAFF] transition ${
+                          index === batches.length - 1 ? "border-b-0" : ""
+                        }`}
+                      >
+                        <td className="py-5 text-center text-[#4C5968]">{index + 1}</td>
+                        <td className="py-5 text-center text-[#4C5968]">{batch.course || batch.degree || "-"}</td>
+                        <td className="py-5 text-center text-[#4C5968]">{batch.department || "-"}</td>
+                        <td className="py-5 text-center text-[#4C5968]">{batch.capacity || batch.strength || batch.raw?.strength || "-"}</td>
+                        <td className="py-5 text-center text-[#4C5968]">{batch.semester || "-"}</td>
+                        <td className="py-5 text-center text-[#4C5968]">{batch.section || batch.name || batch.raw?.name || "-"}</td>
+                        <td className="py-5 text-center text-[#4C5968]">
+                          {subjects.length > 0 ? (
                             <button
-                              onClick={() => handleEdit(batch)}
-                              disabled={loading}
+                              onClick={() =>
+                                openListPopup(
+                                  "Assigned Subjects",
+                                  subjects.map((p) => p.subject)
+                                )
+                              }
                               style={{
+                                color: "#4BACCE",
                                 background: "none",
                                 border: "none",
                                 cursor: "pointer",
-                                padding: "4px",
+                                fontSize: "13px",
+                                fontFamily: "'Mulish', sans-serif",
+                                textDecoration: "underline",
                               }}
+                            >
+                              See List ({subjects.length})
+                            </button>
+                          ) : (
+                            "-"
+                          )}
+                        </td>
+                        <td className="py-5">
+                          <div className="flex justify-center gap-3">
+                            <button
+                              onClick={() => handleEdit(batch)}
+                              disabled={loading}
+                              className="text-[#C0C6D0] hover:text-[#1A8FE3]"
                               title="Edit"
                             >
-                              <Edit2 size={16} color="#4BACCE" />
+                              <Edit2 size={16} />
                             </button>
                             <button
                               onClick={() => handleDeleteBatch(batch._id)}
                               disabled={loading}
-                              style={{
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                padding: "4px",
-                              }}
+                              className="text-[#C0C6D0] hover:text-[#DC3545]"
                               title="Delete"
                             >
-                              <Trash2 size={16} color="#DC3545" />
+                              <Trash2 size={16} />
                             </button>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </ManualEntryTable>
               </div>
             )}
           </div>

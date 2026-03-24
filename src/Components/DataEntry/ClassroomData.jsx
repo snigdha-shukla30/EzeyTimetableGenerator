@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { getClassrooms, deleteClassroom, updateClassroom } from "../../services/api";
-import DataEntryTable from "../ui/table";
+import DataEntryTable from "../ui/dataEntryTable";
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
@@ -11,6 +11,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
   const [editData, setEditData] = useState(null);
 
   const columns = [
+    { key: "sno", label: "S.No", width: "70px" },
     { key: "name", label: "Classroom Name" },
     { key: "type", label: "Classroom Type" },
     { key: "capacity", label: "Capacity" },
@@ -97,6 +98,7 @@ export default function ClassroomData({ searchQuery = "", refreshTrigger }) {
               idx === filtered.length - 1 ? "border-b-0" : ""
             }`}
           >
+            <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
             <td className="py-5 text-center text-[#4C5968]">{room.name}</td>
 
             <td className="py-5 text-center text-[#8A96A8]">

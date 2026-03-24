@@ -10,7 +10,7 @@ import {
 } from "../../services/api";
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
-import DataEntryTable from "../../components/ui/manualEntryTable";
+import ManualEntryTable from "../../components/ui/manualEntryTable";
 
 
 
@@ -507,9 +507,10 @@ export default function ManualEntrySubject() {
                     </div>
                   </div>
                 </div> */}
-                <DataEntryTable
+                <ManualEntryTable
   height="calc(100vh - 460px)"
   columns={[
+    { key: "sno", label: "S.No", width: "70px" },
     { key: "name", label: "Subject Name" },
     { key: "code", label: "Subject Code" },
     { key: "department", label: "Department" },
@@ -526,6 +527,7 @@ export default function ManualEntrySubject() {
         idx === subjects.length - 1 ? "border-b-0" : ""
       }`}
     >
+      <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
       <td className="py-5 text-center text-[#4C5968]">{item.name}</td>
       <td className="py-5 text-center text-[#4C5968]">{item.code}</td>
       <td className="py-5 text-center text-[#4C5968]">{item.department}</td>
@@ -553,7 +555,7 @@ export default function ManualEntrySubject() {
       </td>
     </tr>
   ))}
-</DataEntryTable>
+</ManualEntryTable>
 
               </div>
             )}

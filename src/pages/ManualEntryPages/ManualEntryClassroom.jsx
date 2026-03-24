@@ -12,7 +12,7 @@ import {
 } from "../../services/api";
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
-import DataEntryTable from "../../components/ui/manualEntryTable";
+import ManualEntryTable from "../../components/ui/manualEntryTable";
 
 
 
@@ -239,10 +239,11 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
 
   return (
     <div className="mt-6">
-      <DataEntryTable
+      <ManualEntryTable
         height="calc(100vh - 330px)"
 
         columns={[
+          { key: "sno", label: "S.No", width: "70px" },
           { key: "name", label: "Classroom number" },
           { key: "type", label: "Classroom type" },
           { key: "capacity", label: "Capacity" },
@@ -256,6 +257,9 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
                 idx === filtered.length - 1 ? "none" : "1px solid #D9D9D9",
             }}
           >
+            {/* S.No */}
+            <td align="center" className="text-[13px] text-[#265768] py-3">{idx + 1}</td>
+
             {/* NAME */}
             <td align="center" className="text-[13px] text-[#265768] py-3">
               {editingId === room._id ? (
@@ -332,7 +336,7 @@ const ClassroomData = ({ classrooms, onEdit, onDelete, searchQuery }) => {
             </td>
           </tr>
         ))}
-      </DataEntryTable>
+      </ManualEntryTable>
     </div>
   );
 };

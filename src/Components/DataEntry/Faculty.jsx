@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getFaculties, updateFaculty, deleteFaculty } from "../../services/api";
 import Swal from "sweetalert2";
-import DataEntryTable from "../ui/table";
+import DataEntryTable from "../ui/dataEntryTable";
 
 export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
   const [facultyList, setFacultyList] = useState([]);
@@ -13,6 +13,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
   const [popupItems, setPopupItems] = useState([]);
 
   const columns = [
+    { key: "sno", label: "S.No", width: "70px" },
     { key: "name", label: "Faculty Name" },
     { key: "email", label: "Email" },
     { key: "maxLoad", label: "Max load per day" },
@@ -120,6 +121,7 @@ export default function Faculty({ searchQuery = "", refreshTrigger = 0 }) {
                 idx === filtered.length - 1 ? "border-b-0" : ""
               }`}
             >
+              <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
               <td className="py-5 text-center text-[#4C5968]">{f.name}</td>
 
               <td className="py-5 text-center text-[13px] text-[#8C96A3]">

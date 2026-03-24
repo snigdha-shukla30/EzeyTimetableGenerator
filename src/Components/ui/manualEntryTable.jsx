@@ -1,7 +1,7 @@
 import { Table, Paper } from "@mantine/core";
 import "../../styles/custom-scrollbar.css";
 
-export default function DataEntryTable({
+export default function ManualEntryTable({
   columns = [],
   children,
   height = "calc(100vh - 410px)",
@@ -49,6 +49,7 @@ export default function DataEntryTable({
                     c="#265768"
                     fw={600}
                     fz="15px"
+                    w={c.width || undefined}
                   >
                     {c.label}
                   </Table.Th>

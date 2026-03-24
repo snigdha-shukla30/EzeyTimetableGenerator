@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getBatches, updateBatch, deleteBatch } from "../../services/api";
 import Swal from "sweetalert2";
-import DataEntryTable from "../ui/table";
+import DataEntryTable from "../ui/dataEntryTable";
 
 export default function Batches({ searchQuery, refreshTrigger }) {
   const [batches, setBatches] = useState([]);
@@ -15,6 +15,7 @@ export default function Batches({ searchQuery, refreshTrigger }) {
   const [popupItems, setPopupItems] = useState([]);
 
   const columns = [
+    { key: "sno", label: "S.No", width: "70px" },
     { key: "degree", label: "Degree / Course" },
     { key: "batchCode", label: "Batch code" },
     { key: "department", label: "Department" },
@@ -112,6 +113,7 @@ export default function Batches({ searchQuery, refreshTrigger }) {
                 idx === filtered.length - 1 ? "border-b-0" : ""
               }`}
             >
+              <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
               <td className="py-5 text-center text-[#4C5968]">
                 {editingId === item._id ? (
                   <input

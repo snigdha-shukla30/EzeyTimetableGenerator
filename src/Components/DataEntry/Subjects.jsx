@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { getSubjects, deleteSubjectAPI, updateSubjectAPI } from "../../services/api";
 import Swal from "sweetalert2";
-import DataEntryTable from "../ui/table";
+import DataEntryTable from "../ui/dataEntryTable";
 
 export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
   const [subjects, setSubjects] = useState([]);
@@ -14,6 +14,7 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
   const [editData, setEditData] = useState(null);
 
   const columns = [
+    { key: "sno", label: "S.No", width: "70px" },
     { key: "name", label: "Subject Name" },
     { key: "code", label: "Subject Code" },
     { key: "department", label: "Department" },
@@ -107,6 +108,11 @@ export default function Subjects({ searchQuery = "", refreshTrigger = 0 }) {
               idx === filtered.length - 1 ? "border-b-0" : ""
             }`}
           >
+            {/* S.No */}
+            <td className="py-5 text-center text-[#4C5968] font-medium" style={{ width: "70px" }}>
+              {idx + 1}
+            </td>
+
             {/* Subject Name */}
             <td className="py-5 text-center text-[#4C5968]">
               {editingId === sub._id ? (

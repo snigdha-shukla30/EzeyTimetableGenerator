@@ -11,7 +11,7 @@ import {
 } from "../../services/api";
 import BackButton from "../../components/common/BackButton";
 import Swal from "sweetalert2";
-import DataEntryTable from "../../components/ui/manualEntryTable";
+import ManualEntryTable from "../../components/ui/manualEntryTable";
 
 
 // Component for Upload Button (UNCHANGED)
@@ -48,10 +48,11 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
 
   return (
     <div className="mt-6 pb-4">
-      <DataEntryTable
+      <ManualEntryTable
         height="calc(100vh - 380px)"
         minWidth="100%"
         columns={[
+          { key: "sno", label: "S.No", width: "70px" },
           { key: "name", label: "Faculty Name" },
           { key: "email", label: "Email" },
           { key: "maxLoad", label: "Max load/day" },
@@ -73,6 +74,7 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
                 idx === filtered.length - 1 ? "border-b-0" : ""
               }`}
             >
+              <td className="py-4 text-center text-[#265768]">{idx + 1}</td>
               {/* Faculty Name */}
               <td className="py-4 text-center text-[#265768] font-medium">
                 {f.name}
@@ -121,7 +123,7 @@ const Component = ({ property1, className, headingClassName, onClick }) => {
             </tr>
           ))
         )}
-      </DataEntryTable>
+      </ManualEntryTable>
     </div>
   );
 };
