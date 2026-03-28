@@ -63,10 +63,10 @@ const Student = () => {
         className="h-full w-full max-w-[98%] mx-auto px-3 py-4 border-2 border-[#BFBFBF] rounded shadow-xl bg-[#BFBFBF]/10"
         style={{ marginBottom: '0.5rem' }}
       >
-        <h1 className="text-2xl md:text-3xl mt-4 ml-0 font-bold font-Playfair text-[#265768]">
+        <h1 className="text-2xl md:text-3xl mt-4 ml-2 font-bold font-Playfair text-[#265768]">
           View / Edit generated schedules
         </h1>
-        <p className="text-xs md:text-sm mt-1 ml-1 font-medium font-Mulish" style={{ color: 'rgba(38, 87, 104, 0.5)' }}>
+        <p className="text-xs md:text-sm mt-1 ml-2 font-medium font-Mulish" style={{ color: 'rgba(38, 87, 104, 0.5)' }}>
           Faculty wise schedules
         </p>
 

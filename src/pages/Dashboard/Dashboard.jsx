@@ -10,6 +10,8 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -17,10 +19,14 @@ const Dashboard = () => {
 
     const fetchDashboardData = async () => {
       try {
+        setLoading(true);
         const res = await dashboardSummaryAPI();
         setDashboardData(res.data ?? res);
       } catch (err) {
         console.error(err);
+        setError(err.message || "Failed to load dashboard");
+      } finally {
+        setLoading(false);
       }
     };
     fetchDashboardData();
@@ -36,84 +42,79 @@ const Dashboard = () => {
     : [];
 
   return (
-    <div className='flex h-screen w-full overflow-hidden bg-[#BFBFBF]'>
-      <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+    <div className='flex h-screen w-full ' style={{ fontFamily: "Mulish, sans-serif" }}>
+      {/* Sidebar */}
+      <div className='shrink-0'>
+        <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu} />
+      </div>
 
-      <div className='flex flex-col flex-1 min-w-0 overflow-hidden bg-white'>
-        <Header />
+      {/* Main Content - No Scroll */}
+      <div className='flex flex-col flex-1 min-w-0 h-screen border-b border-[#E8E8E8]'>
+        {/* Header - Fixed Height */}
+        <div className='shrink-0 bg-white px-8 py-4'>
+          <Header />
+        </div>
 
-        <div className='flex-1 p-4 overflow-hidden bg-white'>
-          <div
-            style={{
-              borderRadius: "5px",
-              border: "2px solid #BFBFBF",
-              boxShadow: "0px 1px 4px 0px #00000040",
-              background: "rgba(191, 191, 191, 0.1)",
-              padding: "20px",
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-              overflow: "hidden",
-            }}
-          >
-            {/* Welcome Section */}
-            <section className="shrink-0">
-              <h1
-                className="text-[22px] md:text-[26px] lg:text-[32px] leading-tight font-bold text-[#265768] mb-1"
-                style={{ fontFamily: "Playfair Display, serif" }}
-              >
-                Welcome back, {user?.name || "User"}!
-              </h1>
-              <p
-                className="text-xs md:text-sm ml-1 text-[#26576880] mt-1 max-w-3xl"
-                style={{ fontFamily: "Mulish, sans-serif" }}
-              >
-                Your smart scheduling workspace is ready.{" "}
-                <br />
-                Seamlessly manage departments, teachers, subjects, and classroom availability.
-              </p>
-            </section>
+        {/* Content Area - No Scroll */}
+        <div className='flex-1 px-8 py-4 overflow-hidden bg-[#F5F5F5] ml-10 mr-10 mb-7 rounded-lg '>
+          <div className='h-full flex flex-col'>
+            {loading && (
+              <div className='flex items-center justify-center h-full'>
+                <p className='text-gray-500'>Loading dashboard...</p>
+              </div>
+            )}
 
-            {/* Main content: left column + FacultyStatus right */}
-            <div className='flex-1 flex gap-17 2xl:gap-[28vh] min-h-0'>
+            {error && (
+              <div className='bg-red-50 border border-red-200 rounded p-3 mb-3'>
+                <p className='text-red-600 text-sm'>{error}</p>
+              </div>
+            )}
 
-              {/* Left: StatsCards + QuickReport */}
-              <div className='flex-[3] flex flex-col gap-0 min-w-0 overflow-hidden'>
+            {!loading && !error && (
+              <>
+                {/* Welcome Section */}
+                <div className='shrink-0 mb-3'>
+                  <h1
+                    className='text-2xl font-bold text-[#265768]'
+                    style={{ fontFamily: "Playfair Display, serif" }}
+                  >
+                    Welcome back, {user?.name || "User"}!
+                  </h1>
+                  <p className='text-xs text-[#8B8B8B] mt-1'>
+                    Your smart scheduling workspace is ready.<br />
+                    Seamlessly manage departments, teachers, subjects, and classroom availability.
+                  </p>
+                </div>
 
-                {/* StatsCards */}
-                <div
-                  className='shrink-0'
-                  style={{
-                    display: "flex",
-                    flexWrap: "nowrap",
-                    gap: "0px",
-                    marginTop: "18px"
-                  }}
-                >
-                  {stats.map((item, index) => (
-                    <div key={index} style={{ flex: "1 1 0", minWidth: 0 }}>
-                      <StatsCard {...item} />
+                {/* Main Grid */}
+                <div className='flex-1 flex flex-col lg:flex-row gap-3 min-h-0'>
+
+                  {/* Left Column */}
+                  <div className='flex-[2] flex flex-col gap-3 min-h-0'>
+                    {/* Stats Cards */}
+                    <div className='shrink-0 flex gap-2 mt-2'>
+                      {stats.map((item, index) => (
+                        <div key={index} className='flex-1'>
+                          <StatsCard {...item} />
+                        </div>
+                      ))}
                     </div>
-                  ))}
+
+                    {/* QuickReport */}
+                    <QuickReport quickReport={dashboardData?.quickReport} />
+                  </div>
+
+                  {/* Right Column - Faculty Status (Responsive) */}
+                  <div className='w-full lg:w-[35%] min-h-[400px]   rounded-lg  p-4 ml-0 lg:ml-4'>
+                    <FacultyStatus
+                      facultyList={dashboardData?.facultyList}
+                      totalFaculties={dashboardData?.totalFaculties}
+                    />
+                  </div>
+
                 </div>
-
-                {/* QuickReport */}
-                <div className='flex-1 min-h-0 pr-5.5 2xl:pr-14'>
-                  <QuickReport quickReport={dashboardData?.quickReport} />
-                </div>
-              </div>
-
-              {/* Right: FacultyStatus */}
-              <div
-                className='min-w-0 min-h-0 flex items-start'
-                style={{ paddingRight: "clamp(8px, 1.5vw, 20px)", marginTop: "18px" }}
-              >
-                <FacultyStatus />
-              </div>
-
-            </div>
-
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -122,7 +123,6 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
-
 
 
 
