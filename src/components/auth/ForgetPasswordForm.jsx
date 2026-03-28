@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
-import { forgotPasswordAPI } from "../../services/api";
+import { forgotPasswordAPI } from "../../api/api";
 
 // ✅ shared components
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/InputField";
+import { Button } from "../../Components/ui/Button";
+import { InputField } from "../../Components/ui/InputField";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -40,15 +40,15 @@ const ForgotPasswordForm = () => {
   return (
     <>
       
-      <div className="mb-8 text-center justify-center align-center ">
+      <div className="mb-8 text-center">
         <p className="text-md text-[#4A9FB5] text-left mb-8">Ezey</p>
 
         <h1
-          className="mb-3 mt-30"
+          className="mb-3"
           style={{
             fontFamily: "Georgia, serif",
             fontWeight: 700,
-            fontSize: "28px",
+            fontSize: "2vw",
             lineHeight: "120%",
             color: "#265768",
           }}
@@ -60,7 +60,7 @@ const ForgotPasswordForm = () => {
           style={{
             fontFamily: "sans-serif",
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: "1vw",
             lineHeight: "150%",
             color: "#7A8C94",
           }}
@@ -72,8 +72,8 @@ const ForgotPasswordForm = () => {
     
       <div className="mb-10">
         <InputField
-          width="450px"
-          height="42px"
+          width="31.25vw"
+          height="5.2vh"
           label="Email Address / Institution Id"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +97,6 @@ const ForgotPasswordForm = () => {
 };
 
 export default ForgotPasswordForm;
-
 
 
 

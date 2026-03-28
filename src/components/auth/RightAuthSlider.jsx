@@ -24,7 +24,7 @@ const RightAuthSlider = () => {
 
   return (
     <div
-      className="relative w-full h-[630px] rounded-2xl overflow-hidden shadow-xl flex items-center justify-center"
+      className="relative w-full h-[86vh] mt-[1vh] rounded-[0.7vw] p-[0.07vw] overflow-hidden shadow-xl flex items-center justify-center"
       style={{
         backgroundImage: "url('/rightbg.jpg')",
         backgroundSize: "cover",
@@ -36,10 +36,11 @@ const RightAuthSlider = () => {
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 ${currentSlide === index ? "opacity-100" : "opacity-0"
-            }`}
+          className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000 ${
+            currentSlide === index ? "opacity-100" : "opacity-0"
+          }`}
         >
-          <div className="relative w-[360px] h-[400px] mb-8">
+          <div className="relative w-[25vw] h-[50vh] mb-8">
             {index === 0 && (
               <>
                 <img
@@ -78,8 +79,9 @@ const RightAuthSlider = () => {
           <button
             key={i}
             onClick={() => setCurrentSlide(i)}
-            className={`h-2 rounded-full transition-all ${currentSlide === i ? "w-8 bg-white" : "w-2 bg-white/50"
-              }`}
+            className={`h-2 rounded-full transition-all ${
+              currentSlide === i ? "w-8 bg-white" : "w-2 bg-white/50"
+            }`}
           />
         ))}
       </div>
