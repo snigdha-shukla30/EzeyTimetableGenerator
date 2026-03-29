@@ -410,13 +410,11 @@ export default function GenerateTT() {
                           {section}
                         </div>
 
+
                         <div
                           className="flex-1 text-[13px] text-[#4BACCE]/60 cursor-pointer hover:underline text-center"
                           title="Preview Timetable"
-                          onClick={() => {
-                            const url = `http://localhost:5000/timetable/visual/${batch?._id}`;
-                            window.open(url, "_blank", "noopener,noreferrer");
-                          }}
+                          onClick={() => navigate("/timetabledown")}
                         >
                           📅
                         </div>
@@ -431,17 +429,3 @@ export default function GenerateTT() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

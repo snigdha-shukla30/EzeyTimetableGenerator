@@ -35,8 +35,3 @@ const GenerateTimetablePage = () => {
 };
 
 export default GenerateTimetablePage;
-
-
-
-
-

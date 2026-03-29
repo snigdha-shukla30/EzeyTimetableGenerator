@@ -63,18 +63,18 @@ const Tablefaculty = () => {
         className="h-full w-full max-w-[98%] mx-auto px-3 py-4 border-2 border-[#BFBFBF] rounded shadow-xl bg-[#BFBFBF]/10"
         style={{ marginBottom: '0.5rem' }}
       >
-        <h1 className="text-2xl md:text-3xl mt-4 ml-0 font-bold font-Playfair text-[#265768]">
+        <h1 className="text-2xl md:text-3xl mt-4 ml-4 font-bold font-Playfair text-[#265768]">
           View / Edit generated schedules
         </h1>
-        <p className="text-xs md:text-sm mt-1 ml-1 font-medium font-Mulish" style={{ color: 'rgba(38, 87, 104, 0.5)' }}>
+        <p className="text-xs md:text-sm mt-1 ml-4 font-medium font-Mulish" style={{ color: 'rgba(38, 87, 104, 0.5)' }}>
           Faculty wise schedules
         </p>
 
         <div>
-          <p className="text-base md:text-sm font-medium font-Mulish text-[#265768] mt-8 ml-1">
+          <p className="text-base md:text-sm font-medium font-Mulish text-[#265768] mt-8 ml-4">
             Enter Faculty Name
           </p>
-          <div className="relative ml-0 mt-0.5 w-full max-w-[270px] md:max-w-[270px]">
+          <div className="relative ml-4 mt-0.5 w-full max-w-[270px] md:max-w-[270px]">
             <Search
               size={20}
               className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#265768]"
@@ -90,12 +90,12 @@ const Tablefaculty = () => {
           </div>
         </div>
 
-        <p className="text-[#265768] font-medium font-Mulish text-sm text-right mt-4 mb-1 pr-1">
+        <p className="text-[#265768] font-medium font-Mulish text-sm text-right mt-4 mb-1 ml-4 mr-4">
           Total Faculty Timetables: 20
         </p>
 
         <div
-          className="relative mt-0 border-2 border-[#DFDFDF] rounded-2xl shadow-sm overflow-hidden"
+          className="relative mt-0 border-2 border-[#DFDFDF] rounded-2xl shadow-sm overflow-hidden ml-4 mr-4"
           style={{ maxHeight: '380px' }}
         >
           <div
