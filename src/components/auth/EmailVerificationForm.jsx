@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { Mail } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/InputField";
 
+import { Button } from "../../Components/ui/Button";
+import { InputField } from "../../Components/ui/InputField";
+import { emailVerificationAPI } from "../../api/api";
 
-import { emailVerificationAPI } from "../../services/api";
-
-const EmailVerificationForm = ({ initialEmail = "" }) => {
-  const [email, setEmail] = useState(initialEmail);
+const EmailVerificationForm = () => {
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -24,7 +21,6 @@ const EmailVerificationForm = ({ initialEmail = "" }) => {
 
     try {
       setLoading(true);
-
       const res = await emailVerificationAPI(token);
 
       if (res.success) {
@@ -42,16 +38,15 @@ const EmailVerificationForm = ({ initialEmail = "" }) => {
 
   return (
     <>
-
-      <div className="mb-8 text-center">
-        <p className="text-md text-[#4A9FB5] text-left mb-8">Ezey</p>
+      <div className="mb-[4vh] text-center">
+        <p className="text-[1vw] text-[#4A9FB5] text-left mb-[4vh]">Ezey</p>
 
         <h1
-          className="mb-3"
+          className="mb-[1vh]"
           style={{
             fontFamily: "Georgia, serif",
             fontWeight: 700,
-            fontSize: "28px",
+            fontSize: "2vw",
             lineHeight: "120%",
             color: "#265768",
           }}
@@ -63,21 +58,20 @@ const EmailVerificationForm = ({ initialEmail = "" }) => {
           style={{
             fontFamily: "sans-serif",
             fontWeight: 400,
-            fontSize: "14px",
+            fontSize: "1vw",
             lineHeight: "150%",
             color: "#7A8C94",
           }}
         >
-          We have sent you a verification link to your given email
+          We have sent you a verification link to your given gmail
           please open your gmail to verify .
         </p>
       </div>
 
-
-      <div className="mb-10">
+      <div className="mb-[5vh]">
         <InputField
-          width="450px"
-          height="42px"
+          width="31.25vw"
+          height="5.2vh"
           label="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -86,8 +80,7 @@ const EmailVerificationForm = ({ initialEmail = "" }) => {
         />
       </div>
 
-
-      {/* <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-[3vh]">
         <Button
           variant="primary"
           onClick={handleSubmit}
@@ -95,31 +88,9 @@ const EmailVerificationForm = ({ initialEmail = "" }) => {
         >
           {loading ? "Verifying..." : "Resend Link"}
         </Button>
-      </div> */}
-      <div className="flex flex-col items-center mb-6 relative">
-  <Button
-    variant="primary"
-    onClick={handleSubmit}
-    className={loading ? "opacity-70 pointer-events-none" : ""}
-  >
-    {loading ? "Verifying..." : "Resend Link"}
-  </Button>
-
-  {/* Small Login button */}
-  <button
-  onClick={() => navigate("/login")}
-  className="absolute right-10 -bottom-6 text-xs text-gray-500 hover:text-blue-600 transition"
->
-  Already verified? <span className="font-medium underline">Login here</span>
-</button>
-
-</div>
+      </div>
     </>
   );
 };
 
 export default EmailVerificationForm;
-
-
-
-

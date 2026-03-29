@@ -1,20 +1,13 @@
 import React, { useState } from "react";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-import { signupAPI } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import { Mail, Lock, User, ChevronDown } from "lucide-react";
+import { signupAPI } from "../../api/api";
 
-// ✅ shared components
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/InputField";
-import Swal from "sweetalert2";
-
-import EmailVerificationForm from "./EmailVerificationForm";
+import { Button } from "../../Components/ui/Button";
+import { InputField } from "../../Components/ui/InputField";
 
 const SignupForm = () => {
-  const [showVerification, setShowVerification] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,27 +16,20 @@ const SignupForm = () => {
   const [accountType, setAccountType] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const popup = (text, icon = "error") => {
-    Swal.fire({
-      text,
-      icon,
-      confirmButtonColor: "#4BACCE",
-    });
-  };
-
   const handleSubmit = async () => {
     if (!name || !email || !password || !confirmPassword || !accountType) {
-      popup("Please fill all required fields", "warning");
+      alert("Please fill all required fields");
       return;
     }
 
     if (password !== confirmPassword) {
-      popup("Passwords do not match", "error");
+      alert("Passwords do not match");
       return;
     }
 
-    setLoading(true);
     try {
+      setLoading(true);
+
       const res = await signupAPI({
         name,
         email,
@@ -52,56 +38,48 @@ const SignupForm = () => {
       });
 
       if (res.success) {
-        Swal.fire({
-          text: "Signup successful",
-          icon: "success",
-          confirmButtonColor: "#4BACCE",
-        }).then(() => {
-          setShowVerification(true);
-        });
+        alert("Signup successful");
       } else {
-        popup(res.message || "Signup failed", "error");
+        alert(res.message || "Signup failed");
       }
     } catch (error) {
       console.error(error);
-      popup("Something went wrong", "error");
+      alert("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
-  if (showVerification) {
-    return <EmailVerificationForm initialEmail={email} />;
-  }
-
   return (
     <>
-      <div className="mb-2 text-center">
-        <p className="text-sm text-[#4A9FB5] text-left mb-2">Ezey</p>
+      {/* HEADER */}
+      <div className="mb-[2vh] text-center">
+        <p className="text-[1vw] text-[#4A9FB5] text-left mb-[2vh]">Ezey</p>
 
         <h1
-          className="mb-1"
+          className="mb-[1vh]"
           style={{
             fontFamily: "Georgia, serif",
             fontWeight: 700,
-            fontSize: "24px",
-            lineHeight: "110%",
+            fontSize: "2vw",
+            lineHeight: "120%",
             color: "#265768",
           }}
         >
           Welcome to Ezey
         </h1>
 
-        <p className="text-[13px] text-[#7A8C94]">
+        <p className="text-[1vw] text-[#7A8C94]">
           Start your experience with Ezey by signing in
         </p>
-        <p className="text-[13px] text-[#7A8C94]">or signing up</p>
+        <p className="text-[1vw] text-[#7A8C94]">or signing up</p>
       </div>
 
-      <div className="mb-2">
+      {/* NAME */}
+      <div className="mb-[1.5vh]">
         <InputField
           width="100%"
-          height="38px"
+          height="5.2vh"
           label="Full Name*"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -110,10 +88,11 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="mb-2">
+      {/* EMAIL */}
+      <div className="mb-[1.5vh]">
         <InputField
           width="100%"
-          height="38px"
+          height="5.2vh"
           label="Email Address / Institution Id"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -122,14 +101,15 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="mb-2">
+      {/* PASSWORD */}
+      <div className="mb-[1.5vh]">
         <InputField
           width="100%"
-          height="38px"
+          height="5.2vh"
           label="Create Password*"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your passwod"
+          placeholder="••••••••••"
           icon={Lock}
           showPasswordToggle
           showPassword={showPassword}
@@ -137,14 +117,15 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="mb-3">
+      {/* CONFIRM PASSWORD */}
+      <div className="mb-[2vh]">
         <InputField
           width="100%"
-          height="38px"
+          height="5.2vh"
           label="Re-Enter Password*"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm your password"
+          placeholder="••••••••••"
           icon={Lock}
           showPasswordToggle
           showPassword={showConfirmPassword}
@@ -154,54 +135,50 @@ const SignupForm = () => {
         />
       </div>
 
-      <div className="mb-4">
-        <div className="relative w-1/2 mx-auto">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0AEC0] w-4 h-4" />
+      {/* ACCOUNT TYPE */}
+      <div className="mb-[3vh] flex justify-center">
+        <div className="relative w-[12vw] text-md">
+          
+          {/* LEFT ICON */}
+          <User className="absolute left-[0.8vw] top-1/2 -translate-y-1/2 text-[#A0AEC0] w-[1vw] h-[1vw]" />
+
+          {/* SELECT */}
           <select
             value={accountType}
             onChange={(e) => setAccountType(e.target.value)}
-            className="w-full h-[40px] pl-10 pr-5 rounded-[10px] border-[1.5px] border-[#DFDFDF] text-[13px] text-[#7A8C94] outline-none focus:border-[#4BACCE] transition-colors appearance-none bg-white"
+            className="appearance-none w-full h-[5vh] pl-[2.5vw] pr-[2.8vw] rounded-[1vw] border-[0.1vw] border-[#DFDFDF] text-[0.8vw] text-[#7A8C94] bg-white"
           >
             <option value="">Account Type</option>
-            <option value="staff">staff</option>
-            <option value="coordinator">coordinator</option>
-            <option value="admin">admin</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
           </select>
+
+          {/* RIGHT ARROW ICON */}
+          <ChevronDown className="absolute right-[1.2vw] top-1/2 -translate-y-1/2 text-[#A0AEC0] w-[1vw] h-[1vw] pointer-events-none" />
         </div>
       </div>
 
-      <div className="w-full max-w-[280px] mx-auto">
-        <p className="text-right text-[11px] text-[#7A8C94] mb-2 mt-2 font-medium">
-          Already a user ?{" "}
-          <span
-            className="text-[#4BACCE] cursor-pointer hover:underline pl-1"
-            onClick={() => navigate("/login")}
-          >
-            Sign In
-          </span>
-        </p>
-
-        <div className="mb-4">
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            className={`w-full h-[40px] rounded-[10px] bg-gradient-to-b from-[#3D8B9F] to-[#265768] text-white font-serif text-lg hover:opacity-90 transition-opacity shadow-lg ${loading ? "opacity-70 pointer-events-none" : ""}`}
-            style={{ fontFamily: "Georgia, serif" }}
-          >
-            {loading ? "Signing up..." : "Sign Up"}
-          </Button>
-        </div>
+      {/* BUTTON */}
+      <div className="flex justify-center mb-[2vh]">
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          className={loading ? "opacity-70 pointer-events-none" : ""}
+        >
+          {loading ? "Signing up..." : "Sign Up"}
+        </Button>
       </div>
+
+      {/* FOOTER */}
+      <p className="text-center text-[0.8vw] text-[#7A8C94] mb-[2vh]">
+        Already a user ?{" "}
+        <span className="text-[#4BACCE] cursor-pointer">
+          Sign In
+        </span>
+      </p>
     </>
   );
 };
 
 export default SignupForm;
-
-
-
-
-
-
-
-
