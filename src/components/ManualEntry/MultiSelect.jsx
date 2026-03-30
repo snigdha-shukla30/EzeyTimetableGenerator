@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Check } from "lucide-react";
 
 function MultiSelect({
   label,
@@ -31,16 +32,16 @@ function MultiSelect({
   }, [isOpen]);
 
   const handleSelect = (option) => {
-    const isSelected = selectedItems.some((item) => item._id === option._id);
-    if (!isSelected) {
+    const isSelected = selectedItems.some((item) => (item._id || item) === (option._id || option));
+    if (isSelected) {
+      onRemove(option);
+    } else {
       onToggle(option);
     }
-    setSearchTerm("");
-    setIsOpen(false);
+    // Note: Removed setIsOpen(false) to keep dropdown open for multiple selections
   };
 
   const filteredOptions = options.filter((option) => {
-    const isNotSelected = !selectedItems.some((item) => item._id === option._id);
     const matchesSearch =
       option[displayKey]?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (secondaryKey &&
@@ -48,15 +49,15 @@ function MultiSelect({
       additionalKeys.some((key) =>
         option[key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
       );
-    return isNotSelected && matchesSearch;
+    return matchesSearch;
   });
 
   const labelStyle = {
     color: "#265768",
     fontFamily: "'Mulish', sans-serif",
     fontSize: "14px",
-    fontWeight: "500",
-    marginBottom: "8px",
+    fontWeight: "600",
+    marginBottom: "6px",
   };
 
   const selectStyle = {
@@ -64,36 +65,40 @@ function MultiSelect({
     height: "40px",
     border: "1.5px solid #DFDFDF",
     borderRadius: "8px",
-    fontSize: "14px",
+    fontSize: "13px",
     fontFamily: "'Mulish', sans-serif",
-    color: "#000000",
+    color: "#265768",
     padding: "0 12px",
     boxSizing: "border-box",
     cursor: "pointer",
     background: "white",
-    appearance: "none",
-    backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "right 12px center",
-    paddingRight: "35px",
+    display: "flex",
+    alignItems: "center",
+    transition: "border-color 0.2s",
   };
 
   return (
-    <div style={{ position: "relative" }} ref={dropdownRef}>
+    <div style={{ position: "relative" }} ref={dropdownRef} className="w-full">
       <div style={labelStyle}>{label}</div>
 
       <div
         onClick={() => setIsOpen(!isOpen)}
         style={{
           ...selectStyle,
-          display: "flex",
-          alignItems: "center",
-          color: selectedItems.length === 0 ? "#999" : "#000",
+          borderColor: isOpen ? "#4BACCE" : "#DFDFDF",
+          color: selectedItems.length === 0 ? "#9AA5B6" : "#265768",
         }}
+        className="relative pr-8 overflow-hidden whitespace-nowrap text-ellipsis"
       >
         {selectedItems.length === 0
           ? placeholder
-          : `${selectedItems.length} selected`}
+          : `${selectedItems.length} items selected`}
+        
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+            <path d="M1 1.5L6 6.5L11 1.5" stroke={isOpen ? "#4BACCE" : "#666"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
       </div>
 
       {isOpen && (
@@ -107,11 +112,12 @@ function MultiSelect({
             background: "white",
             border: "1.5px solid #4BACCE",
             borderRadius: "8px",
-            maxHeight: "250px",
+            maxHeight: "280px",
             overflowY: "auto",
             zIndex: 1000,
             boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           }}
+          className="custom-scroll"
         >
           <div
             style={{
@@ -120,6 +126,7 @@ function MultiSelect({
               position: "sticky",
               top: 0,
               background: "white",
+              zIndex: 10,
             }}
           >
             <input
@@ -128,69 +135,50 @@ function MultiSelect({
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search..."
               autoFocus
-              style={{
-                width: "100%",
-                padding: "6px 10px",
-                border: "1px solid #DFDFDF",
-                borderRadius: "6px",
-                fontSize: "13px",
-                fontFamily: "'Mulish', sans-serif",
-                outline: "none",
-              }}
+              className="w-full px-3 py-1.5 border border-[#DFDFDF] rounded-md text-[13px] outline-none focus:border-[#4BACCE]"
+              style={{ fontFamily: "'Mulish', sans-serif" }}
             />
           </div>
 
-          <div>
+          <div className="py-1">
             {filteredOptions.length === 0 ? (
-              <div
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  color: "#999",
-                  fontSize: "13px",
-                  fontFamily: "'Mulish', sans-serif",
-                }}
-              >
-                No options available
+              <div className="p-4 text-center text-gray-400 text-[13px] font-['Mulish']">
+                No options found
               </div>
             ) : (
-              filteredOptions.map((option) => (
-                <div
-                  key={option._id}
-                  onClick={() => handleSelect(option)}
-                  style={{
-                    padding: "10px 12px",
-                    cursor: "pointer",
-                    borderBottom: "1px solid #f5f5f5",
-                    fontFamily: "'Mulish', sans-serif",
-                    fontSize: "14px",
-                    transition: "background 0.15s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#E8F4F8";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "white";
-                  }}
-                >
-                  <div style={{ fontWeight: "500", color: "#333" }}>
-                    {option[displayKey]}
+              filteredOptions.map((option) => {
+                const isSelected = selectedItems.some((item) => (item._id || item) === (option._id || option));
+                return (
+                  <div
+                    key={option._id || option}
+                    onClick={() => handleSelect(option)}
+                    className={`flex items-center justify-between px-4 py-2.5 cursor-pointer transition-colors duration-150 ${isSelected ? "bg-[#F0F9FF]" : "hover:bg-[#F3F6FB]"}`}
+                    style={{ fontFamily: "'Mulish', sans-serif" }}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className={`text-[13px] font-medium truncate ${isSelected ? "text-[#1A8FE3]" : "text-[#265768]"}`}>
+                        {option[displayKey]}
+                      </div>
+                      {(secondaryKey && option[secondaryKey]) || additionalKeys.length > 0 ? (
+                        <div className="text-[11px] text-[#8A96A8] truncate mt-0.5">
+                          {secondaryKey && option[secondaryKey] ? `${option[secondaryKey]} ` : ""}
+                          {additionalKeys.length > 0 && 
+                            additionalKeys
+                              .filter((key) => option[key])
+                              .map((key) => option[key])
+                              .join(" • ")
+                          }
+                        </div>
+                      ) : null}
+                    </div>
+                    {isSelected && (
+                      <div className="ml-2 text-[#1A8FE3] shrink-0">
+                        <Check size={16} strokeWidth={2.5} />
+                      </div>
+                    )}
                   </div>
-                  {secondaryKey && option[secondaryKey] && (
-                    <div style={{ fontSize: "12px", color: "#666", marginTop: "2px" }}>
-                      {option[secondaryKey]}
-                    </div>
-                  )}
-                  {additionalKeys.length > 0 && (
-                    <div style={{ fontSize: "12px", color: "#666", marginTop: "2px" }}>
-                      {additionalKeys
-                        .filter((key) => option[key])
-                        .map((key) => option[key])
-                        .join(" • ")}
-                    </div>
-                  )}
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>

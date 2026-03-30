@@ -25,7 +25,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
       icon: Calendar,
       path: "/generate",
       subMenu: [
-        { id: "room", label: "Room", path: "/student" },
+        { id: "room", label: "Room", path: "/timetable/room" },
         { id: "faculty", label: "Faculty", path: "/Facultytimetable" },
 { id: "Batch", label: "Batch", path: "/generate" },
       ],
@@ -40,7 +40,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
     if (currentPath === "/dataentry") return "dataentry";
     if (
       currentPath === "/generate" ||
-      currentPath === "/student" ||
+      currentPath === "/timetable/room" ||
       currentPath === "/facultytimetable" ||
       currentPath === "/generatett"
     ) return "timetable";
@@ -48,7 +48,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
   };
 
   const getActiveSubMenu = () => {
-    if (currentPath === "/student") return "room";
+    if (currentPath === "/timetable/room") return "room";
     if (currentPath === "/facultytimetable") return "faculty";
     if (currentPath === "/generatett") return "Batch";
     return null;
@@ -102,8 +102,8 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
     return (
       <div
         key={item.id}
-        className={`${isOpen ? "rounded-xl mb-2" : ""}`}
-        style={isOpen ? { background: "#F9F9F94D" } : {}}
+        className={`${isOpen ? "rounded-xl mb-4 p-1" : ""}`}
+        style={isOpen ? { background: "rgba(249, 249, 249, 0.25)", backdropFilter: "blur(4px)", border: "1px solid rgba(255, 255, 255, 0.1)" } : {}}
       >
         <button
           onClick={() => handleMenuClick(item)}
@@ -171,7 +171,7 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
           >
             {/* pl-7: line ko right ki taraf extend karta hai */}
             {/* my-1: line ki height choti ho rhi hai */}
-            <div className="border-l-2 border-white/90 pl-5 ml-10 my-3">
+            <div className="border-l-2 border-white/90 pl-5 ml-10 my-4">
               {item.subMenu.map((sub) => (
                 <button
                   key={sub.id}
@@ -208,28 +208,28 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
       `}</style>
 
       <aside
-        className="
+        className={`
           relative
           w-64
-          h-[calc(100vh-1rem)]
-          mt-2 mb-2 ml-4
-          rounded-[10px]
+          h-full
+          mt-0 mb-0 ml-4
+          rounded-[12px]
           bg-gradient-to-b from-[#0F809C] via-[#167291] to-[#174264]
           shadow-[0_10px_30px_rgba(0,0,0,0.20)]
           flex flex-col justify-between
           pt-5 pb-4
-        "
+          transition-all duration-300 ease-in-out
+        `}
         style={{ fontFamily: "Mulish, sans-serif" }}
       >
         {/* TOP SECTION */}
         <div className="px-4">
           {/* Ezey Text */}
           <div
-            className="text-white text-center mb-10 mt-4"
+            className="text-white text-center mb-10 mt-4 text-[32px]"
             style={{
               fontFamily: "Playfair Display, serif",
               fontWeight: 700,
-              fontSize: "32px",
               lineHeight: "120%",
             }}
           >
@@ -240,7 +240,11 @@ const Sidebar = ({ activeMenu, setActiveMenu }) => {
             Menu
           </div>
 
-          {mainMenu.map(renderItem)}
+          <div className="flex flex-col gap-2">
+            {mainMenu.map((item) => {
+              return renderItem(item);
+            })}
+          </div>
         </div>
 
         {/* BOTTOM SECTION */}

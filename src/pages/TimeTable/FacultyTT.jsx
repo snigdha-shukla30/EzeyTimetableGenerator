@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import Sidebar from "../../components/ui/Sidebar";
-import Header from "../../components/ui/Header";
-import { CardContainer } from "../../components/ui/Card";
-import BalancedTimeTable from "../../components/Timetable/BalancedTTContent";
+import React, { useState } from 'react'
+import Sidebar from '../../components/ui/Sidebar'
+import Header from '../../components/ui/Header'
+import { CardContainer } from "../../components/ui/Card"
+import Tablefaculty from '../../components/Timetable/FacultyTTContent'
 
-const BalancedTimeTablePage = () => {
+const Facultytime = () => {
   const [activeMenu, setActiveMenu] = useState("timetable");
 
   return (
@@ -25,26 +25,26 @@ const BalancedTimeTablePage = () => {
             <Header />
           </div>
 
-          {/* Timetable Card */}
+          {/* Card Container */}
           <CardContainer className="flex-1 flex flex-col pb-0">
             {/* Title Section */}
             <section className="mb-4 flex items-start justify-between gap-8">
               <div>
                 <h1 className="text-[32px] leading-tight font-semibold text-[#265768]/90 mb-1">
-                  Balanced Timetable
+                  Faculty Timetable
                 </h1>
                 <p className="text-sm text-[#265768]/50 max-w-3xl">
-                  View your balanced and optimized academic schedule
+                  View and manage academic schedules for all faculty members
                 </p>
               </div>
             </section>
 
-            <BalancedTimeTable />
+            <Tablefaculty />
           </CardContainer>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BalancedTimeTablePage;
+export default Facultytime

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Sidebar from "../../components/ui/Sidebar";
 import Header from "../../components/ui/Header";
 import { CardContainer } from "../../components/ui/Card";
-import BalancedTimeTable from "../../components/Timetable/BalancedTTContent";
+import TimetableContent from "../../components/Timetable/GenerateTTContent";
 
-const BalancedTimeTablePage = () => {
+const GenerateTimetablePage = () => {
   const [activeMenu, setActiveMenu] = useState("timetable");
 
   return (
@@ -25,21 +25,21 @@ const BalancedTimeTablePage = () => {
             <Header />
           </div>
 
-          {/* Timetable Card */}
+          {/* Body Wrapper */}
           <CardContainer className="flex-1 flex flex-col pb-0">
             {/* Title Section */}
             <section className="mb-4 flex items-start justify-between gap-8">
               <div>
                 <h1 className="text-[32px] leading-tight font-semibold text-[#265768]/90 mb-1">
-                  Balanced Timetable
+                  Generate Timetable
                 </h1>
                 <p className="text-sm text-[#265768]/50 max-w-3xl">
-                  View your balanced and optimized academic schedule
+                  Generate and preview timetables using batch ID
                 </p>
               </div>
             </section>
 
-            <BalancedTimeTable />
+            <TimetableContent />
           </CardContainer>
         </div>
       </div>
@@ -47,4 +47,4 @@ const BalancedTimeTablePage = () => {
   );
 };
 
-export default BalancedTimeTablePage;
+export default GenerateTimetablePage;

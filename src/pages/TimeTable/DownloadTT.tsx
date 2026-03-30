@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import Sidebar from "../../components/ui/Sidebar";
 import Header from "../../components/ui/Header";
-import TimetableContent from "../../components/timetable/GenerateTT";
+import Sidebar from "../../components/ui/Sidebar";
+import { CardContainer } from "../../components/ui/Card";
+import Timetabledown from "../../components/Timetable/DownloadTTContent";
 
-const GenerateTimetablePage = () => {
+const Downloade = () => {
   const [activeMenu, setActiveMenu] = useState("timetable");
 
   return (
     <div
-      className="min-h-screen h-screen bg-[#FFFFFF] flex px-3 py-4 gap-4 overflow-hidden"
+      className="min-h-screen h-screen bg-[#FFFFFF] flex px-2 py-4 gap-4 overflow-hidden"
       style={{ fontFamily: "Mulish, sans-serif" }}
     >
       {/* Sidebar */}
@@ -18,20 +19,20 @@ const GenerateTimetablePage = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex pt-2 overflow-y-auto">
-        <div className="w-full  space-y-3">
+        <div className="w-full space-y-2">
           {/* Header */}
           <div className="w-full bg-white border border-[#BFBFBF] rounded-[10px] px-6 py-3 shadow-[0_4px_14px_rgba(148,163,184,0.18)] flex items-center gap-6">
             <Header />
           </div>
 
-          {/* Body Wrapper */}
-          <div className="w-full bg-white rounded-[10px] border border-[#BFBFBF] shadow-[0_16px_40px_rgba(148,163,184,0.22)] px-8 pt-6 pb-13">
-            <TimetableContent />
-          </div>
+          {/* Card */}
+          <CardContainer title="" className="min-h-[calc(100vh-150px)] flex flex-col">
+            <Timetabledown />
+          </CardContainer>
         </div>
       </div>
     </div>
   );
 };
 
-export default GenerateTimetablePage;
+export default Downloade;

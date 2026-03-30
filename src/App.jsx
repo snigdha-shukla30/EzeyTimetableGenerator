@@ -16,15 +16,15 @@ import EzeyLoginPage from "./pages/Auth/Login";
 import EzeyForgotPasswordPage from "./pages/Auth/ForgetPassword";
 import EmailVerificationPage from "./pages/Auth/EmailVerification";
 import EmailVerifiedPage from "./pages/Auth/EmailVerified";
-import GenerateTimetablePage from "./pages/GenerateTT/generate";
-import BalancedTimeTablePage from "./pages/TimeTable/BalancedTT";
+import GenerateTimetablePage from "./pages/Timetable/GenerateTT";
+import BalancedTimeTablePage from "./pages/Timetable/BalancedTT";
 import ManualEntryClassroom from "./pages/ManualEntryPages/ManualEntryClassroom";
 import ManualEntryFaculty from "./pages/ManualEntryPages/ManualEntryFaculty";
 import ManualEntrySubject from "./pages/ManualEntryPages/ManualEntrySubject";
 import ManualEntryBatch from "./pages/ManualEntryPages/ManaualEntryBatch";
-import Facultytime from "./pages/FacultyTimetable/FacultyTimetable";
-import Downloade from "./pages/Timetabledown/Download";
-import StudentTimetable from "./pages/student/student";
+import Facultytime from "./pages/Timetable/FacultyTT";
+import Downloade from "./pages/Timetable/DownloadTT";
+import RoomTimetable from "./pages/Timetable/RoomTT";
 
 
 // import FacultyOptimizedTimeTablePage from "./pages/TimeTable/FacultyOptimizedTT";
@@ -61,7 +61,7 @@ function App() {
 
         <Route path="/verified" element={<EmailVerifiedPage />} />
         <Route path="/facultytimetable" element={<Facultytime />} />
-        <Route path="/student" element={<StudentTimetable />} />
+        <Route path="/timetable/room" element={<RoomTimetable />} />
         <Route path="/timetabledown" element={<Downloade />} />
 
         {/* Protected Routes - Require Authentication */}

@@ -1,39 +1,59 @@
 import React, { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { loginAPI } from "../../api/api";
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { useLoginMutation } from "../../redux/api/endpoints/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/slices/authslice";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (!email || !password) {
-      alert("Please enter email and password");
+    if (!email.trim() || !password.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please enter email and password",
+        confirmButtonText: "OK",
+      });
       return;
     }
-    
-    setLoading(true);
-    try {
-      const res = await loginAPI(email, password);
 
-      if (res.success) {
-        alert("Login successful");
+    try {
+      const res = await login({ email, password }).unwrap();
+
+      dispatch(setCredentials(res?.user));
+
+      const result = await Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: res.message || "Welcome back!",
+        confirmButtonText: "Ok",
+        confirmButtonColor: "#28a745",
+      });
+
+      
+      if (result.isConfirmed) {
         navigate("/dashboard");
-      } else {
-        alert(res.message || "Login failed");
       }
     } catch (error) {
       console.error(error);
-      alert(error.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error?.data?.message || error?.error || "Something went wrong",
+        confirmButtonText: "Try Again",
+      });
     }
   };
 
@@ -63,7 +83,7 @@ const LoginForm = () => {
 
       <div className="mb-4">
         <InputField
-          width="31.25vw"
+          width="100%"
           height="5.2vh"
           label="Email Address / Institution Id"
           type="text"
@@ -76,7 +96,7 @@ const LoginForm = () => {
 
       <div className=" mt-7">
         <InputField
-          width="31.25vw"
+          width="100%"
           height="5.2vh"
           label="Password"
           value={password}
@@ -87,9 +107,9 @@ const LoginForm = () => {
           showPassword={showPassword}
           onTogglePassword={() => setShowPassword(!showPassword)}
         />
-        <span className="absolute right-[40px] top-[33px] text-[#7A8C94] pointer-events-none">
+        {/* <span className="absolute right-[40px] top-[33px] text-[#7A8C94] pointer-events-none">
           |
-        </span>
+        </span> */}
 
         <p
           onClick={() => navigate("/forgetpassword")}
@@ -110,15 +130,14 @@ const LoginForm = () => {
           </span>
         </p>
       </div>
-      
 
       <div className="flex justify-center mt-4">
         <Button
           variant="primary"
           onClick={handleSubmit}
-          className={loading ? "opacity-70 pointer-events-none" : ""}
+          className={isLoading ? "opacity-70 pointer-events-none" : ""}
         >
-          {loading ? "Signing In..." : "Sign In"}
+          {isLoading ? "Signing In..." : "Sign In"}
         </Button>
       </div>
     </>
@@ -126,7 +145,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-
-
-

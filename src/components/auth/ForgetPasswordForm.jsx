@@ -3,8 +3,8 @@ import { Mail } from "lucide-react";
 import { forgotPasswordAPI } from "../../api/api";
 
 // ✅ shared components
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");

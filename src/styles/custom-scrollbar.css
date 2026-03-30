@@ -8,8 +8,7 @@
 
 .custom-scroll {
   overflow-y: auto !important;
-  padding-right: 8px;
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 
 .custom-scroll::-webkit-scrollbar {

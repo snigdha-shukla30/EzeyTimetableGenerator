@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Search, Mail, Bell } from "lucide-react";
+import { SearchBar } from "./SearchBar";
 
 const placeholderTexts = [
   "Search time table",
@@ -26,17 +27,10 @@ const Header = () => {
     <div className="flex items-center justify-between gap-6 flex-1">
       {/* Search bar – layout unchanged */}
       <div className="flex-1 max-w-[400px]">
-        <div className="relative bg-[#F7FAFD] border border-[#BFBFBF] rounded-[16px] px-4 py-2.5">
-          <Search
-            size={16}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9AA5B6]"
-          />
-          <input
-            type="text"
-            placeholder={placeholder}
-            className="w-full bg-transparent pl-7 pr-3 text-sm text-[#374151] placeholder:text-[#265768] focus:outline-none transition-all duration-300"
-          />
-        </div>
+        <SearchBar 
+          placeholder={placeholder} 
+          className="w-full"
+        />
       </div>
 
       {/* Right side */}

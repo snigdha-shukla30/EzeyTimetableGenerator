@@ -1,4 +1,4 @@
-import { Button } from "../../Components/ui/Button";
+import { Button } from "../../components/ui/Button";
 
 const EmailVerifiedForm = () => {
 

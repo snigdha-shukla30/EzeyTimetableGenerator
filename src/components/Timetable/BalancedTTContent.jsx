@@ -13,11 +13,11 @@ const BalancedTimeTable = () => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full flex-1 overflow-hidden">
       <iframe
         src={`http://localhost:5000/timetable/visual/${batchId}`}
         title="Timetable Preview"
-        className="w-full h-[calc(100vh-140px)] rounded-lg border"
+        className="w-full h-full rounded-lg border-none"
         frameBorder="0"
       />
     </div>
@@ -25,4 +25,3 @@ const BalancedTimeTable = () => {
 };
 
 export default BalancedTimeTable;
-

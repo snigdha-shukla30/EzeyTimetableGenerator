@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Mail, Lock, User, ChevronDown } from "lucide-react";
 import { signupAPI } from "../../api/api";
 
-import { Button } from "../../Components/ui/Button";
-import { InputField } from "../../Components/ui/InputField";
+import { Button } from "../../components/ui/Button";
+import { InputField } from "../../components/ui/InputField";
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);

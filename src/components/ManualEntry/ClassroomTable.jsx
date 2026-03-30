@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Edit2, Trash2, Check, X } from "lucide-react";
 import ManualEntryTable from "../ui/manualEntryTable";
 
-const SubjectTable = ({ subjects, onEdit, onDelete, onUpdate, height }) => {
+const ClassroomTable = ({ classrooms, onEdit, onDelete, onUpdate, height }) => {
   const [inlineEditingId, setInlineEditingId] = useState(null);
   const [editData, setEditData] = useState(null);
 
@@ -29,20 +29,16 @@ const SubjectTable = ({ subjects, onEdit, onDelete, onUpdate, height }) => {
       height={height}
       columns={[
         { key: "sno", label: "S.No", width: "70px" },
-        { key: "name", label: "Subject Name" },
-        { key: "code", label: "Subject Code" },
-        { key: "department", label: "Department" },
-        { key: "semester", label: "Semester" },
-        { key: "section", label: "Section" },
+        { key: "name", label: "Classroom Number" },
         { key: "type", label: "Type" },
-        { key: "hrsWeek", label: "Hrs/Week" },
+        { key: "capacity", label: "Capacity" },
       ]}
     >
-      {subjects.map((item, idx) => (
+      {classrooms.map((item, idx) => (
         <tr
           key={item._id || idx}
           className={`text-sm border-b border-[#ECF0F4] hover:bg-[#F7FAFF] transition ${
-            idx === subjects.length - 1 ? "border-b-0" : ""
+            idx === classrooms.length - 1 ? "border-b-0" : ""
           }`}
         >
           <td className="py-5 text-center text-[#4C5968]">{idx + 1}</td>
@@ -51,54 +47,10 @@ const SubjectTable = ({ subjects, onEdit, onDelete, onUpdate, height }) => {
               <input
                 value={editData.name}
                 onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[150px]"
+                className="w-full px-2 py-1 border rounded text-center min-w-[120px]"
               />
             ) : (
-              item.name
-            )}
-          </td>
-          <td className="py-5 text-center text-[#4C5968]">
-            {inlineEditingId === item._id ? (
-              <input
-                value={editData.code}
-                onChange={(e) => setEditData({ ...editData, code: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[100px]"
-              />
-            ) : (
-              item.code
-            )}
-          </td>
-          <td className="py-5 text-center text-[#4C5968]">
-            {inlineEditingId === item._id ? (
-              <input
-                value={editData.department}
-                onChange={(e) => setEditData({ ...editData, department: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[100px]"
-              />
-            ) : (
-              item.department
-            )}
-          </td>
-          <td className="py-5 text-center text-[#4C5968]">
-            {inlineEditingId === item._id ? (
-              <input
-                value={editData.semester}
-                onChange={(e) => setEditData({ ...editData, semester: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[80px]"
-              />
-            ) : (
-              item.semester
-            )}
-          </td>
-          <td className="py-5 text-center text-[#4C5968]">
-            {inlineEditingId === item._id ? (
-              <input
-                value={editData.section}
-                onChange={(e) => setEditData({ ...editData, section: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[80px]"
-              />
-            ) : (
-              item.section
+              item.name || "-"
             )}
           </td>
           <td className="py-5 text-center text-[#4C5968]">
@@ -106,25 +58,25 @@ const SubjectTable = ({ subjects, onEdit, onDelete, onUpdate, height }) => {
               <select
                 value={editData.type}
                 onChange={(e) => setEditData({ ...editData, type: e.target.value })}
-                className="w-full px-2 py-1 border rounded text-center min-w-[100px]"
+                className="w-full px-2 py-1 border rounded text-center min-w-[120px]"
               >
                 <option value="theory">Theory</option>
                 <option value="lab">Practical / Lab</option>
               </select>
             ) : (
-              item.type
+              <span className="capitalize">{item.type || "-"}</span>
             )}
           </td>
           <td className="py-5 text-center text-[#4C5968]">
             {inlineEditingId === item._id ? (
               <input
                 type="number"
-                value={editData.hrsWeek}
-                onChange={(e) => setEditData({ ...editData, hrsWeek: e.target.value })}
+                value={editData.capacity}
+                onChange={(e) => setEditData({ ...editData, capacity: e.target.value })}
                 className="w-full px-2 py-1 border rounded text-center min-w-[80px]"
               />
             ) : (
-              item.hrsWeek
+              item.capacity || "-"
             )}
           </td>
           <td className="py-5">
@@ -162,4 +114,4 @@ const SubjectTable = ({ subjects, onEdit, onDelete, onUpdate, height }) => {
   );
 };
 
-export default SubjectTable;
+export default ClassroomTable;

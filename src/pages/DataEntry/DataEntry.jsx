@@ -5,15 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/ui/Sidebar";
 import Header from "../../components/ui/Header";
 import { CardContainer } from "../../components/ui/Card";
+import { SearchBar } from "../../components/ui/SearchBar";
+import { Button } from "../../components/ui/Button";
 
 import ClassroomData from "../../components/DataEntry/ClassroomData";
-import Batches from "../../components/DataEntry/Batches";
-import Subjects from "../../components/DataEntry/Subjects";
-import Faculty from "../../components/DataEntry/Faculty";
-import { Search } from "lucide-react";
-
-// ✅ API import (uncomment if you are using it)
-// import { getClassrooms } from "../../services/api";
+import Batches from "../../components/DataEntry/BatchesData";
+import Subjects from "../../components/DataEntry/SubjectsData";
+import Faculty from "../../components/DataEntry/FacultyData";
 
 const DataEntry = () => {
   const navigate = useNavigate();
@@ -103,7 +101,7 @@ const DataEntry = () => {
 
   return (
     <div
-      className="min-h-screen h-screen bg-[#FFFFFF] flex px-2 py-4 gap-4 overflow-hidden"
+      className="min-h-screen h-screen bg-[#FFFFFF] flex px-2 py-5 gap-4 overflow-hidden"
       style={{ fontFamily: "Mulish, sans-serif" }}
     >
       {/* Sidebar */}
@@ -112,19 +110,19 @@ const DataEntry = () => {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex pt-2 overflow-y-auto">
-        <div className="w-full space-y-2">
+      <div className="flex-1 flex pt-2 overflow-hidden">
+        <div className="w-full flex-1 flex flex-col space-y-2 overflow-hidden">
           {/* Header */}
           <div className="w-full bg-white border border-[#BFBFBF] rounded-[10px] px-6 py-3 shadow-[0_4px_14px_rgba(148,163,184,0.18)] flex items-center gap-6">
             <Header />
           </div>
 
           {/* Card */}
-          <CardContainer className="min-h-[calc(100vh-150px)] flex flex-col">
+          <CardContainer className="flex-1 flex flex-col overflow-hidden">
           {/* <CardContainer className="min-h-[calc(100vh-150px)] xl:min-h-[calc(100vh-80px)] flex flex-col"> */}
             {/* Title */}
             <section className="mb-4 flex items-start justify-between gap-8">
-              <div className="ml-4">
+              <div>
                 <h1 className="text-[32px] leading-tight font-semibold text-[#265768]/90 mb-1">
                   Data Management
                 </h1>
@@ -163,42 +161,25 @@ const DataEntry = () => {
 
                 {/* Search + Add */}
                 <div className="flex items-center justify-between gap-8 mb-6">
-                  <div className="flex-1">
-                    <div className="relative bg-[#F7FAFD] border border-[#BFBFBF] rounded-[16px] px-4 py-2.5">
-                      <Search
-                        size={16}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9AA5B6]"
-                      />
-                      <input
-                        type="text"
-                        placeholder={getSearchPlaceholder()}
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-transparent pl-7 pr-3 text-sm text-[#374151] placeholder:text-[#9AA5B6] focus:outline-none"
-                      />
-                    </div>
+                  <div className="w-[400px]">
+                    <SearchBar 
+                      placeholder={getSearchPlaceholder()} 
+                      value={searchQuery} 
+                      onChange={setSearchQuery} 
+                    />
                   </div>
 
                   {/* ✅ Add Button now navigates */}
-                  <button
-                    onClick={handleAddNavigate}
-                    className="h-[40px] px-5 text-sm font-medium text-white rounded-[6px] flex items-center gap-2 hover:opacity-90 transition-opacity 
-      bg-[linear-gradient(0deg,#265768_0%,#4BACCE_100%)]
-      drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
-      hover:drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)]
-      hover:shadow-[inset_0px_4px_10px_rgba(0,0,0,0.35)]
-      font-playfair
-      leading-[120%]"
-                  >
+                  <Button variant="addMain" onClick={handleAddNavigate}>
                     <span className="text-lg leading-none">+</span>
                     {getAddButtonLabel()}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
 
             {/* Dynamic Content */}
-            <div className="mt-1.5 flex justify-center">
+            <div className="mt-1.5 flex-1 flex flex-col min-h-0 overflow-hidden">
               {activeTab === "Classroom" && (
                 <ClassroomData
                   searchQuery={searchQuery}
